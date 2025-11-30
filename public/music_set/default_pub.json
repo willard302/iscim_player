@@ -1,0 +1,157 @@
+[
+  {
+    "amount": 8,
+    "name": "Sleep 30min and Waking",
+    "intro": "Sleep 30min and Waking",
+    "content": [
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Focused Alpha",
+        "url": "./public/music/Focused Alpha"
+      },
+      {
+        "name": "Focused Beta",
+        "url": "./public/music/Focused Beta"
+      }
+    ],
+    "chakra": [],
+    "newSet": false
+  },
+  {
+    "amount": 8,
+    "name": "90min Sleep Cycle",
+    "intro": "90min Sleep Cycle",
+    "content": [
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      }
+    ],
+    "chakra": [],
+    "newSet": false
+  },
+  {
+    "amount": 2,
+    "name": "Relax Learning",
+    "intro": "Relax Learning",
+    "content": [
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      }
+    ]
+  },
+  {
+    "amount": 3,
+    "name": "Relax Working",
+    "intro": "Relax Working",
+    "content": [
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      }
+    ]
+  },
+  {
+    "amount": 3,
+    "name": "Focus Working & Learning",
+    "intro": "Focus Working & Learning",
+    "content": [
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      }
+    ]
+  }
+]

@@ -1,0 +1,150 @@
+[
+  {
+    "amount": 3,
+    "name": "Sleep 30min and Waking",
+    "intro": "Five Elements Pub | Sleep 30min and Waking",
+    "content": [
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      }
+    ],
+    "chakra": [
+      2,
+      4,
+      6,
+      8,
+      9
+    ],
+    "newSet": false
+  },
+  {
+    "amount": 3,
+    "name": "90min Sleep Cycle",
+    "intro": "Five Elements Pub | 90min Sleep Cycle",
+    "content": [
+      {
+        "name": "Focused L-Delta",
+        "url": "./public/music/Focused L-Delta.mp3"
+      },
+      {
+        "name": "Focused H-Delta",
+        "url": "./public/music/Focused H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      }
+    ],
+    "chakra": [
+      1,
+      3,
+      5,
+      6,
+      7,
+      9
+    ],
+    "newSet": false
+  },
+  {
+    "amount": 3,
+    "name": "Relax Learning",
+    "intro": "Five Elements Pub | Relax Learning",
+    "content": [
+      {
+        "name": "Focused L-Delta",
+        "url": "./public/music/Focused L-Delta.mp3"
+      },
+      {
+        "name": "Focused H-Delta",
+        "url": "./public/music/Focused H-Delta.mp3"
+      },
+      {
+        "name": "Focused H-Delta",
+        "url": "./public/music/Focused H-Delta.mp3"
+      }
+    ],
+    "chakra": [
+      1,
+      3,
+      5,
+      6
+    ],
+    "newSet": false
+  },
+  {
+    "amount": 3,
+    "name": "Relax Working",
+    "intro": "Five Elements Pub | Relax Working",
+    "content": [
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      },
+      {
+        "name": "Relaxed L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      },
+      {
+        "name": "Relaxed H-Delta",
+        "url": "./public/music/Relaxed H-Delta.mp3"
+      },
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      }
+    ],
+    "chakra": [
+      1,
+      2,
+      8,
+      4,
+      5,
+      6
+    ],
+    "newSet": false
+  },
+  {
+    "amount": 3,
+    "name": "Focus Working & Learning",
+    "intro": "Five Elements Pub | Focus Working & Learning",
+    "content": [
+      {
+        "name": "Relaxed Theta",
+        "url": "./public/music/Relaxed Theta.mp3"
+      },
+      {
+        "name": "Focused L-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      },
+      {
+        "name": "Focused H-Delta",
+        "url": "./public/music/Relaxed L-Delta.mp3"
+      }
+    ],
+    "chakra": [
+      3,
+      4,
+      6,
+      7,
+      9
+    ],
+    "newSet": false
+  }
+]
