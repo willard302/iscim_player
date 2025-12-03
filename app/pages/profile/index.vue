@@ -15,7 +15,6 @@ const username = ref("");
 
 const lists = reactive([
   { title: 'user_data', path: '/profile/userData' },
-  { title: 'chakra_detection', path: '/chakraDetection' },
   { title: 'setting', path: '/profile/setting' }
 ]);
 
