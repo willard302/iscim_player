@@ -23,18 +23,16 @@ const handleProgress = () => {
 
 <template>
   <div class="player__container">
-    <!-- 唱片图像 -->
     <div :class="['audio__container--img', {'playing': playerStore.isPlaying}]" @click="player.togglePlay">
       <div class="audio__img__wrap" :style="'rotate: -' + musicStore.diskRotation + 'deg'">
         <img class="audio__img" :src="logo" alt="Logo" />
       </div>
     </div>
     
-    <!-- 歌曲標題 -->
     <h3 class="audio__title">{{ musicStore.title }}</h3>
     
     <!-- 進度條 -->
-    <div class="audio__container--progress">
+    <div class="progress__container">
       <van-slider 
         v-model="musicStore.slidePercent" 
         @update:model-value="handleProgress"
@@ -46,9 +44,8 @@ const handleProgress = () => {
     </div>
     
     <!-- 控制按钮 -->
-    <div class="audio__container--navigation">
-      <!-- 播放控制 -->
-      <div class="audio__navigation--play">
+    <div class="navigation__container">
+      <div class="operation__container">
         <van-button size="small" @click="player.prev()">
            <font-awesome icon="backward" />
         </van-button>
@@ -64,7 +61,7 @@ const handleProgress = () => {
       </div>
       
       <!-- 音量控制 -->
-      <div class="audio__navigation--volume">
+      <div class="volume__container">
         <van-button 
           size="small"
           @click="player.openVolume()"
@@ -147,7 +144,7 @@ const handleProgress = () => {
 .audio__title {
   color: $color-font;
 }
-.audio__container--progress {
+.progress__container {
   display: inline-block;
   margin: 0 auto;
   width: 100%;
@@ -156,9 +153,10 @@ const handleProgress = () => {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
   }
 }
-.audio__container--navigation {
+.navigation__container {
   width: 100%;
   height: 60px;
   display: flex;
@@ -166,7 +164,7 @@ const handleProgress = () => {
   justify-content: space-between;
   line-height: 10px;
 }
-.audio__navigation--play {
+.operation__container {
   width: 40%;
 
   .van-button {
@@ -194,7 +192,7 @@ const handleProgress = () => {
   }
 }
 
-.audio__navigation--volume {
+.volume__container {
   width: 120px;
   display: flex;
   align-items: center;

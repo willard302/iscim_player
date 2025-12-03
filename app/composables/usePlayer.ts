@@ -38,10 +38,21 @@ export const usePlayer = () => {
     };
 
     audio.onended = () => {
-      if (playerStore.loop === 'repeatOne') {
-        playMusic();
-      } else {
-        next();
+      pauseMusic();
+
+      const isLast = playerStore.index >= musicStore.queue.length - 1;
+
+      switch(playerStore.loop) {
+        case "normal":
+          next();
+          break;
+        case "repeatOne":
+          playMusic();
+          break;
+        case "repeatAll":
+          playerStore.index = isLast ? 0 : playerStore.index++;
+          playIndex(playerStore.index);
+          break;
       }
     };
 
@@ -69,6 +80,7 @@ export const usePlayer = () => {
   };
 
   const playMusic = async() => {
+    console.log("playMusic");
     const audio = getAudio();
     if (!audio) return;
 
@@ -86,6 +98,7 @@ export const usePlayer = () => {
   };
 
   const pauseMusic = () => {
+    console.log("pauseMusic")
     const audio = getAudio();
     if (!audio) return;
     audio.pause();
@@ -104,20 +117,15 @@ export const usePlayer = () => {
 
   const next = () => {
     if (!musicStore.queue.length) return;
-    const len = musicStore.queue.length;
-
-    if (playerStore.index === len - 1 && playerStore.loop === 'normal') {
-      pauseMusic();
-      return;
-    };
-
-    let ni = (playerStore.index + 1) % len;
+    pauseMusic();
+    const ni = (playerStore.index + 1) % musicStore.queue.length;
     playIndex(ni);
   };
 
   const prev = () => {
     if (!musicStore.queue.length) return;
-    let pi = (playerStore.index - 1 + musicStore.queue.length) % musicStore.queue.length;
+    pauseMusic();
+    const pi = (playerStore.index - 1 + musicStore.queue.length) % musicStore.queue.length;
     playIndex(pi);
   };
 

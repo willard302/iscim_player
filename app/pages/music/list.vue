@@ -56,11 +56,9 @@ const updateSubMusic = () => {
 };
 // ============== API数据加载 ==============
 const loadApiData = async() => {
-  // 根据用户类型确定API URL
   let apiUrls = getApiUrls();
-  
+
   try {
-    // 并行请求所有API
     const responses = await Promise.all(apiUrls.map(url => fetch(url)));
     const result = await Promise.all(
       responses.map(res => {
@@ -134,13 +132,13 @@ const setupDataSets = (result:any) => {
 const specified = (index: number) => {
   if (!playerStore.isPlaying) {
     playerStore.index = index;
-    player.togglePlay();
+    player.playIndex(index);
   } else if (playerStore.index === index) {
-    player.togglePlay()
+    player.pauseMusic()
   } else {
-    player.togglePlay();
+    player.pauseMusic();
     playerStore.index = index;
-    player.togglePlay();
+    player.playIndex(index);
   }
 };
 const removeList = (index: number) => {
