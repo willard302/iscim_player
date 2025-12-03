@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMainStore } from '~/store/useMain';
+import { useMainStore } from '~/store/useMainStore';
 
 const emit = defineEmits(['remove-all', 'hand-play', 'hand-save-set'])
 

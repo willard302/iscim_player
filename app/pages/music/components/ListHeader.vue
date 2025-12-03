@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useMainStore } from '~/store/useMain';
-import { useMenuStore } from '~/store/useMenu';
+import { useMainStore } from '~/store/useMainStore';
+import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 
 const mainStore = useMainStore();

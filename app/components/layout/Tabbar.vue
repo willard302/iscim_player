@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMainStore } from '~/store/useMain';
+import { useMainStore } from '~/store/useMainStore';
 
 const mainStore = useMainStore();
 const home = { label: 'home', path: '/', icon: ['fas', 'house'] };

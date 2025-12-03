@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({title:"album_list", layout: "music"})
-import { useMainStore } from '~/store/useMain';
-import { useMenuStore } from '~/store/useMenu';
+import { useMainStore } from '~/store/useMainStore';
+import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
 import type { chakraItem } from '~/types/data.types';

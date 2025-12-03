@@ -14,7 +14,6 @@ export type user = {
 export type MainStoreState = {
   isAuthenticated: boolean
   tabBarActive: string
-  defaultAvatar: string
   locale: string
   showTabbar: boolean
   user: user

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMenuStore } from '~/store/useMenu'
+import { useMenuStore } from '~/store/useMenuStore'
 
 interface menuItem {
   id: string

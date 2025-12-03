@@ -1,4 +1,4 @@
-import { useMenuStore } from "~/store/useMenu";
+import { useMenuStore } from "~/store/useMenuStore";
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
 import type { chakraItem, MusicSetList, Song } from "~/types/data.types";

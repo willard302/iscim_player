@@ -28,6 +28,7 @@ declare module 'vue' {
     VanSlider: typeof import('vant/es')['Slider']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
+    VanUploader: typeof import('vant/es')['Uploader']
   }
 }
 
@@ -49,4 +50,5 @@ declare global {
   const VanSlider: typeof import('vant/es')['Slider']
   const VanTabbar: typeof import('vant/es')['Tabbar']
   const VanTabbarItem: typeof import('vant/es')['TabbarItem']
+  const VanUploader: typeof import('vant/es')['Uploader']
 }
