@@ -3,60 +3,60 @@
     "id": "Relaxed Beta",
     "name": "Relaxed Beta",
     "intro": "Relaxed working state (e.g.,regular work)",
-    "url": "/music_default/Relaxed Beta.mp3"
+    "src": "/music_default/Relaxed Beta.mp3"
   },
   {
     "id": "Relaxed Alpha",
     "name": "Relaxed Alpha",
     "intro": "Relaxed state of rest (e.g.,taking a break, spacing out, vegging out)",
-    "url": "/music_default/Relaxed Alpha.mp3"
+    "src": "/music_default/Relaxed Alpha.mp3"
   },
   {
     "id": "Relaxed Theta",
     "name": "Relaxed Theta",
     "intro": "Relaxed light sleep (e.g., meditation, light sleep, half-sleep)",
-    "url": "/music_default/Relaxed Theta.mp3"
+    "src": "/music_default/Relaxed Theta.mp3"
   },
   {
     "id": "Relaxed H-Delta",
     "name": "Relaxed H-Delta",
     "intro": "Relaxed deep sleep (e.g., sleeping like a rock, be dead to the world)",
-    "url": "/music_default/Relaxed H-Delta.mp3"
+    "src": "/music_default/Relaxed H-Delta.mp3"
   },
   {
     "id": "Relaxed L-Delta",
     "name": "Relaxed L-Delta",
     "intro": "Relaxed deep sleep (brain waves with extremely low frequency)",
-    "url": "/music_default/Relaxed L-Delta.mp3"
+    "src": "/music_default/Relaxed L-Delta.mp3"
   },
   {
     "id": "Focused Beta",
     "name": "Focused Beta",
     "intro": "Concentrated working state (e.g., catching upon the report, taking an exam, in a confrontational competition)",
-    "url": "/music_default/Focused Beta.mp3"
+    "src": "/music_default/Focused Beta.mp3"
   },
   {
     "id": "Focused Alpha",
     "name": "Focused Alpha",
     "intro": "Concentrated leisure state (e.g., playing mobile games or recreational games, shopping)",
-    "url": "/music_default/Focused Alpha.mp3"
+    "src": "/music_default/Focused Alpha.mp3"
   },
   {
     "id": "Focused Theta",
     "name": "Focused Theta",
     "intro": "A shallow state of meditation (e.g., shallow concentration, focus while meditating)",
-    "url": "/music_default/Focused Theta.mp3"
+    "src": "/music_default/Focused Theta.mp3"
   },
   {
     "id": "Focused H-Delta",
     "name": "Focused H-Delta",
     "intro": "Deep meditation state (e.g., very deep meditation, into another time and space while meditating)",
-    "url": "/music_default/Focused H-Delta.mp3"
+    "src": "/music_default/Focused H-Delta.mp3"
   },
   {
     "id": "Focused L-Delta",
     "name": "Focused L-Delta",
     "intro": "Deep meditation state (brain waves with extremely low frequency)",
-    "url": "/music_default/Focused L-Delta.mp3"
+    "src": "/music_default/Focused L-Delta.mp3"
   }
 ]

@@ -6,35 +6,35 @@
     "content": [
       {
         "name": "Relaxed Theta",
-        "url": "./public/music/Relaxed Theta.mp3"
+        "src": "/music_default/Relaxed Theta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Focused Alpha",
-        "url": "./public/music/Focused Alpha"
+        "src": "/music_default/Focused Alpha"
       },
       {
         "name": "Focused Beta",
-        "url": "./public/music/Focused Beta"
+        "src": "/music_default/Focused Beta"
       }
     ],
     "chakra": [],
@@ -47,55 +47,55 @@
     "content": [
       {
         "name": "Relaxed Theta",
-        "url": "./public/music/Relaxed Theta.mp3"
+        "src": "/music_default/Relaxed Theta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed Theta",
-        "url": "./public/music/Relaxed Theta.mp3"
+        "src": "/music_default/Relaxed Theta.mp3"
       }
     ],
     "chakra": [],
@@ -108,11 +108,11 @@
     "content": [
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       }
     ]
   },
@@ -123,15 +123,15 @@
     "content": [
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       }
     ]
   },
@@ -142,15 +142,15 @@
     "content": [
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       },
       {
         "name": "Relaxed L-Delta",
-        "url": "./public/music/Relaxed L-Delta.mp3"
+        "src": "/music_default/Relaxed L-Delta.mp3"
       },
       {
         "name": "Relaxed H-Delta",
-        "url": "./public/music/Relaxed H-Delta.mp3"
+        "src": "/music_default/Relaxed H-Delta.mp3"
       }
     ]
   }
