@@ -68,5 +68,5 @@ export default defineNuxtConfig({
       ],
       regular: ['user', 'face-smile']
     }
-  },
+  }
 })

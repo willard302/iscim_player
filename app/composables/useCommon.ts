@@ -1,9 +1,10 @@
 export const useCommon = () => {
 
-  const transTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  const formatTime = (seconds: number) => {
+    if (!seconds || !isFinite(seconds)) return "00:00";
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
   };
 
   const dateToString = (timestamp: number, withTime: boolean) => {
@@ -23,7 +24,7 @@ export const useCommon = () => {
   };
 
   return {
-    transTime,
+    formatTime,
     dateToString,
   }
 }

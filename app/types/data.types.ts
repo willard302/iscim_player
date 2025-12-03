@@ -20,7 +20,7 @@ export type MainStoreState = {
   user: user
 };
 
-interface list {
+export type Song = {
   id: string
   title: string
   src: string
@@ -51,18 +51,14 @@ export type chakraInfo = {
 export type MusicStoreState = {
   type: string
   title: string
-  src: string
-  lists: list[]
-  index: number
-  status: boolean
-  mode: number
-  currentTime: string
-  duraTime: string
+  queue: Song[]
   item: null
   subMusic: any[]
   subMusicUpdated: any[]
   subSet: any[],
-  chakra: chakraInfo
+  chakra: chakraInfo,
+  slidePercent: number,
+  diskRotation: number
 }
 
 interface SetList {
@@ -76,4 +72,20 @@ export type MusicSetList = {
   intro: string,
   content: SetList[],
   chakra: any[],
+}
+
+export type MenuTypes = {
+  navMenu: boolean
+  music: boolean
+  mymusic: boolean
+  set: boolean
+  chakra: boolean
+}
+
+export type MenuStoreState = {
+  menuRef: Ref | null
+  showDropdown: boolean
+  openMenu: string
+  isJuniorMode: boolean
+  activeMenu: MenuTypes
 }

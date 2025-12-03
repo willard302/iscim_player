@@ -2,7 +2,7 @@
 
 <template>
   <LayoutHeader />
-    <main>
+    <main class="bg-1">
       <slot />
     </main>
   <LayoutTabbar />

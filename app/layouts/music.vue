@@ -4,7 +4,7 @@ import ListHeader from '~/pages/music/components/ListHeader.vue';
 
 <template>
   <ListHeader />
-    <main>
+    <main class="bg-1">
       <slot />
     </main>
   <LayoutTabbar />

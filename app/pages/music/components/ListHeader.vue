@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { useMainStore } from '~/store/useMain';
 import { useMenuStore } from '~/store/useMenu';
-import { useMusicStore } from '~/store/useMusic';
+import { useMusicStore } from '~/store/useMusicStore';
 
 const mainStore = useMainStore();
 const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 
-const menu_1th = computed(() => {
-  const chakra = { text: musicStore.chakra.name, value: "chakra" };
-  const set = { text: "Menu.set", value: "set" };
-  const music = { text: "Menu.music", value: "music" };
-  const myMusic = { text: "Menu.custom_music", value: "mymusic" };
-  const pro = [chakra, set, music, myMusic];
-  const pub = [set, music];
-  return mainStore.user && mainStore.user.musicTherapy ? pro : pub;
+const openSubNav = computed(() => {
+  return menuStore.openMenu === 'off';
 });
 const handleClickLeft = () => {
   menuStore.toggleMenu(menuStore.openMenu === 'off' ? 'listMode' : 'back');
@@ -32,8 +26,8 @@ const handleClickRight = () => {
     @click-right="handleClickRight"
   >
     <template #left>
-      <font-awesome v-show="menuStore.openMenu !== 'off'" icon="arrow-left" />
-      <van-button v-show="menuStore.openMenu === 'off'">
+      <font-awesome v-show="!openSubNav" icon="arrow-left" />
+      <van-button v-show="openSubNav">
         {{menuStore.isJuniorMode ? $t('basic_mode') : $t('advanced_mode')}}
       </van-button>
     </template>
@@ -48,7 +42,7 @@ const handleClickRight = () => {
       </h3>
     </template>
     <template #right>
-      <font-awesome :icon="menuStore.openMenu === 'off' ? 'bars' : 'xmark'" />
+      <font-awesome :icon="openSubNav ? 'bars' : 'xmark'" />
     </template>
   </van-nav-bar>
 </template>

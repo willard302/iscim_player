@@ -5,10 +5,9 @@ export const useMenuStore = defineStore('menu', {
   }),
   actions: {
     toggleMenu(item:string){
-      console.log("toggle",item)
       switch (item) {
         case "navMenu":
-          this.openMenu == "off"
+          this.openMenu === "off"
             ? (this.openMenu = "navMenu")
             : (this.openMenu = "off");
           break;
@@ -20,7 +19,7 @@ export const useMenuStore = defineStore('menu', {
           this.backToMenu();
           break;
         default:
-          this.openMenu == item
+          this.openMenu === item
             ? (this.openMenu = "off")
             : (this.openMenu = item);
           break;
@@ -28,15 +27,19 @@ export const useMenuStore = defineStore('menu', {
     },
     backToMenu() {
       switch (this.openMenu) {
-        case "numbers_set":
+        case "Set.numbers":
         case "Set.five_elements":
         case "Set.custom":
           this.openMenu = "set";
           break;
-        case "Fast":
-        case "Med":
-        case "Slow":
+        case "Music.fast":
+        case "Music.medium":
+        case "Music.slow":
           this.openMenu = "music";
+          break;
+        case "numbers_music":
+        case "five_elements_music":
+          this.openMenu = 'mymusic';
           break;
         case "mymusic":
         case "music":

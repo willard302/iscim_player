@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useMenuStore } from '~/store/useMenu'
+
 interface menuItem {
   id: string
   chakra: any
@@ -8,20 +10,25 @@ interface menuItem {
 }
 interface listObj {
   name: string
-  class: string
+  class?: string
   menu: menuItem[]
-}
+};
+
 const props = defineProps<{
   list: listObj,
   type?: string,
   className?: string
 }>();
-const emit = defineEmits(['get-music', 'save-music', 'remove-music'])
+const emit = defineEmits(['get-music', 'save-music', 'remove-music']);
 
 const newSet = ref("");
 const onEmitMusic = (item:any) => {
+  console.log(item)
   emit('get-music', item);
 };
+
+const menuStore = useMenuStore();
+
 const onEmitSave = () => {
   if (!newSet.value.trim()) return alert("Please input a name for the set");  
   emit('save-music', newSet.value);
@@ -40,46 +47,40 @@ const onEmitRemove = (setName:string, setIdx:number) => {
 
 <template>
   <van-list :class="[list.class, className]">
-    <template >
-      <van-cell
-        v-if="list.name === 'Set.custom' && type !== 'junior-mode'"
-        class="medicalList"
-      >
-        <input 
-          class="medical-info" 
-          type="text" 
-          placeholder="List Name" 
-          v-model="newSet"
-        >
-        <div class="button__container" @click="onEmitSave">
-          <button type="button">
-            <font-awesome icon="floppy-disk" />
-          </button>
-        </div>
-      </van-cell>
-    </template>
+    <van-field
+      v-if="menuStore.openMenu === 'Set.custom' && type !== 'junior-mode'"
+      v-model="newSet"
+      placeholder="List Name"
+    >
+      <template #right-icon>
+        <font-awesome icon="floppy-disk" @click="onEmitSave" />
+      </template>
+    </van-field>
     
     <!-- 音乐项列表 -->
-    <van-list 
+    <van-cell
       v-for="(one, idx) of list.menu" 
-      :key="idx" 
-      class="medicalList"
+      :key="idx"
       :value="one.value"
+      :title="one.name"
+      :label="one.intro"
       @click="onEmitMusic(one)"
     >
-      <van-cell 
-        :title="one.name"
-        :label="one.intro"
-        :name="one.id"
-      />
-
-      <div class="button__container">
-        <button v-if="list.name === 'Set.custom'" @click.stop="onEmitRemove(list.name, idx)">
-          <font-awesome icon="trash" />
-        </button>
-      </div>
-    </van-list>
+      <template v-if="list.name === 'Set.custom'"  #right-icon>
+        <font-awesome 
+          @click.stop="onEmitRemove(list.name, idx)" 
+          icon="trash" 
+        />
+      </template>
+    </van-cell>
   </van-list>
 </template>
 
-<style scoped></style>
+<style scoped>
+.van-cell {
+  align-items: center;
+  svg {
+    font-size: 1.4rem;
+  }
+}
+</style>

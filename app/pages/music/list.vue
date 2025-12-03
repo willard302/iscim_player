@@ -2,11 +2,14 @@
 definePageMeta({title:"album_list", layout: "music"})
 import { useMainStore } from '~/store/useMain';
 import { useMenuStore } from '~/store/useMenu';
-import { useMusicStore } from '~/store/useMusic';
-import type { chakraItem, chakraType } from '~/types/data.types';
-const { playMusic, pauseMusic, addMusic, saveSet, removeSet, loadSongSets, addChakra} = usePlayer();
+import { useMusicStore } from '~/store/useMusicStore';
+import { usePlayerStore } from '~/store/usePlayerStore';
+import type { chakraItem } from '~/types/data.types';
+const { addMusic, saveSet, removeSet, loadSongSets, addChakra} = usePlaylist();
+const player = usePlayer();
 const mainStore = useMainStore();
 const musicStore = useMusicStore();
+const playerStore = usePlayerStore();
 const menuStore = useMenuStore();
 const user = mainStore.user;
 const subChakra: chakraItem[] = [
@@ -22,7 +25,6 @@ const subChakra: chakraItem[] = [
   { name: "Chakra.Third_Eye", idx: 8, id: "Third Eye" },
   { name: "Chakra.Crown", idx: 9, id: "Crown" },
 ];
-const subMusicUpdated = ref([]);
 const menu_1th = computed(() => {
   const chakra = { name: musicStore.chakra.name, id: "chakra" };
   const set = { name: "Menu.set", id: "set" };
@@ -46,12 +48,11 @@ const updateSubMusic = () => {
     ...music,
     name: `Slow ${music.name}`
   }));
-  const newResult = [
-    {name: "Fast", menu: fastMenu},
-    {name: "Medium", menu: medMenu},
-    {name: "Slow", menu: slowMenu}
+  musicStore.subMusic = [
+    {name: "Music.fast", menu: fastMenu},
+    {name: "Music.medium", menu: medMenu},
+    {name: "Music.slow", menu: slowMenu}
   ];
-  return newResult;
 };
 // ============== API数据加载 ==============
 const loadApiData = async() => {
@@ -70,6 +71,7 @@ const loadApiData = async() => {
     
     // 设置基础音乐数据
     musicStore.subMusic = result[0];
+    updateSubMusic()
     
     // 根据用户类型设置不同的数据集
     setupDataSets(result);
@@ -84,7 +86,7 @@ const getApiUrls = () => {
       "/music_set/default_pro.json",
       "/music_set/default_fiveElements.json",
       "/music_set/custom_new.json",
-      "/music_set/custom_test.json",
+      "/music_set/default_custom.json",
     ];
   };
   
@@ -113,7 +115,7 @@ const setupDataSets = (result:any) => {
         menu: result[3],
       }
     ];
-    subMusicUpdated.value = result[4];
+    musicStore.subMusicUpdated = result[4];
   } else {
     musicStore.subSet = [
       {
@@ -127,60 +129,68 @@ const setupDataSets = (result:any) => {
         menu: result[2]
       }
     ];
-  }
+  };
 };
 const specified = (index: number) => {
-  pauseMusic();
-  musicStore.index = index;
-  playMusic();
+  if (!playerStore.isPlaying) {
+    playerStore.index = index;
+    player.togglePlay();
+  } else if (playerStore.index === index) {
+    player.togglePlay()
+  } else {
+    player.togglePlay();
+    playerStore.index = index;
+    player.togglePlay();
+  }
 };
-
 const removeList = (index: number) => {
   // 特殊情况：最后一个歌曲
-  if (musicStore.lists.length <= 1) {
-    pauseMusic();
-    musicStore.lists.splice(index, 1);
-    initPlayer();
+  if (musicStore.queue.length <= 1) {
+    player.pauseMusic();
+    musicStore.queue.splice(index, 1);
+
+    playerStore.index = -1;
+    playerStore.src = "";
+    musicStore.title = "Please Select Music"
     return;
   };
   
   // 删除当前播放之后的歌曲
-  if (index > musicStore.index) return musicStore.lists.splice(index, 1);
+  if (index > playerStore.index) return musicStore.queue.splice(index, 1);
   
   // 删除正在播放的歌曲或之前的歌曲
-  pauseMusic();
-  if (index < musicStore.index) {
+  player.pauseMusic();
+  if (index < playerStore.index) {
     // 删除之前的歌曲，调整当前索引
-    musicStore.index--;
-    musicStore.lists.splice(index, 1);
-  } else if (index === musicStore.index) {
+    playerStore.index--;
+    musicStore.queue.splice(index, 1);
+  } else if (index === playerStore.index) {
     // 删除当前歌曲，调整索引
-    musicStore.lists.splice(index, 1);
-    musicStore.index = musicStore.index !== 0 ? musicStore.index - 1 : 0;
+    musicStore.queue.splice(index, 1);
+    playerStore.index = playerStore.index !== 0 ? playerStore.index - 1 : 0;
   };
-  playMusic();
+  player.playMusic();
 };
 const removeAll = () => {
-  pauseMusic();
+  player.pauseMusic();
   initPlayer();
 };
 const initPlayer = () => {
-  musicStore.lists = [];
-  musicStore.index = -1;
-  musicStore.src = "";
+  musicStore.queue = [];
   musicStore.title = "Please Select Music";
-  musicStore.currentTime = "00:00";
-  musicStore.duraTime = "00:00";
+  playerStore.index = -1;
+  playerStore.src = "";
+  playerStore.currentTime = "00:00";
+  playerStore.duraTime = "00:00";
 };
 
 onMounted(async() => {
-  const res = await loadApiData();
-  const res2 = updateSubMusic()
+  await loadApiData();
 });
 </script>
 
 <template>
-  <div :class="['list__container', {'openNav': menuStore.openMenu !== 'off'}]">
+  <div :class="[{'openNav': menuStore.openMenu !== 'off'}]">
     <!-- Junior模式 -->
     <!-- <template v-if="isJuniorMode">
       <music-list-junior 
@@ -199,136 +209,128 @@ onMounted(async() => {
     </template> -->
   
     <!-- 音乐列表主体 -->
-    <van-list class="audio__list__body">
-      <van-cell 
-        v-for="(list, idx) in musicStore.lists" 
-        :key="idx" 
-        class="audio__list__item" 
-        :id="list.id"
-      >
-        <button 
-          :class="[
-            'audio__list__button audio__list__button--item', 
-            { playing: musicStore.index == idx },
-          ]"
-          @click="specified(idx)">
-          {{ list.title }}
-        </button>
-        <label v-if="user" class="text-m">{{ list.chakra }}</label>
-        <button 
-          class="audio__list__button audio__list__button--delete text-m" 
-          @click="removeList(idx)"
+    <div class="list__container checkout">
+      <van-list>
+        <van-cell 
+          v-for="(list, idx) in musicStore.queue" 
+          :key="idx" 
+          :class="[{ playing: playerStore.index == idx }]"
+          center
+          :id="list.id"
+          :title="list.title"
+          :value="list.chakra"
+          @click="specified(idx)"
         >
-          <font-awesome icon="trash" />
-        </button>
-      </van-cell>
-    </van-list>
+          <template #right-icon>
+            <font-awesome icon="trash" @click="removeList(idx)"/>
+          </template>
+        </van-cell>
+      </van-list>
+    </div>
 
-    <!-- 子菜单 -->
-    <div v-show="menuStore.openMenu !== 'off'" class="audio__subMenu">
-      <div class="subMenu__container">
-        <!-- 导航菜单 -->
-        <van-list v-show="menuStore.openMenu === 'navMenu'">
-          <van-cell 
-            v-for="(item, idx) in menu_1th" 
-            :key="idx"
-            :title="$t(item.name)"
-            @click="menuStore.toggleMenu(item.id)"
-          />
-          <van-cell 
-            :title="$t('clean_all')"
-            @click="removeAll()"
-          />
-        </van-list>
+    <div v-show="menuStore.openMenu !== 'off'" class="list__container menu">
 
-        <!-- 音乐菜单 -->
-        <van-list v-show="menuStore.openMenu === 'music'">
-          <van-cell
-            v-for="(item, idx) in musicStore.subMusic" 
-            :key="idx" 
-            :title="item.name"
-            @click="menuStore.toggleMenu(item.name)"
-          />
-        </van-list>
+      <van-list v-show="menuStore.openMenu === 'navMenu'">
+        <van-cell 
+          v-for="(item, idx) in menu_1th" 
+          :key="idx"
+          :title="$t(item.name)"
+          @click="menuStore.toggleMenu(item.id)"
+        />
+        <van-cell 
+          :title="$t('clean_all')"
+          @click="removeAll()"
+        />
+      </van-list>
 
-        <!-- 用户音乐菜单 -->
-        <template v-if="musicStore.subMusicUpdated">
-          <van-list v-show="menuStore.openMenu === 'mymusic'"
-            v-for="(item, idx) in musicStore.subMusicUpdated"
-            :key="idx"
-          >
-            <van-cell 
-              @click="menuStore.toggleMenu(item.name)"
-            >
-              <button>{{$t(item.name)}}</button>
-            </van-cell>
-          </van-list>
-          <MusicListSlot 
-            v-show="menuStore.openMenu === item.name"
-            v-for="(item, idx) in musicStore.subMusicUpdated"
-            :key="idx"
-            :list="item"
-            @get-music="addMusic"
-          />
-        </template>
-
-        <!-- 音乐列表槽 -->
-        <MusicListSlot 
-          v-show="menuStore.openMenu === item.name" 
+      <van-list v-show="menuStore.openMenu === 'music'">
+        <van-cell
           v-for="(item, idx) in musicStore.subMusic" 
-          :key="idx"
-          :list="item"
-          className="subMusic"
-          @get-music="addMusic"
+          :key="idx" 
+          :title="item.name"
+          @click="menuStore.toggleMenu(item.name)"
         />
+      </van-list>
 
-        <!-- 集合菜单 -->
-        <ul v-show="menuStore.openMenu === 'set'">
-          <li 
-            v-for="(item, idx) in musicStore.subSet"
-            :key="idx"
-            @click="menuStore.toggleMenu(item.name)"
-          >
-            <button>{{$t(item.name)}}</button>
-          </li>
-        </ul>
-        <MusicListSlot 
-          v-show="menuStore.openMenu === item.name"
-          v-for="(item, idx) in musicStore.subSet" 
+      <van-list v-show="menuStore.openMenu === 'mymusic'">
+        <van-cell 
+          v-for="(item, idx) in musicStore.subMusicUpdated"
           :key="idx"
-          :list="item"
-          @get-music="loadSongSets"
-          @save-music="saveSet"
-          @remove-music="removeSet"
+          :title="item.name"
+          @click="menuStore.toggleMenu(item.name)"
         />
-        
-        <template v-if="user">
-          <ul v-show="menuStore.openMenu === 'chakra'">
-            <li 
-              v-for="(item, idx) in subChakra" 
-              :key="idx"
-              @click="addChakra(item)"
-            >
-              <button>{{ $t(item.name) }}</button>
-            </li>
-          </ul>
-        </template>
-      </div>
+      </van-list>
+
+      <van-list v-show="menuStore.openMenu === 'set'">
+        <van-cell 
+          v-for="(item, idx) in musicStore.subSet"
+          :key="idx"
+          :title="$t(item.name)"
+          @click="menuStore.toggleMenu(item.name)"
+        />
+      </van-list>
+      
+      <van-list v-show="menuStore.openMenu === 'chakra'">
+        <van-cell 
+          v-for="(item, idx) in subChakra" 
+          :key="idx"
+          :title="$t(item.name)"
+          @click="addChakra(item)"
+        />
+      </van-list>
+
+      <!-- 音乐列表槽 -->
+      <MusicListSlot
+        v-for="(item, idx) in musicStore.subMusic" 
+        :key="idx"
+        v-show="menuStore.openMenu === item.name"
+        :list="item"
+        @get-music="addMusic"
+      />
+      <MusicListSlot
+        v-for="(item, idx) in musicStore.subMusicUpdated" 
+        :key="idx"
+        v-show="menuStore.openMenu === item.name"
+        :list="item"
+        @get-music="addMusic"
+      />
+      
+      <!-- 集合菜單 -->
+      <MusicListSlot
+        v-for="(item, idx) in musicStore.subSet" 
+        :key="idx"
+        v-show="menuStore.openMenu === item.name"
+        :list="item"
+        @get-music="loadSongSets"
+        @save-music="saveSet"
+        @remove-music="removeSet"
+      />
     </div>
   </div>
 </template>
 
-<style scoped>
-.audio__list__header {
+<style scoped lang="scss">
+@use "sass:color";
+.list__container {
   width: 100%;
-  background: transparent;
+  position: absolute;
+  top: 46px;
+  left: 0;
 }
 
-.audio__subMenu {
-  width: 100%;
+.list__container.checkout {
+  .van-cell {
+    background: transparent;
+  }
+
+  .playing {
+    background-color: $color-hover;
+  }
 }
 
-:deep(.van-cell__title) {
-  text-align: center;
+.list__container.menu {
+  .van-cell {
+    background: color.adjust($color: #ffffff, $alpha: -0.1);
+  }
 }
 </style>

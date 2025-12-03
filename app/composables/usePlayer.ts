@@ -1,149 +1,167 @@
-import { useMusicStore } from "~/store/useMusic";
-import type { chakraItem, MusicSetList } from "~/types/data.types";
+import { useMusicStore } from "~/store/useMusicStore";
+import { usePlayerStore } from "~/store/usePlayerStore";
 
 export const usePlayer = () => {
+  const {formatTime} = useCommon();
+  const musicStore = useMusicStore();
+  const playerStore = usePlayerStore();
+  const {getAudio} = useAudioManager();
+  
+  // 初始化監聽器 (保證只執行一次)
+  const initListeners = () => {
+    const audio = getAudio();
+    if (!audio) return;
 
-  const musicStore = useMusicStore()
+    // 移除舊的監聽器避免重複 (可選，視乎調用時機)
+    audio.ontimeupdate = null;
+    audio.onended = null;
+    audio.onloadedmetadata = null;
+    audio.onerror = null;
 
-  const audio = new Audio();
-  audio.preload = "metadata";
+    audio.ontimeupdate = () => {
+      const cur = audio.currentTime;
+      playerStore.currentSec = cur;
+      playerStore.currentTime = formatTime(cur);
 
-  const setSource = (song: any) => {
-    musicStore.title = song.title,
-    musicStore.src = song.src
+      if (audio.duration) {
+        musicStore.slidePercent = (cur / audio.duration) * 100;
+        musicStore.diskRotation = (cur / audio.duration) * 360 * 3;
+      }
+    };
+
+    audio.onloadedmetadata = () => {
+      const dur = audio.duration;
+      playerStore.duration = dur;
+      playerStore.duraTime = formatTime(dur);
+
+      audio.volume = playerStore.volume_on ? (playerStore.volume / 100) : 0;
+    };
+
+    audio.onended = () => {
+      if (playerStore.loop === 'repeatOne') {
+        playMusic();
+      } else {
+        next();
+      }
+    };
+
+    audio.onerror = (e) => {
+      console.error("Audio Playback Error", e);
+      playerStore.isPlaying = false;
+    };
   };
 
   const setSourceByIndex = (i: number) => {
-    if (i < 0 || i >= musicStore.lists.length) return false;
-
-    const item = musicStore.lists[i];
+    if (i < 0 || i >= musicStore.queue.length) return false;
+    const item = musicStore.queue[i];
     if (!item) return;
-    musicStore.index = i;
-    musicStore.src = item.src;
+
+    playerStore.index = i;
+    playerStore.src = item.src;
     musicStore.title = item.title || 'Please Select Music';
 
+    const audio = getAudio();
+    if (!audio) return;
     audio.src = item.src;
     audio.load();
 
     return true;
   };
 
-  const playMusic = () => {
-    if (!musicStore.src && musicStore.lists.length > 0) {
-      setSourceByIndex(0)
+  const playMusic = async() => {
+    const audio = getAudio();
+    if (!audio) return;
+
+    if (!audio.src && musicStore.queue.length > 0) {
+      setSourceByIndex(0);
     };
-    audio.play();
-    musicStore.status = true;
+
+    try {
+      await audio.play();
+      playerStore.isPlaying = true;
+    } catch (error) {
+      console.warn("Autoplay revented or load error: ", error);
+      playerStore.isPlaying = false;
+    };
   };
 
   const pauseMusic = () => {
+    const audio = getAudio();
+    if (!audio) return;
     audio.pause();
-    musicStore.status = false;
+    playerStore.isPlaying = false;
   };
 
   const togglePlay = () => {
-    musicStore.status ? pauseMusic() : playMusic();
+    playerStore.isPlaying ? pauseMusic() : playMusic();
   };
 
-  const addToLists = (item:any) => {
-    musicStore.lists.push(item);
-
-    // 若尚未有歌曲 → 播第一首
-    if (musicStore.index === -1) {
-      setSourceByIndex(0);
+  const playIndex = (i: number) => {
+    if (setSourceByIndex(i)) {
       playMusic();
+    }
+  };
+
+  const next = () => {
+    if (!musicStore.queue.length) return;
+    const len = musicStore.queue.length;
+
+    if (playerStore.index === len - 1 && playerStore.loop === 'normal') {
+      pauseMusic();
+      return;
+    };
+
+    let ni = (playerStore.index + 1) % len;
+    playIndex(ni);
+  };
+
+  const prev = () => {
+    if (!musicStore.queue.length) return;
+    let pi = (playerStore.index - 1 + musicStore.queue.length) % musicStore.queue.length;
+    playIndex(pi);
+  };
+
+  const setVolume = (v: number) => {
+    const audio = getAudio();
+
+    const volume = Math.max(0, Math.min(100,v));
+    playerStore.volume = volume;
+    if (audio && playerStore.volume_on) {
+      audio.volume = volume / 100;
     };
   };
 
-  const addMusic = (song:any, chakra: any) => {
-    const list = {
-      id: song.id,
-      name: song.name,
-      src: song.url,
-      index: musicStore.index,
-      chakra: chakra 
-        ? (chakra.num === 99 ? chakra : chakra.num)
-        : (chakra.num || 0)
-    };
+  const openVolume = () => {
+    const audio = getAudio();
+    playerStore.volume_on = !playerStore.volume_on;
+    if (!audio) return;
+    const volume = playerStore.volume_on ? 100 : 0;
+    playerStore.volume = volume;
+    audio.volume = volume / 100;
 
-    // 添加到播放列表
-    addToLists(list);
-
-    // 如果是第一首歌，立即加载
-    if (musicStore.title === "Please Select Music") {
-      setSource({
-        title: list.name,
-        src: list.src
-      });
-    };
-    };
-
-  const loadSongSets = (musicList:any, chakraList = []) => {
-    const {idx: startIdx, num: chakraNum} = musicStore.chakra;
-    let chakraIndex = startIdx;
-    
-    const sourceChakraList = 
-      chakraNum === 99
-        ? (chakraList.length ? chakraList : (musicList.chakra || []))
-        : [];
-    
-    const getNextChakra = () => {
-      if (sourceChakraList.length === 0) return 0;
-
-      const c = sourceChakraList[chakraIndex];
-      chakraIndex = (chakraIndex + 1) % sourceChakraList.length;
-      return c;
-    };
-
-    musicList.content.forEach((song:any) => {
-      const chakra = getNextChakra();
-      addMusic(song, chakra);
-    })
   };
 
-  const saveSet = (newSet: string) => {
-    let newList: MusicSetList = {
-      name: newSet,
-      amount: musicStore.lists.length - 1,
-      intro: "",
-      content: [],
-      chakra: []
-    };
+  const seek = (percent: number) => {
+    const audio = getAudio();
+    if (!audio || !isFinite(audio.duration)) return;
 
-    musicStore.lists.forEach((e) => {
-      newList.content.push({
-        title: e.title,
-        src: e.src
-      });
-      if (e.chakra) newList.chakra.push(e.chakra);
-    });
-    
-    // 添加到自定义集合中
-    musicStore.subSet
-      .find(set => set.name === 'Set.custom')
-      .menu.push(newList);
-  };
+    const time = (percent / 100) * audio.duration;
+    audio.currentTime = time;
 
-  const removeSet = (item: any) => {
-    musicStore.subSet
-      .find(set => set.name === item.name)
-      .menu.splice(item.index, 1);
-  };
-
-  const addChakra = (item:chakraItem) => {
-    musicStore.chakra.name = item.name;
-    musicStore.chakra.num = item.idx;
+    musicStore.slidePercent = percent;
   };
 
   return {
+    initListeners,
     playMusic,
     pauseMusic,
     togglePlay,
-    addToLists,
-    addMusic,
-    addChakra,
-    loadSongSets,
-    saveSet,
-    removeSet
+    playIndex,
+    next,
+    prev,
+    setVolume,
+    openVolume,
+    seek,
+    setSourceByIndex
   }
 }
