@@ -1,0 +1,68 @@
+{
+  "level": "Paying Member",
+  "iPoint": "9999999",
+  "avatar": "",
+  "name": "流川楓",
+  "gender": 0,
+  "birthday": "1990-03-25 16:30",
+  "phone": "0911222333",
+  "email": "iscim666@gmail.com",
+  "country": "Taiwan",
+  "countryIdx": 171,
+  "city": "Taipei",
+  "cityIdx": 13,
+  "geo": "25.04, 121.56",
+  "invitationCode": "iscim168168",
+  "invitationLink": "https://iscim666-e303d.web.app?iscim_code=iscim168168&openExternalBrowser=1",
+  "cosmos": {
+    "numbers": [
+      { 
+        "name": "Crash/Hesitation Index",
+        "permission": false,
+        "crashIndex": "Medium",
+        "hesitationIndex": "High"
+      },
+      { 
+        "name": "Five Traits Ratio", "permission": true
+      },
+      {"name": "Body/Mind/Spirit Ratio", "permission": true},
+      {"name": "Seven Chakras Chart", "permission": false},
+      {"name": "Self Chakras Chart", "permission": false},
+      {"name": "Whole Chakras Chart", "permission": true}
+    ],
+    "fiveElements": [
+      {
+        "name": "Aura",
+        "permission": true
+      },
+      {
+        "name": "Chakra State Ratio",
+        "permission": true
+      },
+      {
+        "name": "Five Elements Organ",
+        "permission": true
+      },
+      {
+        "name": "Viscera Ratio",
+        "permission": true
+      },
+      {
+        "name": "Five Elements Brain",
+        "permission": true
+      },
+      {
+        "name": "RECI Ratio",
+        "permission": false
+      },
+      {
+        "name": "SMB Ratio",
+        "permission": false
+      }
+    ]
+  },
+  "musicTherapy": true,
+  "members": {
+    "tagList": ["zen", "tku"]
+  }
+}
