@@ -2,6 +2,7 @@ export default {
   advanced_mode: "Advanced",
   album_list: "Album List",
   basic_mode: "Basic",
+  chakra_detection: "Chakra Detection",
   clean_all: "Clean All",
   enhance: "Enhance",
   introduce: "introduce",

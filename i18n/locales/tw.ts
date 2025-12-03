@@ -2,6 +2,7 @@ export default {
   advanced_mode: "專業",
   album_list: "播放清單",
   basic_mode: "一般",
+  chakra_detection: "脈輪檢測",
   clean_all: "清除全部",
   enhance: "增強",
   introduce: "介紹",
