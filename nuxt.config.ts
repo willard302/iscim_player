@@ -2,6 +2,11 @@
 import Components from "unplugin-vue-components/vite";
 import {VantResolver} from "unplugin-vue-components/resolvers";
 export default defineNuxtConfig({
+  nitro: {
+    routeRules: {
+      '/api/**': { cors: true }
+    }
+  },
   ssr: false,
   imports: {
     dirs: ['app/composables']
