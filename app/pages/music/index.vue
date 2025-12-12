@@ -24,28 +24,33 @@ const handleProgress = () => {
 <template>
   <div class="player__container">
     <div :class="['audio__container--img', {'playing': playerStore.isPlaying}]" @click="player.togglePlay">
-      <div class="audio__img__wrap" :style="'rotate: -' + musicStore.diskRotation + 'deg'">
-        <img class="audio__img" :src="logo" alt="Logo" />
-      </div>
+      <van-image 
+        class="audio__img__wrap"
+        height="240"
+        width="240"
+        fit="cover"
+        :style="`rotate: -${musicStore.diskRotation}deg`"
+        :src="logo"
+      /> 
     </div>
     
     <h3 class="audio__title">{{ musicStore.title }}</h3>
     
     <!-- 進度條 -->
-    <div class="progress__container">
+    <van-space direction="vertical" class="progress__container">
       <van-slider 
         v-model="musicStore.slidePercent" 
         @update:model-value="handleProgress"
       />
-      <div class="audio__text--progress">
-        <span>{{ playerStore.currentTime }}</span>
-        <span>{{ playerStore.duraTime }}</span>
-      </div>
-    </div>
+      <van-row justify="space-between">
+        <van-col>{{ playerStore.currentTime }}</van-col>
+        <van-col>{{ playerStore.duraTime }}</van-col>
+      </van-row>
+    </van-space>
     
     <!-- 控制按钮 -->
-    <div class="navigation__container">
-      <div class="operation__container">
+    <van-row class="navigation__container">
+      <van-col span="14" class="operation__container">
         <van-button size="small" @click="player.prev()">
            <font-awesome icon="backward" />
         </van-button>
@@ -58,10 +63,10 @@ const handleProgress = () => {
         <van-button :class="playerStore.loop" size="small" @click="musicStore.setLoop()">
           <font-awesome class="fa-solid fa-repeat" icon="repeat"/>
         </van-button>
-      </div>
+      </van-col>
       
       <!-- 音量控制 -->
-      <div class="volume__container">
+      <van-col span="10" class="volume__container">
         <van-button 
           size="small"
           @click="player.openVolume()"
@@ -74,12 +79,19 @@ const handleProgress = () => {
           :max="100"
           @update:model-value="player.setVolume"
         />
-      </div>
-    </div>
+      </van-col>
+    </van-row>
   </div>
 </template>
 
 <style scoped lang="scss">
+
+.van-button--small {
+  --van-button-small-height: 28px;
+  --van-button-small-padding: 0 6px;
+  margin-right: 1px;
+}
+
 .player__container {
   display: flex;
   flex-direction: column;
@@ -104,14 +116,6 @@ const handleProgress = () => {
   border-radius: 50%;
   z-index: -1;
   transition: all 1.5s linear;
-
-  .audio__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    max-width: 100%;
-    opacity: 1;
-  }
 
   @mixin audio-img {
     position: absolute;
@@ -145,16 +149,7 @@ const handleProgress = () => {
   color: $color-font;
 }
 .progress__container {
-  display: inline-block;
-  margin: 0 auto;
   width: 100%;
-
-  .audio__text--progress {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
 }
 .navigation__container {
   width: 100%;
@@ -165,7 +160,6 @@ const handleProgress = () => {
   line-height: 10px;
 }
 .operation__container {
-  width: 40%;
 
   .van-button {
     position: relative;
@@ -193,7 +187,6 @@ const handleProgress = () => {
 }
 
 .volume__container {
-  width: 120px;
   display: flex;
   align-items: center;
 }

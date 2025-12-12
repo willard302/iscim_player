@@ -1,7 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import Components from "unplugin-vue-components/vite";
 import {VantResolver} from "unplugin-vue-components/resolvers";
 export default defineNuxtConfig({
+  // runtimeConfig: {
+  //   public: {
+  //     apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://api.yourdomain.com'
+  //   }
+  // },
   nitro: {
     routeRules: {
       '/api/**': { cors: true }
@@ -15,11 +19,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   components: true,
   app: {
+    baseURL: '/',
+    buildAssetsDir: 'assets',
     head: {
       title: "iSCIM Player",
       meta: [
         {name: "viewport", content: "width=device-width, initial-scale=1"}
-      ]
+      ],
+      viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
     }
   },
   vite: {

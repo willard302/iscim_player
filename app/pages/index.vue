@@ -3,11 +3,11 @@ definePageMeta({title: "introduce"})
 </script>
 
 <template>
-  <div class="introduce__container">
+  <van-space direction="vertical" :size="60">
     <div class="article__container">
       <p>{{ $t('introduce_article') }}</p>
     </div>
-    <div class="notice__container">
+    <van-space direction="vertical">
       <van-notice-bar
         class="thanks"
         background="transparent"
@@ -26,8 +26,8 @@ definePageMeta({title: "introduce"})
       >
         《 {{$t("Disclaimer.title")}} 》 {{$t("Disclaimer.content")}}
       </van-notice-bar>
-    </div>
-  </div>
+    </van-space>
+  </van-space>
 </template>
 
 <style scoped>
@@ -37,14 +37,6 @@ definePageMeta({title: "introduce"})
   border-radius: 10px;
   --van-notice-bar-line-height: 20px;
   margin-top: 10px;
-}
-
-.introduce__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  overflow-y: scroll;
 }
 
 .article__container {

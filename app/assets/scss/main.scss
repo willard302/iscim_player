@@ -10,6 +10,18 @@ body {
   overscroll-behavior-y: none;
 }
 
+body {
+  background-color: var(--bg-color-1, #ffffff);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.wrap {
+  min-height: 100vh;
+}
+
 .van-popup.van-popup--bottom .van-form {
   position: unset;
   width: 100%;
