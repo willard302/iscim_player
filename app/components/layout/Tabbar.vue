@@ -5,9 +5,9 @@ const mainStore = useMainStore();
 const home = { label: 'home', path: '/', icon: ['fas', 'house'] };
 const musicPlayer = { label: 'musicPlayer', path: '/music', icon: ['fas', 'music'] };
 const musicList = { label: 'musicList', path: '/music/list', icon: ['fas', 'compact-disc'] };
-const profile = { label: 'profile', path: '/profile', icon: ['fas', 'user'] };
+const userCenter = { label: 'userCenter', path: '/userCenter', icon: ['fas', 'user'] };
 
-const navItems = [home, musicPlayer, musicList, profile];
+const navItems = [home, musicPlayer, musicList, userCenter];
 
 </script>
 

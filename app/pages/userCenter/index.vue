@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({title: "profile"});
+definePageMeta({title: "user_center"});
 import Avatar from '~/components/Avatar.vue';
 import { useMainStore } from '~/store/useMainStore';
 const mainStore = useMainStore();
@@ -14,8 +14,8 @@ const isEdit = ref(false);
 const username = ref("");
 
 const lists = reactive([
-  { title: 'user_data', path: '/profile/userData' },
-  { title: 'setting', path: '/profile/setting' }
+  { title: 'user_data', path: '/userCenter/profile' },
+  { title: 'setting', path: '/userCenter/setting' }
 ]);
 
 const handleToggleState = async() => {

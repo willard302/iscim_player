@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    Page: profile/setting
+    Page: userCenter/profile
   </div>
 </template>
 
