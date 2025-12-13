@@ -1,23 +1,41 @@
+import type { MainStoreState } from "~/types/data.types";
+import type { UserRow, UserUpdate } from "~/types/supabase"
+
 export const useMainStore = defineStore('main', () => {
-  const isAuthenticated = ref(false);
-  const tabBarActive = ref("home");
-  const locale = ref("tw");
-  const showTabbar = ref(true);
-  const user = reactive({
-    id: "1234567",
-    name: "nico",
-    avatar: "/avatar.png",
-    musicTherapy: true 
+
+  
+
+  const state = reactive<MainStoreState>({
+    isAuthenticated: false,
+    tabBarActive: "home",
+    locale: "tw",
+    userInfo: {}
   });
 
-  return {
-    isAuthenticated,
-    tabBarActive, 
-    locale,
-    showTabbar,
-    user
-  }
+  const initAuth = () => {
+    state.isAuthenticated = false;
+    state.userInfo = {}
+  };
 
+  const setAuthenticiated = (value: boolean) => {
+    state.isAuthenticated = value;
+  };
+
+  const setUser = (value: Partial<UserRow> | Partial<UserUpdate>) => {
+    state.userInfo = {...value}
+  };
+
+  const setTabBarActive = (active: string) => {
+    state.tabBarActive = active;
+  };
+
+  return {
+    ...toRefs(state),
+    initAuth,
+    setAuthenticiated,
+    setUser,
+    setTabBarActive
+  }
 },
 {
   persist: true
