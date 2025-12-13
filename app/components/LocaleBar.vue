@@ -3,11 +3,11 @@ import { Locale } from 'vant';
 import vantUS from 'vant/es/locale/lang/en-US';
 import vantTW from 'vant/es/locale/lang/zh-TW';
 import { useMainStore } from '~/store/useMainStore';
-import type { message } from '~/types/data.types';
+import type { Message } from '~/types/data.types';
 const { setLocale, t } = useI18n();
 const mainStore = useMainStore();
 
-const messages: message[] = [
+const messages: Message[] = [
   { text: t('Locale.en'), value: 'en' },
   { text: t('Locale.tw'), value: 'tw' }
 ];

@@ -3,11 +3,11 @@ definePageMeta({title: "introduce"})
 </script>
 
 <template>
-  <van-space direction="vertical" :size="60">
+  <van-space class="main__content" direction="vertical" :size="60">
     <div class="article__container">
       <p>{{ $t('introduce_article') }}</p>
     </div>
-    <van-space direction="vertical">
+    <div class="notice__container">
       <van-notice-bar
         class="thanks"
         background="transparent"
@@ -26,11 +26,16 @@ definePageMeta({title: "introduce"})
       >
         《 {{$t("Disclaimer.title")}} 》 {{$t("Disclaimer.content")}}
       </van-notice-bar>
-    </van-space>
+    </div>
   </van-space>
 </template>
 
 <style scoped>
+
+.main__content {
+  height: 100%;
+  justify-content: space-between;
+}
 
 .van-notice-bar {
   border: 1.5px solid #000000;

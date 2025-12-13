@@ -5,12 +5,10 @@
 }
 
 body {
-  -ms-overflow-stye: none;
+  -ms-overflow-style: none;
   scrollbar-width: none;
   overscroll-behavior-y: none;
-}
 
-body {
   background-color: var(--bg-color-1, #ffffff);
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
@@ -30,7 +28,10 @@ body {
 main {
   padding: 10px 20px;
   height: calc(100vh - $height_top - $height_bottom + 20px);
+  height: calc(100dvh - $height_top - $height_bottom + 20px);
+
   margin: 50px auto;
+  overflow-y: auto;
 }
 
 .bg-1 {
