@@ -27,9 +27,6 @@ const handleClickRight = () => {
   >
     <template #left>
       <font-awesome v-show="!openSubNav" icon="arrow-left" />
-      <van-button v-show="openSubNav">
-        {{menuStore.isJuniorMode ? $t('basic_mode') : $t('advanced_mode')}}
-      </van-button>
     </template>
     <template #title>
       <h3 class="audio__list__heading">

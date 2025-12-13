@@ -8,11 +8,4 @@
   <LayoutTabbar class="safr-area-bottom" />
 </template>
 
-<style scoped lang="scss">
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top);
-  }
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-</style>
+<style scoped lang="scss"></style>

@@ -2,10 +2,10 @@ import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
 
 export const usePlayer = () => {
-  const {formatTime} = useCommon();
+  const { formatTime } = useCommon();
+  const { getAudio } = useAudioManager();
   const musicStore = useMusicStore();
   const playerStore = usePlayerStore();
-  const {getAudio} = useAudioManager();
   
   // 初始化監聽器 (保證只執行一次)
   const initListeners = () => {
@@ -72,7 +72,7 @@ export const usePlayer = () => {
     musicStore.title = item.title || 'Please Select Music';
 
     const audio = getAudio();
-    if (!audio) return;
+    if (!audio) return console.error("no audio");
     audio.src = item.src;
     audio.load();
 
@@ -80,7 +80,6 @@ export const usePlayer = () => {
   };
 
   const playMusic = async() => {
-    console.log("playMusic");
     const audio = getAudio();
     if (!audio) return;
 
@@ -98,7 +97,6 @@ export const usePlayer = () => {
   };
 
   const pauseMusic = () => {
-    console.log("pauseMusic")
     const audio = getAudio();
     if (!audio) return;
     audio.pause();

@@ -47,6 +47,12 @@ export type chakraInfo = {
   lists: any[],
 }
 
+export type MenuStoreState = {
+  openMenu: string,
+  isJuniorMode: boolean,
+  openSubNav: boolean
+}
+
 export type MusicStoreState = {
   type: string
   title: string
@@ -58,6 +64,19 @@ export type MusicStoreState = {
   chakra: chakraInfo,
   slidePercent: number,
   diskRotation: number
+}
+
+export type PlayerStoreState = {
+  isPlaying: boolean
+  src: string
+  index: number
+  volume: number
+  volume_on: boolean;
+  loop: "normal" | "repeatOne" | "repeatAll"
+  currentTime: string
+  currentSec: number
+  duration: number
+  duraTime: string
 }
 
 interface SetList {
@@ -79,12 +98,4 @@ export type MenuTypes = {
   mymusic: boolean
   set: boolean
   chakra: boolean
-}
-
-export type MenuStoreState = {
-  menuRef: Ref | null
-  showDropdown: boolean
-  openMenu: string
-  isJuniorMode: boolean
-  activeMenu: MenuTypes
 }

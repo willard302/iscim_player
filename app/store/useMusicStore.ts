@@ -33,16 +33,16 @@ export const useMusicStore = defineStore("music", () => {
     playerStore.loop = nextMode;
   };
 
-  const resetSource = () => {
+  const resetMusic = () => {
     state.title = "Please Select Music";
-    playerStore.currentTime = "00:00";
-    playerStore.src = "";
+    state.queue = [];
+    state.slidePercent = 0;
   };
 
   return {
     ...toRefs(state),
     setLoop,
-    resetSource
+    resetMusic
   };
 },
 {

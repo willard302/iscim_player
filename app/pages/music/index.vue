@@ -23,174 +23,197 @@ const handleProgress = () => {
 
 <template>
   <div class="player__container">
-    <div :class="['audio__container--img', {'playing': playerStore.isPlaying}]" @click="player.togglePlay">
+    <div 
+      :class="[
+        'disk__container', 
+        {'playing': playerStore.isPlaying}
+      ]" 
+      @click="player.togglePlay"
+    >
       <van-image 
-        class="audio__img__wrap"
+        class="disk__image"
         height="240"
         width="240"
         fit="cover"
-        :style="`rotate: -${musicStore.diskRotation}deg`"
+        :style="`rotate: -${musicStore.diskRotation}deg; transition: all ease-in 1s`"
         :src="logo"
       /> 
     </div>
     
-    <h3 class="audio__title">{{ musicStore.title }}</h3>
+    <h3 class="music__title van-ellipsis">{{ musicStore.title }}</h3>
     
     <!-- 進度條 -->
-    <van-space direction="vertical" class="progress__container">
+    <div class="progress__container">
       <van-slider 
         v-model="musicStore.slidePercent" 
+        button-size="12px"
         @update:model-value="handleProgress"
       />
-      <van-row justify="space-between">
-        <van-col>{{ playerStore.currentTime }}</van-col>
-        <van-col>{{ playerStore.duraTime }}</van-col>
-      </van-row>
-    </van-space>
+      <div class="time__labels">
+        <span class="time__text">{{ playerStore.currentTime }}</span>
+        <span class="time__text">{{ playerStore.duraTime }}</span>
+      </div>
+    </div>
     
     <!-- 控制按钮 -->
-    <van-row class="navigation__container">
+    <van-row class="navigation__container" align="center" justify="space-between">
       <van-col span="14" class="operation__container">
-        <van-button size="small" @click="player.prev()">
-           <font-awesome icon="backward" />
-        </van-button>
-        <van-button size="small" @click.lazy="player.togglePlay()">
-           <font-awesome :icon="playerStore.isPlaying ? 'pause' : 'play'"/>
-        </van-button>
-        <van-button size="small" @click="player.next()">
-           <font-awesome icon="forward" />
-        </van-button>
-        <van-button :class="playerStore.loop" size="small" @click="musicStore.setLoop()">
-          <font-awesome class="fa-solid fa-repeat" icon="repeat"/>
-        </van-button>
+        <van-space :size="8">
+          <van-button size="small" round @click="player.prev()">
+            <font-awesome icon="backward" />
+          </van-button>
+          <van-button size="small" round @click.lazy="player.togglePlay()">
+            <font-awesome :icon="playerStore.isPlaying ? 'pause' : 'play'"/>
+          </van-button>
+          <van-button size="small" round @click="player.next()">
+            <font-awesome icon="forward" />
+          </van-button>
+          <van-button 
+            size="small" 
+            round 
+            :class="['loop-btn', playerStore.loop]" 
+            @click="musicStore.setLoop()"
+          >
+            <font-awesome class="fa-solid fa-repeat" icon="repeat"/>
+          </van-button>
+        </van-space>
       </van-col>
       
       <!-- 音量控制 -->
       <van-col span="10" class="volume__container">
         <van-button 
-          size="small"
+          size="mini"
+          plain
+          style="border: none; margin-right: 5px;"
           @click="player.openVolume()"
         >
           <font-awesome :icon="playerStore.volume_on ? 'volume-high' : 'volume-off'" />
         </van-button>
-        <van-slider 
-          v-model="playerStore.volume"
-          :min="0"
-          :max="100"
-          @update:model-value="player.setVolume"
-        />
+        <div style="flex: 1;">
+          <van-slider 
+            v-model="playerStore.volume"
+            :min="0"
+            :max="100"
+            button-size="10px"
+            @update:model-value="player.setVolume"
+          />
+        </div>
       </van-col>
     </van-row>
   </div>
 </template>
 
 <style scoped lang="scss">
-
-.van-button--small {
-  --van-button-small-height: 28px;
-  --van-button-small-padding: 0 6px;
-  margin-right: 1px;
-}
+@use "sass:color";
 
 .player__container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 100%;
+  padding: 0 var(--van-padding-md);
 }
-.audio__container--img {
-  max-width: 280px;
-  margin: 0 auto;
-  border-radius: 50%;
-  box-shadow: 0 8px 16px -6px rgba(16, 16, 16, 0.3);
-  overflow: hidden;
-  z-index: 99;
-}
-.audio__img__wrap {
-  position: relative;
+
+.music__title {
   width: 100%;
-  height: 100%;
-  background-color: #c9adef94;
-  border: 3px solid #8d03a2;
-  border-radius: 50%;
-  z-index: -1;
-  transition: all 1.5s linear;
-
-  @mixin audio-img {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    border-radius: 50%;
-    z-index: -1;
-    margin: auto;
-    transition: all 1.5s;
-  }
-
-  &::before {
-    @include audio-img;
-    content: "";
-    width: 95%;
-    height: 95%;
-    border: 3px solid #b604d1;
-  }
-
-  &::after {
-    @include audio-img;
-    content: "";
-    width: 90%;
-    height: 90%;
-    border: 3px solid #8d03a2;
-  }
-}
-.audio__title {
+  text-align: center;
   color: $color-font;
+  font-size: 18px;
+  font-weight: 600;
 }
+
 .progress__container {
   width: 100%;
+  padding: 0 5px;
+
+  .van-slider {
+    margin-bottom: 8px;
+  }
 }
+
+.time__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--van-text-color-2);
+}
+
 .navigation__container {
   width: 100%;
   height: 60px;
+}
+
+.operation__container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  line-height: 10px;
-}
-.operation__container {
-
-  .van-button {
-    position: relative;
-  }
-
-  .van-button::after {
-    position: absolute;
-    bottom: 0;
-    right: 3px;
-    font-size: 10px;
-    font-weight: 500;
-  }
-
-  .normal::after {
-    content: "X"
-  }
-
-  .repeatOne::after {
-    content: "1"
-  }
-
-  .repeatAll::after {
-    content: "A"
-  }
 }
 
 .volume__container {
   display: flex;
   align-items: center;
+  padding-left: 10px;
 }
 
+.loop-btn {
+  position: relative;
 
+  &::after {
+    position: absolute;
+    bottom: -2px;
+    right: 2px;
+    font-size: 9px;
+    font-weight: bold;
+    color: inherit;
+  }
+
+  &.normal::after { content: "X" }
+  &.repeatOne::after { content: "1" }
+  &.repeatAll::after { content: "A" }
+}
+
+.disk__container {
+  position: relative;
+  border-radius: 50%;
+  box-shadow: 0 8px 16px -6px rgba(16, 16, 16, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    box-shadow: unset;
+  }
+
+  .disk__image {
+    z-index: 2;
+    background-color: transparent;
+  }
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1.5s;
+  }
+
+  &::before {
+    width: 95%;
+    height: 95%;
+    border: 3px solid #8d03a2;
+    background-color: #c9adef94;
+  }
+
+  &::after {
+    width: 90% ;
+    height: 90% ;
+    border: 3px solid #b604d1;
+    opacity: 0.6;
+  }
+}
 
 </style>

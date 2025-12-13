@@ -5,7 +5,7 @@ import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
 import type { chakraItem } from '~/types/data.types';
-const { addMusic, saveSet, removeSet, loadSongSets, addChakra} = usePlaylist();
+const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
 const player = usePlayer();
 const mainStore = useMainStore();
 const musicStore = useMusicStore();
@@ -174,12 +174,8 @@ const removeAll = () => {
   initPlayer();
 };
 const initPlayer = () => {
-  musicStore.queue = [];
-  musicStore.title = "Please Select Music";
-  playerStore.index = -1;
-  playerStore.src = "";
-  playerStore.currentTime = "00:00";
-  playerStore.duraTime = "00:00";
+  musicStore.resetMusic();
+  playerStore.resetPlayer();
 };
 
 onMounted(async() => {
