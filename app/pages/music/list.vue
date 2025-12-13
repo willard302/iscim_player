@@ -1,18 +1,20 @@
 <script setup lang="ts">
-definePageMeta({title:"album_list", layout: "music"})
+definePageMeta({title:"album_list", layout: "music"});
+import ListJuniorMode from './components/ListJuniorMode.vue';
+import MusicListSlot from './components/MusicListSlot.vue';
 import { useMainStore } from '~/store/useMainStore';
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
-import type { chakraItem } from '~/types/data.types';
+import type { ChakraItem } from '~/types/data.types';
 const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
 const player = usePlayer();
 const mainStore = useMainStore();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
 const menuStore = useMenuStore();
-const user = mainStore.user;
-const subChakra: chakraItem[] = [
+const user = mainStore.userInfo;
+const subChakra: ChakraItem[] = [
   { name: "Chakra.Balance", idx: 0, id: "Balance" },
   { name: "Chakra.Overall", idx: 99, id: "OverAll" },
   { name: "Chakra.Root", idx: 1, id: "Root" },
@@ -32,7 +34,7 @@ const menu_1th = computed(() => {
   const myMusic = { name: "Menu.custom_music", id: "mymusic" };
   const pro = [chakra, set, music, myMusic];
   const pub = [set, music];
-  return user && user.musicTherapy ? pro : pub;
+  return user ? pro : pub;
 });
 
 const updateSubMusic = () => {
@@ -149,7 +151,7 @@ const removeList = (index: number) => {
 
     playerStore.index = -1;
     playerStore.src = "";
-    musicStore.title = "Please Select Music"
+    musicStore.name = "Please Select Music"
     return;
   };
   
@@ -186,21 +188,7 @@ onMounted(async() => {
 <template>
   <div :class="[{'openNav': menuStore.openMenu !== 'off'}]">
     <!-- Junior模式 -->
-    <!-- <template v-if="isJuniorMode">
-      <music-list-junior 
-        :musicLists="subMusicUpdated"
-        :subSet="subSet"
-        :user="user"
-        :chakra="chakra"
-        :openMenu="openMenu"
-        @hand-play="$emit('handle-play', $event)"
-        @hand-play-set="$emit('load-song-sets', $event)"
-        @hand-save-set="saveSet"
-        @hand-toggle-menu="toggleMenu"
-        @remove-all="removeAll"
-        @hand-remove-set="removeSet"
-      ></music-list-junior>
-    </template> -->
+     <ListJuniorMode v-if="menuStore.isJuniorMode" />
   
     <!-- 音乐列表主体 -->
     <div class="list__container checkout">
@@ -211,7 +199,7 @@ onMounted(async() => {
           :class="[{ playing: playerStore.index == idx }]"
           center
           :id="list.id"
-          :title="list.title"
+          :title="list.name"
           :value="list.chakra"
           @click="specified(idx)"
         >

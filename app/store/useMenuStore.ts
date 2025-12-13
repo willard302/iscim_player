@@ -4,8 +4,10 @@ export const useMenuStore = defineStore('menu',() => {
 
   const state = reactive<MenuStoreState>({
     openMenu: "off",
-    isJuniorMode: false,
-    openSubNav: false
+    openSubNav: false,
+
+    isJuniorMode: true,
+    step: 0
   })
   
   const toggleMenu = (item:string) => {

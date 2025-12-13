@@ -1,12 +1,22 @@
 <script setup lang="ts">
+import ListJuniorBuildNewSet from './ListJuniorBuildNewSet.vue';
+import MusicListSlot from './MusicListSlot.vue';
 import { useMainStore } from '~/store/useMainStore';
+import { useMenuStore } from '~/store/useMenuStore';
+import { useMusicStore } from '~/store/useMusicStore';
+import type { Song } from '~/types/data.types';
+
+const { removeSet, loadSongSets } = usePlaylist();
 
 const emit = defineEmits(['remove-all', 'hand-play', 'hand-save-set'])
 
-const mainStore = useMainStore()
+const mainStore = useMainStore();
+const menuStore = useMenuStore();
+const musicStore = useMusicStore();
+
 const isTab = ref("");
-const isStep = ref(0);
-const musicListsLocal = ref([]);
+
+const musicListsLocal = ref<Song[]>([]);
 const musicListsSelected = ref([]);
 const musicOrder = ref(0);
 const newLists = [
@@ -46,7 +56,7 @@ const items = computed(() => {
   const build_set = { name: "build_new_set", id: "build_new_set" };
   const load_set = { name: "load_set", id: "load_set" };
   const remove_all = { name: "remove_all", id: "remove_all" };
-  return mainStore.user ? [build_set, load_set, remove_all] : [load_set, remove_all];
+  return mainStore.userInfo ? [build_set, load_set, remove_all] : [load_set, remove_all];
 });
 
 const initMusicListsSelected = () => {
@@ -54,15 +64,16 @@ const initMusicListsSelected = () => {
   musicOrder.value = 0;
   
   if (musicListsLocal.value && Array.isArray(musicListsLocal.value)) {
-    musicListsLocal.value = musicListsLocal.value.map(category => {
+    musicListsLocal.value = musicStore.subMusicUpdated.map(category => {
       const newCategory = { ...category };
-      if (newCategory.menu && Array.isArray(newCategory.menu)) {
-        newCategory.menu = newCategory.menu.map(item => ({
-          ...item,
-          checked: false,
-          order: null
-        }));
-      }
+      console.log(newCategory)
+      // if (newCategory.menu && Array.isArray(newCategory.menu)) {
+      //   newCategory.menu = newCategory.menu.map(item => ({
+      //     ...item,
+      //     checked: false,
+      //     order: null
+      //   }));
+      // }
       
       return newCategory;
     });
@@ -76,7 +87,7 @@ const initMusicListsSelected = () => {
     chakra: {},
     content: []
   };
-}
+};
 
 const submitCustomSet = () => {
   if (showMenu.value === "") {
@@ -89,7 +100,7 @@ const submitCustomSet = () => {
   emit('hand-save-set', setToEmit);
 
   // 重置状态
-  isStep.value = 0;
+  menuStore.step = 0;
   isTab.value = "";
   initMusicListsSelected();
 };
@@ -102,7 +113,7 @@ const onClickAction = (item:any) => {
       break;
     case "build_new_set":
       isTab.value = (isTab.value === item) ? "" : item;
-      isStep.value = 1;
+      menuStore.step = 1;
       showMenu.value = 'numbers_music'
       break;
     case "remove_all":
@@ -115,18 +126,18 @@ const onClickAction = (item:any) => {
         showNotify({message: "message.please_select_a_music_at_least"});
         return;
       }; 
-      if (set.name.length === 0) {
+      if (set.value.name.length === 0) {
         showNotify({message: "message.please_enter_a_name_for_the_set"});
         return;
       };
       // set.content = musicListsSelected;
-      isStep.value = 2;
+      menuStore.step = 2;
       break;
     case "submit":
       submitCustomSet();
       break;
     default:
-      if (isStep.value === 2) {
+      if (menuStore.step === 2) {
         set.value = item;
         showMenu.value = item;
       } else {
@@ -137,127 +148,33 @@ const onClickAction = (item:any) => {
   }
 };
 
-// onMounted(() => {
-//   musicListsLocal.value = JSON.parse(JSON.stringify(musicLists.value))
-// })
-
 </script>
 
 <template>
   <div class="audio__list music-list-junior">
-    <!-- <TopTabbar
+    <TopTabbar
       :items="items" 
       :activeTab="isTab"
       @tab-change="onClickAction"
-    ></TopTabbar> -->
-    <div 
-      v-if="isTab === 'build_new_set'" 
-      class="audio__list__container build_new_set"
-    >
-      <div class="audio__list__header d-flex flex-between">
-        <h3 class="audio__list__heading">
-          <span v-if="isStep === 1">{{$t("message.which_song_do_you_want_to_play")}}</span>
-          <span v-if="isStep === 2">{{$t("message.what_you_want_now")}}</span>
-        </h3>
-      </div>
-      
-      <!-- 步骤1：选择音乐 -->
-      <template v-if="isStep === 1">
-        <TopTabbar 
-          :items="musicListsLocal"
-          :activeTab="showMenu"
-          @tab-change="onClickAction"
-        />
-        <ul
-          v-if="showMenu === item.id"
-          v-for="(item, idx) in musicListsLocal" 
-          :key="idx"
-          class="music__lists scroll__container"
-        >
-          <li
-            v-for="(one, idx) of item.menu" 
-            :key="idx"
-            :class="['music__item', {'selected': one.checked}]"
-          >
-            <label :for="one.id">
-              {{ one.name }}
-              <div class="checkBox">
-                {{ one.order }}
-              </div> 
-            </label>
-            <input 
-              :id="one.id" 
-              type="checkbox" 
-              v-model="one.checked" 
-              @click.stop="handleCheck(one)"
-            />
-          </li>
-        </ul>
-      </template>
-
-      <!-- 步骤2：选择选项 -->
-      <template v-if="isStep === 2">
-        <ul
-          v-for="(item, idx) in newLists" 
-          :key="idx" 
-          class="tab__wrap flex-column"
-        >
-          <li class="tab__item">
-            <div class="c-button-2 pure">{{ $t(item.name) }}</div>
-          </li>
-          <li class="tab__item">
-            <TopTabbar
-              className="music__option flex-row"
-              :items="item.children" 
-              :activeTab="showMenu"
-              @tab-change="onClickAction"
-            ></TopTabbar>
-          </li>
-        </ul>
-      </template>
-
-      <div class="tab__item audio__list__footer mt-10">
-        <template v-if="isStep === 1" >
-          <div>
-            <input 
-              class="music__item set__name" 
-              v-model="set.name"
-              type="text" 
-              :placeholder="$t('message.please_enter_a_name_for_the_set')" 
-            />
-          </div>
-          <button 
-            class="c-button-2" 
-            @click="onClickAction('select_option')"
-          >
-            {{$t('Next')}}
-          </button>
-        </template>
-        <button 
-          v-if="isStep === 2" 
-          class="c-button-2" 
-          @click="onClickAction('submit')"
-        >
-          {{$t('save_and_play')}}
-        </button>
-      </div>
-    </div>
+    ></TopTabbar>
+    
+    <ListJuniorBuildNewSet />
 
     <template v-if="isTab === 'load_set'">
       <TopTabbar
-        :items="subSet"
+        :items="musicStore.subSet"
         :activeTab="showMenu"
         @tab-change="onClickAction"
       ></TopTabbar>
 
       <music-list-slot 
         v-show="showMenu === item.name"
-        v-for="(item, idx) in subSet"
+        v-for="(item, idx) in musicStore.subSet"
         :key="idx"
         :list="item"
         type="junior-mode"
         className="customSet set__container scroll__container"
-        @get-music="getSongSets"
+        @get-music="loadSongSets"
         @remove-music="removeSet"
       />
     </template>

@@ -13,6 +13,15 @@ onMounted(() => {
 
 // ============== 進度條控制 ==============
 
+const onDragStart = () => {
+  musicStore.isDragging = true;
+};
+
+const onDragEnd = () => {
+  musicStore.isDragging = false;
+  handleProgress();
+};
+
 const handleProgress = () => {
   if (!playerStore.duration) return;
   const percent = Math.max(0, Math.min(100, musicStore.slidePercent));
@@ -31,22 +40,23 @@ const handleProgress = () => {
       @click="player.togglePlay"
     >
       <van-image 
-        class="disk__image"
+        :class="['disk__image', {'spinning': playerStore.isPlaying}]"
         height="240"
         width="240"
         fit="cover"
-        :style="`rotate: -${musicStore.diskRotation}deg; transition: all ease-in 1s`"
+        round
         :src="logo"
       /> 
     </div>
     
-    <h3 class="music__title van-ellipsis">{{ musicStore.title }}</h3>
+    <h3 class="music__title van-ellipsis">{{ musicStore.name }}</h3>
     
-    <!-- 進度條 -->
     <div class="progress__container">
       <van-slider 
         v-model="musicStore.slidePercent" 
         button-size="12px"
+        @drag-start="onDragStart"
+        @drag-end="onDragEnd"
         @update:model-value="handleProgress"
       />
       <div class="time__labels">
@@ -55,7 +65,6 @@ const handleProgress = () => {
       </div>
     </div>
     
-    <!-- 控制按钮 -->
     <van-row class="navigation__container" align="center" justify="space-between">
       <van-col span="14" class="operation__container">
         <van-space :size="8">
@@ -173,6 +182,11 @@ const handleProgress = () => {
   &.repeatAll::after { content: "A" }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg);}
+  to { transform: rotate(360deg);}
+}
+
 .disk__container {
   position: relative;
   border-radius: 50%;
@@ -188,6 +202,12 @@ const handleProgress = () => {
   .disk__image {
     z-index: 2;
     background-color: transparent;
+    animation: spin 20s linear infinite;
+    animation-play-state: paused;
+
+    &.spinning {
+      animation-play-state: running;
+    }
   }
 
   &::before, &::after {

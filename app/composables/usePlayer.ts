@@ -12,20 +12,22 @@ export const usePlayer = () => {
     const audio = getAudio();
     if (!audio) return;
 
-    // 移除舊的監聽器避免重複 (可選，視乎調用時機)
+    // 移除舊的監聽器
     audio.ontimeupdate = null;
     audio.onended = null;
     audio.onloadedmetadata = null;
     audio.onerror = null;
 
     audio.ontimeupdate = () => {
+      // 如果正在拖曳進度條，暫不更新進度（避免與使用者操作衝突，需配合前端實作）
+      if (musicStore.isDragging) return;
+
       const cur = audio.currentTime;
       playerStore.currentSec = cur;
       playerStore.currentTime = formatTime(cur);
 
       if (audio.duration) {
         musicStore.slidePercent = (cur / audio.duration) * 100;
-        musicStore.diskRotation = (cur / audio.duration) * 360 * 3;
       }
     };
 
@@ -35,23 +37,25 @@ export const usePlayer = () => {
       playerStore.duraTime = formatTime(dur);
 
       audio.volume = playerStore.volume_on ? (playerStore.volume / 100) : 0;
+      // 確保載入後自動播放（如果狀態是 playing）
+      if (playerStore.isPlaying) {
+        audio.play().catch(e => console.warn("Auto-play blocked:", e));
+      }
     };
 
     audio.onended = () => {
-      pauseMusic();
-
+      // 播放結束後的邏輯
       const isLast = playerStore.index >= musicStore.queue.length - 1;
 
       switch(playerStore.loop) {
         case "normal":
-          next();
+          isLast ? playerStore.isPlaying = false : next();
           break;
         case "repeatOne":
-          playMusic();
+          playIndex(playerStore.index);
           break;
         case "repeatAll":
-          playerStore.index = isLast ? 0 : playerStore.index++;
-          playIndex(playerStore.index);
+          next();
           break;
       }
     };
@@ -69,10 +73,10 @@ export const usePlayer = () => {
 
     playerStore.index = i;
     playerStore.src = item.src;
-    musicStore.title = item.title || 'Please Select Music';
+    musicStore.name = item.name || 'Please Select Music';
 
     const audio = getAudio();
-    if (!audio) return console.error("no audio");
+    if (!audio) return false;
     audio.src = item.src;
     audio.load();
 
@@ -115,32 +119,31 @@ export const usePlayer = () => {
 
   const next = () => {
     if (!musicStore.queue.length) return;
-    pauseMusic();
     const ni = (playerStore.index + 1) % musicStore.queue.length;
     playIndex(ni);
   };
 
   const prev = () => {
     if (!musicStore.queue.length) return;
-    pauseMusic();
     const pi = (playerStore.index - 1 + musicStore.queue.length) % musicStore.queue.length;
     playIndex(pi);
   };
 
   const setVolume = (v: number) => {
     const audio = getAudio();
-
     const volume = Math.max(0, Math.min(100,v));
     playerStore.volume = volume;
     if (audio && playerStore.volume_on) {
       audio.volume = volume / 100;
     };
+    if (volume > 0) playerStore.volume_on = true;
   };
 
   const openVolume = () => {
     const audio = getAudio();
     playerStore.volume_on = !playerStore.volume_on;
     if (!audio) return;
+
     const volume = playerStore.volume_on ? 100 : 0;
     playerStore.volume = volume;
     audio.volume = volume / 100;
@@ -154,7 +157,7 @@ export const usePlayer = () => {
     const time = (percent / 100) * audio.duration;
     audio.currentTime = time;
 
-    musicStore.slidePercent = percent;
+    playerStore.currentTime = formatTime(time);
   };
 
   return {

@@ -30,7 +30,7 @@ const handleClickRight = () => {
     </template>
     <template #title>
       <h3 class="audio__list__heading">
-        <template v-if="mainStore.user">
+        <template v-if="mainStore.userInfo">
           {{ (!musicStore.chakra.name || musicStore.chakra.name === 'Enhance') ? $t("album_list") : $t(musicStore.chakra.name) }}
         </template>
         <template v-else>

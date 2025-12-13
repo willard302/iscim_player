@@ -1,5 +1,4 @@
 import type { MusicStoreState } from "~/types/data.types";
-const {formatTime} = useCommon();
 import { usePlayerStore } from "./usePlayerStore";
 
 
@@ -9,7 +8,7 @@ export const useMusicStore = defineStore("music", () => {
 
   const state = reactive<MusicStoreState>({
     type: "pro",
-    title: "Hints.select_music",
+    name: "Hints.select_music",
     queue: [],
     item: null,
     subMusic: [],
@@ -22,7 +21,8 @@ export const useMusicStore = defineStore("music", () => {
       lists: []
     },
     slidePercent: 0,
-    diskRotation: 0
+    diskRotation: 0,
+    isDragging: false
   });
 
   const setLoop = () => {
@@ -34,7 +34,7 @@ export const useMusicStore = defineStore("music", () => {
   };
 
   const resetMusic = () => {
-    state.title = "Please Select Music";
+    state.name = "Please Select Music";
     state.queue = [];
     state.slidePercent = 0;
   };

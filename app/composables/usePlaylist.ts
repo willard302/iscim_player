@@ -1,7 +1,7 @@
 import { useMenuStore } from "~/store/useMenuStore";
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
-import type { chakraItem, MusicSetList, Song } from "~/types/data.types";
+import type { ChakraItem, MusicSetList, Song } from "~/types/data.types";
 
 export const usePlaylist = () => {
   
@@ -10,7 +10,7 @@ export const usePlaylist = () => {
   const menuStore = useMenuStore();
   const player = usePlayer();
 
-  const addToLists = (item:Song) => {
+  const addToLists = (item: Song) => {
     musicStore.queue.push(item);
 
     // 若尚未有歌曲 → 播第一首
@@ -23,7 +23,7 @@ export const usePlaylist = () => {
   const addMusic = (song:any, chakra?: any) => {
     const list = {
       id: song.id,
-      title: song.name,
+      name: song.name,
       src: song.src,
       index: playerStore.index,
       chakra: chakra 
@@ -35,8 +35,8 @@ export const usePlaylist = () => {
     addToLists(list);
 
     // 如果是第一首歌，立即加载
-    if (musicStore.title === "Please Select Music") {
-      musicStore.title = list.title;
+    if (musicStore.name === "Please Select Music") {
+      musicStore.name = list.name;
       playerStore.src = list.src;
     };
   };
@@ -75,7 +75,7 @@ export const usePlaylist = () => {
 
     musicStore.queue.forEach((e) => {
       newList.content.push({
-        title: e.title,
+        title: e.name,
         src: e.src
       });
       if (e.chakra) newList.chakra.push(e.chakra);
@@ -93,7 +93,7 @@ export const usePlaylist = () => {
       .menu.splice(item.index, 1);
   };
 
-  const addChakra = (item:chakraItem) => {
+  const addChakra = (item:ChakraItem) => {
     musicStore.chakra.name = item.name;
     musicStore.chakra.num = item.idx;
     menuStore.openMenu = 'off';
