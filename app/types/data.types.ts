@@ -1,46 +1,66 @@
-export type message = {
+import type { ButtonNativeType, FieldType } from "vant";
+import type { UserInsert, UserUpdate } from "./supabase";
+
+export type ButtonItem = {
+  text: string
+  type: ButtonNativeType
+  to?: string
+  action?: string
+};
+
+export type FieldOption = {
+  text: string
+  value: string
+  id?: string
+}
+
+export type FieldItem = {
+  label: string
+  value: string | number | boolean
+  name: string
+  type?: FieldType
+  placeholder?: string
+  required?: boolean
+  message?: string
+  autocomplete?: string
+  options?: FieldOption[]
+};
+
+export type Message = {
   text: string
   value: string
 };
 
-export type user = {
-  id: string
-  name?: string
-  avatar?: string
-  birthday?: string
-  musicTherapy: boolean
-};
-
 export type MainStoreState = {
-  isAuthenticated: boolean
-  tabBarActive: string
-  locale: string
-  showTabbar: boolean
-  user: user
-};
+  isAuthenticated: boolean,
+  tabBarActive: string,
+  locale: string,
+  userInfo: UserInsert | UserUpdate
+}
 
 export type Song = {
   id: string
-  title: string
+  name: string
   src: string
+  intro?: string
   index?: number
   chakra?: number
 }
 
-export type chakraType = {
+export type ChakraType = {
   name: string,
   num: number,
   idx: number,
   list: any[]
 }
 
-export type chakraItem = {
+export type ChakraItem = {
   name: string,
   idx: number,
   id: string
 }
 
-export type chakraInfo = {
+export type ChakraInfo = {
   name: string,
   num: number,
   idx: number,
@@ -49,21 +69,23 @@ export type chakraInfo = {
 
 export type MenuStoreState = {
   openMenu: string,
+  openSubNav: boolean,
   isJuniorMode: boolean,
-  openSubNav: boolean
+  step: number
 }
 
 export type MusicStoreState = {
   type: string
-  title: string
+  name: string
   queue: Song[]
   item: null
   subMusic: any[]
   subMusicUpdated: any[]
   subSet: any[],
-  chakra: chakraInfo,
+  chakra: ChakraInfo,
   slidePercent: number,
-  diskRotation: number
+  diskRotation: number,
+  isDragging: boolean
 }
 
 export type PlayerStoreState = {
