@@ -18,10 +18,6 @@ body {
   padding-right: env(safe-area-inset-right);
 }
 
-.wrap {
-  min-height: 100vh;
-}
-
 .van-popup.van-popup--bottom .van-form {
   position: unset;
   width: 100%;
@@ -33,7 +29,7 @@ body {
 
 main {
   padding: 10px 20px;
-  height: calc(100vh - $height_top - $height_bottom);
+  height: calc(100vh - $height_top - $height_bottom + 20px);
   margin: 50px auto;
 }
 
