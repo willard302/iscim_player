@@ -10,7 +10,8 @@ export default {
   iscim_music: "雲端音樂",
   profile: "個人資料",
   setting: "設定",
-  user_data: "使用者資料",
+  user_data: "會員資料",
+  user_center: "會員中心",
   Chakra: {
     Overall: "整體脈輪",
     Balance: "平衡脈輪",

@@ -11,6 +11,7 @@ export default {
   profile: "Profile",
   setting: "Setting",
   user_data: "User Data",
+  user_center: "User Center",
   Chakra: {
     Overall: "Overall Chakra",
     Balance: "Balance Chakra",
