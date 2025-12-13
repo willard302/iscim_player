@@ -5,9 +5,11 @@ import { useMainStore } from '~/store/useMainStore';
 const mainStore = useMainStore();
 const router = useRouter();
 
+const { logout } = useAuth();
+
 onMounted(() => {
-  if (!mainStore.user || !mainStore.user.id ) throw new Error("There is no user, user_id.");
-  username.value = mainStore.user.name ?? "guest";
+  if (!mainStore.userInfo || !mainStore.userInfo.id ) throw new Error("There is no user, user_id.");
+  username.value = mainStore.userInfo.name ?? "guest";
 });
 
 const isEdit = ref(false);
@@ -19,7 +21,7 @@ const lists = reactive([
 ]);
 
 const handleToggleState = async() => {
-  const userId = mainStore.user?.id;
+  const userId = mainStore.userInfo.id;
   if (!userId) throw new Error("There is no id.");
 
   isEdit.value = !isEdit.value;
@@ -33,7 +35,7 @@ const handleToggleState = async() => {
       <div class="profile__heading">
         <div class="status">
           <van-cell-group inset>
-            <van-field v-model="mainStore.user.name" input-align="center" :disabled="!isEdit" />
+            <van-field v-model="mainStore.userInfo.name" input-align="center" :disabled="!isEdit" />
           </van-cell-group>
           <van-button v-if="!isEdit" @click="handleToggleState()">
             <font-awesome :icon="['fas', 'pen']" />
@@ -52,6 +54,11 @@ const handleToggleState = async() => {
         :title="$t(item.title)"
         @click="router.push(item.path)"
       />
+      <van-cell 
+        :title="$t('log_out')"
+        is-link
+        @click="logout"
+      />
     </van-cell-group>
   </div>
 </template>
@@ -62,12 +69,14 @@ const handleToggleState = async() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  --van-cell-background: transparent;
 }
 
 .profile__header {
   text-align: center;
   margin-bottom: 10px;
   border-radius: 10px;
+  --van-cell-group-background: transparent;
 }
 
 .profile__heading {
