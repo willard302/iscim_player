@@ -2,6 +2,7 @@
   definePageMeta({layout: 'auth'})
   import Login from './components/Login.vue';
   import Register from './components/Register.vue';
+  import Logo from '~/assets/img/iscim_player_logo.png';
 
   const active = ref(0);
   const items = reactive([
@@ -17,6 +18,13 @@
       sticky 
       type="card"
     >
+      <van-image 
+        width="60%"
+        height="auto"
+        fit="cover"
+        round
+        :src="Logo" 
+      />
       <van-tab 
         v-for="(i, idx) in items" 
         :key="idx"
@@ -32,13 +40,11 @@
   .auth__container {
     position: fixed;
     top: 10%;
+    text-align: center;
   }
   :deep(.van-tabs__nav--card) {
     height: 40px;
     border-radius: 10px;
     overflow: hidden;
-  }
-  .van-form {
-    margin-top: 30px;
   }
 </style>
