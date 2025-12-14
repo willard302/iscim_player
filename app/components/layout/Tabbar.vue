@@ -3,8 +3,8 @@ import { useMainStore } from '~/store/useMainStore';
 
 const mainStore = useMainStore();
 const home = { label: 'home', path: '/', icon: ['fas', 'house'] };
-const musicPlayer = { label: 'musicPlayer', path: '/music', icon: ['fas', 'music'] };
-const musicList = { label: 'musicList', path: '/music/list', icon: ['fas', 'compact-disc'] };
+const musicPlayer = { label: 'music', path: '/music', icon: ['fas', 'music'] };
+const musicList = { label: 'musicList', path: '/music/musicList', icon: ['fas', 'compact-disc'] };
 const userCenter = { label: 'userCenter', path: '/userCenter', icon: ['fas', 'user'] };
 
 const navItems = [home, musicPlayer, musicList, userCenter];
@@ -27,9 +27,5 @@ const navItems = [home, musicPlayer, musicList, userCenter];
 <style scoped lang="scss">
 svg {
   font-size: 1.4rem;
-}
-
-.current svg {
-  color: #1989FA;
 }
 </style>

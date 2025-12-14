@@ -1,47 +1,21 @@
 <script setup lang="ts">
 import ListJuniorBuildNewSet from './ListJuniorBuildNewSet.vue';
-import MusicListSlot from './MusicListSlot.vue';
+import ListJuniorLoadSet from './ListJuniorLoadSet.vue';
 import { useMainStore } from '~/store/useMainStore';
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
-import type { Song } from '~/types/data.types';
-
-const { removeSet, loadSongSets } = usePlaylist();
+import type { MusicMenu, Song } from '~/types/data.types';
 
 const emit = defineEmits(['remove-all', 'hand-play', 'hand-save-set'])
 
-const mainStore = useMainStore();
 const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 
+const active = ref('Menu.build_new_set')
 const isTab = ref("");
-
-const musicListsLocal = ref<Song[]>([]);
+const musicListsLocal = ref<MusicMenu[]>([]);
 const musicListsSelected = ref([]);
 const musicOrder = ref(0);
-const newLists = [
-  { 
-    name: "working", 
-    children: [
-      {name:'routine', id:'routine'}, 
-      {name:'major_meetings', id:'major_meetings'},
-    ] 
-  },
-  { 
-    name: "reinforce_learning", 
-    children: [
-      {name:'weekday_review', id:'weekday_review'}, 
-      {name:'review_before_exam', id:'review_before_exam'},
-    ] 
-  },
-  { 
-    name: "take_a_nap", 
-    children: [
-      {name:'full_charge', id:'full_charge'}, 
-      {name:'fast_charge', id:'fast_charge'},
-    ] 
-  },
-];
 const set = ref({
   name: "",
   type: "custom",
@@ -49,15 +23,39 @@ const set = ref({
   chakra: {},
   content: []
 });
-const sets = reactive([]);
-const customSets = reactive([]);
 const showMenu = ref("");
-const items = computed(() => {
-  const build_set = { name: "build_new_set", id: "build_new_set" };
-  const load_set = { name: "load_set", id: "load_set" };
-  const remove_all = { name: "remove_all", id: "remove_all" };
-  return mainStore.userInfo ? [build_set, load_set, remove_all] : [load_set, remove_all];
-});
+
+const items = reactive([
+  { 
+    name: "Menu.build_new_set", 
+    comp: shallowRef(ListJuniorBuildNewSet), 
+    props: {
+      musicListsLocal: musicListsLocal
+    }
+  },
+  { 
+    name: "Menu.load_set", 
+    comp: shallowRef(ListJuniorLoadSet), 
+    props: {} 
+  },
+  { 
+    name: "Menu.remove_all", 
+    comp: null, 
+    props: null,
+    action: () => {
+      showConfirmDialog({
+        title: "警告",
+        message: "確定要移除全部？"
+      }).then(() => {
+        onRemove()
+      }).catch(() => console.log("cancel"))
+    }
+  }
+]);
+
+onMounted(() => {
+  initMusicListsSelected()
+})
 
 const initMusicListsSelected = () => {
   musicListsSelected.value = [];
@@ -66,14 +64,13 @@ const initMusicListsSelected = () => {
   if (musicListsLocal.value && Array.isArray(musicListsLocal.value)) {
     musicListsLocal.value = musicStore.subMusicUpdated.map(category => {
       const newCategory = { ...category };
-      console.log(newCategory)
-      // if (newCategory.menu && Array.isArray(newCategory.menu)) {
-      //   newCategory.menu = newCategory.menu.map(item => ({
-      //     ...item,
-      //     checked: false,
-      //     order: null
-      //   }));
-      // }
+      if (newCategory.menu && Array.isArray(newCategory.menu)) {
+        newCategory.menu = newCategory.menu.map((item: Song) => ({
+          ...item,
+          checked: false,
+          order: 0
+        }));
+      }
       
       return newCategory;
     });
@@ -103,6 +100,10 @@ const submitCustomSet = () => {
   menuStore.step = 0;
   isTab.value = "";
   initMusicListsSelected();
+};
+
+const onRemove = () => {
+  emit('remove-all')
 };
 
 const onClickAction = (item:any) => {
@@ -148,37 +149,66 @@ const onClickAction = (item:any) => {
   }
 };
 
+const OnBeforeChange = (name: string) => {
+  console.log(name)
+  const targetItem = items.find(i => i.name === name);
+
+  if (targetItem && targetItem.action) {
+    targetItem.action();
+    return false;
+  };
+
+  return true;
+}
+
 </script>
 
 <template>
-  <div class="audio__list music-list-junior">
-    <TopTabbar
-      :items="items" 
-      :activeTab="isTab"
-      @tab-change="onClickAction"
-    ></TopTabbar>
-    
-    <ListJuniorBuildNewSet />
-
-    <template v-if="isTab === 'load_set'">
-      <TopTabbar
-        :items="musicStore.subSet"
-        :activeTab="showMenu"
-        @tab-change="onClickAction"
-      ></TopTabbar>
-
-      <music-list-slot 
-        v-show="showMenu === item.name"
-        v-for="(item, idx) in musicStore.subSet"
-        :key="idx"
-        :list="item"
-        type="junior-mode"
-        className="customSet set__container scroll__container"
-        @get-music="loadSongSets"
-        @remove-music="removeSet"
-      />
-    </template>
-  </div>
+  <van-tabs 
+    v-model:active="active"
+    sticky
+    type="card"
+    :before-change="OnBeforeChange"
+  >
+    <van-tab
+      v-for="(t, tIdx) in items"
+      :key="tIdx"
+      :title="$t(t.name)"
+      :name="t.name"
+    >
+      <component :is="t.comp" v-bind="t.props" />
+    </van-tab>
+  </van-tabs>
 </template>
 
-<style scoped></style>
+<style lang="scss">
+  .van-tabs__wrap {
+    overflow: visible;
+  }
+  .van-tabs__nav--card {
+    height: 48px;
+    border: 0;
+    margin: 0;
+    background: transparent;
+  }
+  .van-tab--card {
+    color: $color-font;
+    line-height: 1;
+    font-weight: 500;
+    font-feature-settings: "palt" 1;
+    text-align: center;
+    border: 1px solid fade-out($color9, 0.85);
+    box-shadow: 2px 2px 3px lighten($color8, 12);
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover,
+    &:focus,
+    &.van-tab--active {
+      color: darken($color13, 20);
+      box-shadow: unset;
+      border: 2px solid $color13;
+      background-image: linear-gradient(to right top, #f0e596, rgb(255, 249.2429906542, 199), #e6cca6);
+    }
+  }
+</style>

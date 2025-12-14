@@ -7,7 +7,7 @@ export const useMenuStore = defineStore('menu',() => {
     openSubNav: false,
 
     isJuniorMode: true,
-    step: 0
+    step: 1
   })
   
   const toggleMenu = (item:string) => {

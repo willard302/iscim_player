@@ -1,7 +1,77 @@
 <script setup lang="ts">
 import { useMenuStore } from '~/store/useMenuStore';
+import { useMusicStore } from '~/store/useMusicStore';
+import type { MusicMenu, Song } from '~/types/data.types';
+
+const props = defineProps<{
+  musicListsLocal: MusicMenu[]
+}>();
+
+onMounted(() => {
+  console.log(props.musicListsLocal)
+})
+
+const active = reactive({
+  music: 0
+});
 
 const menuStore = useMenuStore();
+const musicStore = useMusicStore();
+
+const { removeMusic } = usePlaylist();
+
+const newLists = [
+  { 
+    name: "working", 
+    children: [
+      {name:'routine', id:'routine'}, 
+      {name:'major_meetings', id:'major_meetings'},
+    ] 
+  },
+  { 
+    name: "reinforce_learning", 
+    children: [
+      {name:'weekday_review', id:'weekday_review'}, 
+      {name:'review_before_exam', id:'review_before_exam'},
+    ] 
+  },
+  { 
+    name: "take_a_nap", 
+    children: [
+      {name:'full_charge', id:'full_charge'}, 
+      {name:'fast_charge', id:'fast_charge'},
+    ] 
+  },
+];
+
+const showMenu = ref("");
+const musicOrder = ref(0);
+const musicListsSelected = ref<Song[]>([]);
+
+onMounted(() => {
+  menuStore.step = 1;
+})
+
+const handleCheck = (music: any) => {
+  musicStore.subMusicUpdated.forEach(musicList => {
+  // musicList.menu.forEach(item => {
+  //   // console.log(item)
+  //   // if (item !== music) return;
+
+  //   // if (!item.checked) {
+  //   //   musicOrder.value++;
+  //   //   musicListsSelected.value.push(item);
+  //   //   item.order = musicOrder.value;
+  //   //   return;
+  //   // };
+
+  //   // musicOrder.value--;
+  //   // musicListsSelected.value.forEach(one => removeMusic(one, music));
+  //   // musicListsSelected.value = musicListsSelected.value.filter(one => one.order !== null);
+  //   // removeMusic(item, music);
+  // });
+});
+}
 
 // const submitCustomSet = () => {
 //   if (showMenu.value === "") {
@@ -18,29 +88,46 @@ const menuStore = useMenuStore();
 //   isTab.value = "";
 //   initMusicListsSelected();
 // };
+const checked = ref([])
 </script>
 
 <template>
-  <div class="audio__list__container build_new_set">
-    <div class="audio__list__header d-flex flex-between">
+  <div>
+    <div class="audio__list__header">
       <h3 class="audio__list__heading">
-        <span v-if="menuStore.step === 1">{{$t("message.which_song_do_you_want_to_play")}}</span>
-        <span v-if="menuStore.step === 2">{{$t("message.what_you_want_now")}}</span>
+        <span v-if="menuStore.step === 1">{{$t("Message.which_song_do_you_want_to_play")}}</span>
+        <span v-if="menuStore.step === 2">{{$t("Message.what_you_want_now")}}</span>
       </h3>
     </div>
-    
-    <!-- 步骤1：选择音乐 -->
+
+    <!-- step1: 選擇音樂 -->
     <template v-if="menuStore.step === 1">
-      <!-- <TopTabbar 
-        :items="musicListsLocal"
-        :activeTab="showMenu"
-        @tab-change="onClickAction"
-      /> -->
+      <van-tabs
+        v-model:active="active.music"
+        sticky
+        type="card"
+      >
+        <van-tab
+          v-for="(m, mIdx) in musicListsLocal"
+          :key="mIdx"
+          :title="m.name"
+        >
+          <van-checkbox-group
+            v-model="checked"
+          >
+            <van-checkbox 
+              v-for="(i, iIdx) in m.menu"
+              :name="i.name"
+              @click="handleCheck(i)"
+            >
+              {{ i.name }}
+            </van-checkbox>
+          </van-checkbox-group>
+        </van-tab>
+      </van-tabs>
       <!-- <ul
-        v-if="showMenu === item.id"
-        v-for="(item, idx) in musicListsLocal" 
+        v-for="(item, idx) in musicStore.subMusicUpdated" 
         :key="idx"
-        class="music__lists scroll__container"
       >
         <li
           v-for="(one, idx) of item.menu" 

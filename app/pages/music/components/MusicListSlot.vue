@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useMenuStore } from '~/store/useMenuStore'
+import type { MusicMenu } from '~/types/data.types'
 
 interface menuItem {
   id: string
@@ -8,14 +9,9 @@ interface menuItem {
   intro: string
   name: string
 }
-interface listObj {
-  name: string
-  class?: string
-  menu: menuItem[]
-};
 
 const props = defineProps<{
-  list: listObj,
+  list: MusicMenu,
   type?: string,
   className?: string
 }>();
@@ -61,7 +57,6 @@ const onEmitRemove = (setName:string, setIdx:number) => {
     <van-cell
       v-for="(one, idx) of list.menu" 
       :key="idx"
-      :value="one.value"
       :title="one.name"
       :label="one.intro"
       @click="onEmitMusic(one)"

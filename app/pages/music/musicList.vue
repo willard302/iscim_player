@@ -6,13 +6,15 @@ import { useMainStore } from '~/store/useMainStore';
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
-import type { ChakraItem } from '~/types/data.types';
+import type { ChakraItem, Song } from '~/types/data.types';
+
 const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
 const player = usePlayer();
 const mainStore = useMainStore();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
 const menuStore = useMenuStore();
+
 const user = mainStore.userInfo;
 const subChakra: ChakraItem[] = [
   { name: "Chakra.Balance", idx: 0, id: "Balance" },
@@ -37,48 +39,6 @@ const menu_1th = computed(() => {
   return user ? pro : pub;
 });
 
-const updateSubMusic = () => {
-  const fastMenu = musicStore.subMusic.map(music => ({
-    ...music,
-    name: `Fast ${music.name}`
-  }));
-  const medMenu = musicStore.subMusic.map(music => ({
-    ...music,
-    name: `Medium ${music.name}`
-  }));
-  const slowMenu = musicStore.subMusic.map(music => ({
-    ...music,
-    name: `Slow ${music.name}`
-  }));
-  musicStore.subMusic = [
-    {name: "Music.fast", menu: fastMenu},
-    {name: "Music.medium", menu: medMenu},
-    {name: "Music.slow", menu: slowMenu}
-  ];
-};
-// ============== API数据加载 ==============
-const loadApiData = async() => {
-  let apiUrls = getApiUrls();
-
-  try {
-    const responses = await Promise.all(apiUrls.map(url => fetch(url)));
-    const result = await Promise.all(
-      responses.map(res => {
-        if(!res.ok) throw new Error(`Failed to fetch: ${res.url} - ${res.status}`)
-        return res.json();
-      })
-    );
-    
-    // 设置基础音乐数据
-    musicStore.subMusic = result[0];
-    updateSubMusic()
-    
-    // 根据用户类型设置不同的数据集
-    setupDataSets(result);
-  } catch (error) {
-    console.error('Error fetching APIs: ', error);
-  }
-};
 const getApiUrls = () => {
   if (musicStore.type === 'pro') {
     return [
@@ -86,7 +46,7 @@ const getApiUrls = () => {
       "/music_set/default_pro.json",
       "/music_set/default_fiveElements.json",
       "/music_set/custom_new.json",
-      "/music_set/default_custom.json",
+      "/music_custom/menu.json",
     ];
   };
   
@@ -96,39 +56,84 @@ const getApiUrls = () => {
     "/music_set/default_fiveElements.json",
   ];
 };
+const composeMusic = (musicList: Song[], musicClass: string) => {
+  const menu: Song[] = musicList.map(music => ({
+    ...music,
+    name: `${musicClass} ${music.name}`
+  }));
+  return menu;
+};
 const setupDataSets = (result:any) => {
   if (musicStore.type === 'pro') {
     musicStore.subSet = [
       {
         name: "Set.numbers",
-        class: "numbersSet",
         menu: result[1],
       },
       {
         name: "Set.five_elements",
-        class: "fiveElementsSet",
         menu: result[2]
       },
       {
         name: "Set.custom",
-        class: "customSet",
         menu: result[3],
       }
     ];
-    musicStore.subMusicUpdated = result[4];
+    musicStore.subMusicUpdated = [
+      {
+        name: "Menu.numbers_music",
+        menu: composeMusic(result[4], 'Numbers')
+      },
+      {
+        name: "Menu.five_elements_music",
+        menu: composeMusic(result[4], "Five_Elements")
+      }
+    ];
   } else {
     musicStore.subSet = [
       {
         name: "Set.numbers",
-        class: "numbersSet",
         menu: result[1],
       },
       {
         name: "Set.fiveElements",
-        class: "fiveElementsSet",
         menu: result[2]
       }
     ];
+  };
+};
+const loadApiData = async() => {
+
+  const apiUrls = getApiUrls();
+
+  try {
+    const request = apiUrls.map(async( url ) => {
+      const res = await fetch(url);
+
+      if (!res.ok) {
+        throw new Error(`HTTP ERROR! Status: ${res.status}, URL: ${url}`);
+      };
+
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") === -1) {
+        const text = await res.text();
+        console.error(`錯誤:預期是JSON但收到HTML，請檢查路徑${url}`);
+        console.error(`回傳內容預覽：${text.substring(0, 50)}`);
+      };
+      return res.json();
+    });
+    const result = await Promise.all(request);
+    //  设置基础音乐数据 
+    musicStore.subMusic = [
+      {name: "Music.fast", menu: composeMusic(result[0], 'Fast')},
+      {name: "Music.medium", menu: composeMusic(result[0], 'Medium')},
+      {name: "Music.slow", menu: composeMusic(result[0], 'Slow')}
+    ];
+    
+    // 根据用户类型设置不同的数据集
+    setupDataSets(result);
+  } catch (error) {
+    console.error('Error fetching APIs: ', error);
   };
 };
 const specified = (index: number) => {
@@ -188,7 +193,10 @@ onMounted(async() => {
 <template>
   <div :class="[{'openNav': menuStore.openMenu !== 'off'}]">
     <!-- Junior模式 -->
-     <ListJuniorMode v-if="menuStore.isJuniorMode" />
+     <ListJuniorMode 
+      v-if="menuStore.isJuniorMode"
+      @remove-all="removeAll"
+    />
   
     <!-- 音乐列表主体 -->
     <div class="list__container checkout">
@@ -229,7 +237,7 @@ onMounted(async() => {
         <van-cell
           v-for="(item, idx) in musicStore.subMusic" 
           :key="idx" 
-          :title="item.name"
+          :title="$t(item.name)"
           @click="menuStore.toggleMenu(item.name)"
         />
       </van-list>
@@ -238,7 +246,7 @@ onMounted(async() => {
         <van-cell 
           v-for="(item, idx) in musicStore.subMusicUpdated"
           :key="idx"
-          :title="item.name"
+          :title="$t(item.name)"
           @click="menuStore.toggleMenu(item.name)"
         />
       </van-list>
@@ -269,6 +277,7 @@ onMounted(async() => {
         :list="item"
         @get-music="addMusic"
       />
+      <!-- updated -->
       <MusicListSlot
         v-for="(item, idx) in musicStore.subMusicUpdated" 
         :key="idx"

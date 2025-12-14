@@ -93,6 +93,14 @@ export const usePlaylist = () => {
       .menu.splice(item.index, 1);
   };
 
+  const removeMusic = (music:any, musicSelected: any) => {
+    if (music.order > musicSelected.order) {
+      music.order--;
+    } else if (music.order === musicSelected.order) {
+      music.order = null;
+    };
+  };
+
   const addChakra = (item:ChakraItem) => {
     musicStore.chakra.name = item.name;
     musicStore.chakra.num = item.idx;
@@ -105,6 +113,7 @@ export const usePlaylist = () => {
     addChakra,
     loadSongSets,
     saveSet,
-    removeSet
+    removeSet,
+    removeMusic
   }
 }

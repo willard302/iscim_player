@@ -45,6 +45,15 @@ export type Song = {
   intro?: string
   index?: number
   chakra?: number
+  checked?: boolean
+  order?: number
+}
+
+export type MusicMenu = {
+  name: string,
+  id?: string,
+  class?: string,
+  menu: Song[]
 }
 
 export type ChakraType = {
@@ -79,8 +88,8 @@ export type MusicStoreState = {
   name: string
   queue: Song[]
   item: null
-  subMusic: any[]
-  subMusicUpdated: any[]
+  subMusic: MusicMenu[]
+  subMusicUpdated: MusicMenu[]
   subSet: any[],
   chakra: ChakraInfo,
   slidePercent: number,

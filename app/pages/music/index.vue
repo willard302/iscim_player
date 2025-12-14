@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
-import logo from "../../assets/img/iscim-logo.png";
+import logo from "~/assets/img/iscim-logo.png";
 
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
