@@ -1,6 +1,5 @@
 [
   {
-    "amount": 3,
     "name": "Sleep 30min and Waking",
     "intro": "Sleep 30min and Waking",
     "content": [
@@ -27,7 +26,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "90min Sleep Cycle",
     "intro": "90min Sleep Cycle",
     "content": [
@@ -55,7 +53,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "Relax Learning",
     "intro": "Relax Learning",
     "content": [
@@ -81,7 +78,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "Relax Working",
     "intro": "Relax Working",
     "content": [
@@ -121,7 +117,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "Focus Working & Learning",
     "intro": "Focus Working & Learning",
     "content": [

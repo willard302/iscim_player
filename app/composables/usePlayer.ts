@@ -73,7 +73,7 @@ export const usePlayer = () => {
 
     playerStore.index = i;
     playerStore.src = item.src;
-    musicStore.name = item.name || 'Please Select Music';
+    musicStore.name = item.name;
 
     const audio = getAudio();
     if (!audio) return false;

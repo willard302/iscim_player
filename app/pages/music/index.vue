@@ -49,7 +49,7 @@ const handleProgress = () => {
       /> 
     </div>
     
-    <h3 class="music__title van-ellipsis">{{ musicStore.name }}</h3>
+    <h3 class="music__title van-ellipsis">{{ musicStore.queue.length === 0 ? $t(musicStore.name) : musicStore.name }}</h3>
     
     <div class="progress__container">
       <van-slider 
@@ -109,6 +109,8 @@ const handleProgress = () => {
         </div>
       </van-col>
     </van-row>
+
+    <disclaimer-notice />
   </div>
 </template>
 
@@ -122,7 +124,6 @@ const handleProgress = () => {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  padding: 0 var(--van-padding-md);
 }
 
 .music__title {

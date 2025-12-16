@@ -1,6 +1,5 @@
 [
   {
-    "amount": 3,
     "name": "Sleep 30min and Waking",
     "intro": "Five Elements Pub | Sleep 30min and Waking",
     "content": [
@@ -27,7 +26,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "90min Sleep Cycle",
     "intro": "Five Elements Pub | 90min Sleep Cycle",
     "content": [
@@ -55,7 +53,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "Relax Learning",
     "intro": "Five Elements Pub | Relax Learning",
     "content": [
@@ -81,7 +78,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "Relax Working",
     "intro": "Five Elements Pub | Relax Working",
     "content": [
@@ -121,7 +117,6 @@
     "newSet": false
   },
   {
-    "amount": 3,
     "name": "Focus Working & Learning",
     "intro": "Five Elements Pub | Focus Working & Learning",
     "content": [

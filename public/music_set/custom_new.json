@@ -1,7 +1,6 @@
 [
   {
     "id": 1,
-    "amount": 3,
     "name": "RelaxWorking_Cusom",
     "intro": "custom set 1",
     "content": [
@@ -13,7 +12,6 @@
   },
   {
     "id": 2,
-    "amount": 3,
     "name": "FocusWorkingLearning_Custom",
     "intro": "custom set 2",
     "content": [
@@ -25,7 +23,6 @@
   },
   {
     "id": 3,
-    "amount": 3,
     "name": "RelaxLearning_Custom",
     "intro": "custom set 3",
     "content": [
@@ -38,7 +35,6 @@
   },
   {
     "id": 4,
-    "amount": 3,
     "name": "90minSleepCycle_Custom",
     "intro": "custom set 4",
     "content": [
@@ -51,7 +47,6 @@
   },
   {
     "id": 5,
-    "amount": 3,
     "name": "Sleep30minWaking_Custom",
     "intro": "custom set 5",
     "content": [

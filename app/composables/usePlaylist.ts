@@ -1,7 +1,7 @@
 import { useMenuStore } from "~/store/useMenuStore";
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
-import type { ChakraItem, MusicSetList, Song } from "~/types/data.types";
+import type { ChakraType, Song } from "~/types/data.types";
 
 export const usePlaylist = () => {
   
@@ -35,7 +35,7 @@ export const usePlaylist = () => {
     addToLists(list);
 
     // 如果是第一首歌，立即加载
-    if (musicStore.name === "Please Select Music") {
+    if (musicStore.name === "Hints.select_music") {
       musicStore.name = list.name;
       playerStore.src = list.src;
     };
@@ -64,27 +64,22 @@ export const usePlaylist = () => {
     })
   };
 
-  const saveSet = (newSet: string) => {
-    let newList: MusicSetList = {
-      name: newSet,
-      amount: musicStore.queue.length - 1,
-      intro: "",
-      content: [],
-      chakra: []
-    };
-
+  const saveSet = (newSetName: string) => {
+    musicStore.initNewSet();
+    musicStore.name = newSetName;
     musicStore.queue.forEach((e) => {
-      newList.content.push({
-        title: e.name,
+      musicStore.newSet.content.push({
+        name: e.name,
+        id: e.name,
         src: e.src
       });
-      if (e.chakra) newList.chakra.push(e.chakra);
+      if (e.chakra) musicStore.newSet.chakra.push(e.chakra);
     });
     
     // 添加到自定义集合中
     musicStore.subSet
       .find(set => set.name === 'Set.custom')
-      .menu.push(newList);
+      .menu.push(musicStore.newSet);
   };
 
   const removeSet = (item: any) => {
@@ -101,7 +96,7 @@ export const usePlaylist = () => {
     };
   };
 
-  const addChakra = (item:ChakraItem) => {
+  const addChakra = (item: ChakraType) => {
     musicStore.chakra.name = item.name;
     musicStore.chakra.num = item.idx;
     menuStore.openMenu = 'off';

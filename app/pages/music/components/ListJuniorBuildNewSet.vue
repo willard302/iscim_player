@@ -7,9 +7,9 @@ const props = defineProps<{
   musicListsLocal: MusicMenu[]
 }>();
 
-onMounted(() => {
-  console.log(props.musicListsLocal)
-})
+const emit = defineEmits(['submit'])
+
+const checked = ref([]);
 
 const active = reactive({
   music: 0
@@ -22,24 +22,24 @@ const { removeMusic } = usePlaylist();
 
 const newLists = [
   { 
-    name: "working", 
+    name: "Music.working", 
     children: [
-      {name:'routine', id:'routine'}, 
-      {name:'major_meetings', id:'major_meetings'},
+      {name:'Music.routine', id:'routine'}, 
+      {name:'Music.major_meetings', id:'major_meetings'},
     ] 
   },
   { 
-    name: "reinforce_learning", 
+    name: "Music.reinforce_learning", 
     children: [
-      {name:'weekday_review', id:'weekday_review'}, 
-      {name:'review_before_exam', id:'review_before_exam'},
+      {name:'Music.weekday_review', id:'weekday_review'}, 
+      {name:'Music.review_before_exam', id:'review_before_exam'},
     ] 
   },
   { 
-    name: "take_a_nap", 
+    name: "Music.take_a_nap", 
     children: [
-      {name:'full_charge', id:'full_charge'}, 
-      {name:'fast_charge', id:'fast_charge'},
+      {name:'Music.full_charge', id:'full_charge'}, 
+      {name:'Music.fast_charge', id:'fast_charge'},
     ] 
   },
 ];
@@ -48,155 +48,166 @@ const showMenu = ref("");
 const musicOrder = ref(0);
 const musicListsSelected = ref<Song[]>([]);
 
-onMounted(() => {
-  menuStore.step = 1;
+const subTitle = computed((): string => {
+  switch(menuStore.step) {
+    case 1: return "Message.which_song_do_you_want_to_play";
+    case 2: return "Message.what_you_want_now";
+    default: return "";
+  };
 })
 
 const handleCheck = (music: any) => {
-  musicStore.subMusicUpdated.forEach(musicList => {
-  // musicList.menu.forEach(item => {
-  //   // console.log(item)
-  //   // if (item !== music) return;
+  props.musicListsLocal.forEach(musicList => {
+    musicList.menu.forEach(item => {
+      if (item !== music) return;
 
-  //   // if (!item.checked) {
-  //   //   musicOrder.value++;
-  //   //   musicListsSelected.value.push(item);
-  //   //   item.order = musicOrder.value;
-  //   //   return;
-  //   // };
+      item.checked = !item.checked;
 
-  //   // musicOrder.value--;
-  //   // musicListsSelected.value.forEach(one => removeMusic(one, music));
-  //   // musicListsSelected.value = musicListsSelected.value.filter(one => one.order !== null);
-  //   // removeMusic(item, music);
-  // });
-});
-}
+      if (item.checked) {
+        musicOrder.value++;
+        musicListsSelected.value.push(item);
+        item.order = musicOrder.value;
+        return;
+      };
 
-// const submitCustomSet = () => {
-//   if (showMenu.value === "") {
-//     showNotify({message:"message.please_select_a_music_situation"})
-//     return;
-//   };
-//   const setToEmit = JSON.parse(JSON.stringify(set));
+      musicOrder.value--;
+      musicListsSelected.value.forEach(one => removeMusic(one, music));
+      musicListsSelected.value = musicListsSelected.value.filter(one => one.order !== null);
+      removeMusic(item, music);
+    });
+  });
+};
 
-//   emit('hand-play', setToEmit);
-//   emit('hand-save-set', setToEmit);
+const handleNext = () => {
+  showMenu.value = '';
+  if (musicListsSelected.value.length === 0) {
+    showFailToast({message: $t("Message.please_select_a_music_at_least")});
+    return;
+  }; 
+  if (musicStore.newSet.name.length === 0) {
+    showFailToast({message: $t("Message.please_enter_a_name_for_the_set")});
+    return;
+  };
+  musicStore.newSet.content = musicListsSelected.value;
+  menuStore.step = 2;
+};
 
-//   // 重置状态
-//   menuStore.step = 0;
-//   isTab.value = "";
-//   initMusicListsSelected();
-// };
-const checked = ref([])
+const handleSubmit = () => {
+  emit('submit', musicStore.newSet)
+};
+
+const handleSelectMode = (e: string) => {
+  musicStore.newSet.mode = e;
+};
 </script>
 
 <template>
   <div>
-    <div class="audio__list__header">
-      <h3 class="audio__list__heading">
-        <span v-if="menuStore.step === 1">{{$t("Message.which_song_do_you_want_to_play")}}</span>
-        <span v-if="menuStore.step === 2">{{$t("Message.what_you_want_now")}}</span>
-      </h3>
-    </div>
+    <van-divider >{{$t(subTitle)}}</van-divider>
 
-    <!-- step1: 選擇音樂 -->
-    <template v-if="menuStore.step === 1">
-      <van-tabs
-        v-model:active="active.music"
-        sticky
-        type="card"
-      >
-        <van-tab
-          v-for="(m, mIdx) in musicListsLocal"
-          :key="mIdx"
-          :title="m.name"
-        >
-          <van-checkbox-group
-            v-model="checked"
+    <van-space class="content" direction="vertical" fill>
+      <div class="musicList__body">
+
+        <template v-if="menuStore.step === 1">
+          <van-tabs
+            v-model:active="active.music"
+            sticky
+            type="card"
           >
-            <van-checkbox 
-              v-for="(i, iIdx) in m.menu"
-              :name="i.name"
-              @click="handleCheck(i)"
+            <van-tab
+              v-for="(m, mIdx) in musicListsLocal"
+              :key="mIdx"
+              :title="$t(m.name)"
             >
-              {{ i.name }}
-            </van-checkbox>
-          </van-checkbox-group>
-        </van-tab>
-      </van-tabs>
-      <!-- <ul
-        v-for="(item, idx) in musicStore.subMusicUpdated" 
-        :key="idx"
-      >
-        <li
-          v-for="(one, idx) of item.menu" 
-          :key="idx"
-          :class="['music__item', {'selected': one.checked}]"
-        >
-          <label :for="one.id">
-            {{ one.name }}
-            <div class="checkBox">
-              {{ one.order }}
-            </div> 
-          </label>
-          <input 
-            :id="one.id" 
-            type="checkbox" 
-            v-model="one.checked" 
-            @click.stop="handleCheck(one)"
+              <van-checkbox-group v-model="checked">
+                <van-cell-group inset>
+                  <van-cell
+                    v-for="(i, iIdx) in m.menu"
+                    :key="iIdx"
+                    :title="i.name"
+                    @click="handleCheck(i)"
+                    clickable
+                  >
+                    <template #right-icon>
+                      <van-checkbox :name="i.name">
+                        <template #icon>
+                          {{ i.order === 0 ? null : i.order }}
+                        </template>
+                      </van-checkbox>
+                    </template>
+                  </van-cell>
+                </van-cell-group>
+              </van-checkbox-group>
+            </van-tab>
+          </van-tabs>
+        </template>
+
+        <template v-if="menuStore.step === 2">
+          <van-space direction="vertical" fill>
+            <div
+              v-for="(item, idx) in newLists" 
+              :key="idx" 
+              class="custom-button"
+            >
+              <van-divider>{{ $t(item.name) }}</van-divider>
+              <van-row>
+                <van-col
+                  v-for="(c, cIdx) in item.children"
+                  :key="cIdx"
+                  span="12"
+                >
+                  <van-button @click="handleSelectMode(c.id)">{{ $t(c.name) }}</van-button>
+                </van-col>
+              </van-row>
+            </div>
+          </van-space>
+        </template>
+      </div>
+      <van-divider />
+      <div class="musicList__footer custom-button">
+        <template v-if="menuStore.step === 1">
+          <van-field 
+            v-model="musicStore.newSet.name"
+            type="text"
+            :placeholder="$t('Message.please_enter_a_name_for_the_set')" 
           />
-        </li>
-      </ul> -->
-    </template>
-
-    <!-- 步骤2：选择选项 -->
-    <!-- <template v-if="menuStore.step === 2">
-      <ul
-        v-for="(item, idx) in newLists" 
-        :key="idx" 
-        class="tab__wrap flex-column"
-      >
-        <li class="tab__item">
-          <div class="c-button-2 pure">{{ $t(item.name) }}</div>
-        </li>
-        <li class="tab__item">
-          <TopTabbar
-            className="music__option flex-row"
-            :items="item.children" 
-            :activeTab="showMenu"
-            @tab-change="onClickAction"
-          ></TopTabbar>
-        </li>
-      </ul>
-    </template> -->
-
-    <div class="tab__item audio__list__footer mt-10">
-      <template v-if="menuStore.step === 1" >
-        <div>
-          <!-- <input 
-            class="music__item set__name" 
-            v-model="set.name"
-            type="text" 
-            :placeholder="$t('message.please_enter_a_name_for_the_set')" 
-          /> -->
-        </div>
-        <!-- <button 
-          class="c-button-2" 
-          @click="onClickAction('select_option')"
-        >
-          {{$t('Next')}}
-        </button> -->
-      </template>
-      <!-- <button 
-        v-if="menuStore.step === 2" 
-        class="c-button-2" 
-        @click="onClickAction('submit')"
-      >
-        {{$t('save_and_play')}}
-      </button> -->
-    </div>
+          <van-button class="van-tab--card" @click="handleNext()">
+            {{ $t("Menu.next") }}
+          </van-button>
+        </template>
+        <template v-if="menuStore.step === 2">
+          <van-button class="van-tab--card" @click="handleSubmit()">
+            {{ $t("Menu.save_and_play") }}
+          </van-button>
+        </template>
+      </div>
+    </van-space>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+@use 'sass:color';
+
+  .van-checkbox__icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+  }
+  .van-cell-group--inset {
+    --van-cell-group-background: transparent;
+  }
+  .van-cell--clickable {
+    --van-cell-background: transparent;
+  }
+  .van-divider {
+    --van-divider-border-color: $color23;
+    --van-divider-margin: 10px;
+  }
+
+  .musicList__body .van-cell-group {
+    height: 40vh;
+    overflow-y: scroll;
+  }
+</style>
+

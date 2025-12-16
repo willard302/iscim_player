@@ -6,7 +6,7 @@ import { useMainStore } from '~/store/useMainStore';
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
-import type { ChakraItem, Song } from '~/types/data.types';
+import type { ChakraType, Song } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
 const player = usePlayer();
@@ -16,7 +16,7 @@ const playerStore = usePlayerStore();
 const menuStore = useMenuStore();
 
 const user = mainStore.userInfo;
-const subChakra: ChakraItem[] = [
+const subChakra: ChakraType[] = [
   { name: "Chakra.Balance", idx: 0, id: "Balance" },
   { name: "Chakra.Overall", idx: 99, id: "OverAll" },
   { name: "Chakra.Root", idx: 1, id: "Root" },
@@ -156,7 +156,7 @@ const removeList = (index: number) => {
 
     playerStore.index = -1;
     playerStore.src = "";
-    musicStore.name = "Please Select Music"
+    musicStore.name = "Hints.select_music";
     return;
   };
   
@@ -297,6 +297,8 @@ onMounted(async() => {
         @remove-music="removeSet"
       />
     </div>
+    <van-divider />
+    <disclaimer-notice />
   </div>
 </template>
 
@@ -304,12 +306,15 @@ onMounted(async() => {
 @use "sass:color";
 .list__container {
   width: 100%;
-  position: absolute;
-  top: 46px;
-  left: 0;
 }
 
 .list__container.checkout {
+
+  .van-list {
+    height: 60vh;
+    overflow-y: scroll;
+  }
+
   .van-cell {
     background: transparent;
   }
@@ -320,6 +325,12 @@ onMounted(async() => {
 }
 
 .list__container.menu {
+
+  position: absolute;
+  top: 48px;
+  left: 0;
+  z-index: 99;
+
   .van-cell {
     background: color.adjust($color: #ffffff, $alpha: -0.1);
   }
