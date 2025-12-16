@@ -84,6 +84,7 @@ export type MusicStoreState = {
   slidePercent: number
   diskRotation: number
   isDragging: boolean
+  isLoaded: boolean
 }
 
 export type PlayerStoreState = {

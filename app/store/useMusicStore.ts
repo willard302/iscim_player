@@ -1,4 +1,4 @@
-import type { MusicStoreState } from "~/types/data.types";
+import type { MusicStoreState, Song } from "~/types/data.types";
 import { usePlayerStore } from "./usePlayerStore";
 
 
@@ -29,7 +29,8 @@ export const useMusicStore = defineStore("music", () => {
     },
     slidePercent: 0,
     diskRotation: 0,
-    isDragging: false
+    isDragging: false,
+    isLoaded: false
   });
 
   const setLoop = () => {
@@ -38,6 +39,13 @@ export const useMusicStore = defineStore("music", () => {
     let nextMode = modeList[(modeIdx + 1) % modeList.length];
     if (!nextMode) return; 
     playerStore.loop = nextMode;
+  };
+
+  const composeMusic = (musicList: Song[], musicClass: string) => {
+    return musicList.map(music => ({
+      ...music,
+      name: `${musicClass} ${music.name}`
+    }));
   };
 
   const resetMusic = () => {
@@ -54,13 +62,14 @@ export const useMusicStore = defineStore("music", () => {
       chakra: {},
       content: []
     })
-  }
+  };
 
   return {
     ...toRefs(state),
     setLoop,
+    composeMusic,
     resetMusic,
-    initNewSet
+    initNewSet,
   };
 },
 {

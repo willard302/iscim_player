@@ -56,13 +56,7 @@ const getApiUrls = () => {
     "/music_set/default_fiveElements.json",
   ];
 };
-const composeMusic = (musicList: Song[], musicClass: string) => {
-  const menu: Song[] = musicList.map(music => ({
-    ...music,
-    name: `${musicClass} ${music.name}`
-  }));
-  return menu;
-};
+
 const setupDataSets = (result:any) => {
   if (musicStore.type === 'pro') {
     musicStore.subSet = [
@@ -82,11 +76,11 @@ const setupDataSets = (result:any) => {
     musicStore.subMusicUpdated = [
       {
         name: "Menu.numbers_music",
-        menu: composeMusic(result[4], 'Numbers')
+        menu: musicStore.composeMusic(result[4], 'Numbers')
       },
       {
         name: "Menu.five_elements_music",
-        menu: composeMusic(result[4], "Five_Elements")
+        menu: musicStore.composeMusic(result[4], "Five_Elements")
       }
     ];
   } else {
@@ -125,9 +119,9 @@ const loadApiData = async() => {
     const result = await Promise.all(request);
     //  设置基础音乐数据 
     musicStore.subMusic = [
-      {name: "Music.fast", menu: composeMusic(result[0], 'Fast')},
-      {name: "Music.medium", menu: composeMusic(result[0], 'Medium')},
-      {name: "Music.slow", menu: composeMusic(result[0], 'Slow')}
+      {name: "Music.fast", menu: musicStore.composeMusic(result[0], 'Fast')},
+      {name: "Music.medium", menu: musicStore.composeMusic(result[0], 'Medium')},
+      {name: "Music.slow", menu: musicStore.composeMusic(result[0], 'Slow')}
     ];
     
     // 根据用户类型设置不同的数据集
