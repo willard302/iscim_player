@@ -4,18 +4,25 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const { logout } = useAuth();
   const mainStore = useMainStore();
 
-  if (!mainStore.isAuthenticated || mainStore.userInfo === null) {
-    logout;
-    navigateTo('/auth');
-    return console.log("not authenticated...");;
+  if (to.path === '/auth') return;
+
+  if (!mainStore.isAuthenticated || !mainStore.userInfo) {
+    console.warn("not authenticated...");
+    if (typeof logout === 'function') logout();
+    return navigateTo('/auth');
   };
 
-  if (to.fullPath === '/') {
+  if (to.path === '/') {
     return navigateTo('/home');
   };
 
-  const isTabBarCorrect = to.path.includes(mainStore.tabBarActive);
-  if (!isTabBarCorrect) {
-    mainStore.setTabBarActive(to.href.split('/').join(''));
+
+  if (mainStore.tabBarActive) {
+    const isTabBarCorrect = to.path.includes(mainStore.tabBarActive);
+    if (!isTabBarCorrect) {
+      const newTab = to.path.split('/').join('');
+      if (!newTab) return;
+      mainStore.setTabBarActive(newTab);
+    }
   }
 })
