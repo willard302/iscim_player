@@ -120,11 +120,11 @@ const handleShowPassword = (type: string) => {
       />
     </van-popup>
 
-    <div v-if="props.buttonItems" :class="['button__menu', props.buttonClass]">
+    <div v-if="props.buttonItems" :class="['button__menu custom-button', props.buttonClass]">
       <van-button 
         v-for="(btnItem, btnIdx) in props.buttonItems"
         :key="btnIdx"
-        round block
+        block
         type="primary"
         :native-type="btnItem.type"
         @click="handleOnClick(btnItem)"
