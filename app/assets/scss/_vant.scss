@@ -1,0 +1,58 @@
+@use 'sass:color';
+
+.custom-tab {
+  .van-tabs__wrap {
+    overflow: visible;
+  }
+  .van-tabs__nav--card {
+    height: 48px;
+    border: 0;
+    margin: 0;
+    background: transparent;
+  }
+  .van-tab--card {
+    color: $color-font;
+    line-height: 1;
+    font-weight: 500;
+    font-feature-settings: "palt" 1;
+    text-align: center;
+    border: 1px solid color.adjust($color9, $alpha: -0.85);
+    box-shadow: 2px 2px 3px color.scale($color8, $lightness: 12%);
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover,
+    &:focus,
+    &.van-tab--active {
+      color: color.scale($color13, $lightness: -20%);
+      box-shadow: unset;
+      border: 2px solid $color13;
+      background-image: linear-gradient(to right top, #f0e596, rgb(255, 249.2429906542, 199), #e6cca6);
+    }
+  }
+}
+
+.custom-button {
+  .van-button {
+    width: 100%;
+    color: $color-font;
+    border: 1px solid color.adjust($color9, $alpha: -0.85);
+    box-shadow: 2px 2px 3px color.scale($color8, $lightness: 12%);
+    background: transparent;
+
+    &:hover,
+    &:focus,
+    &.van-tab--active {
+      color: color.scale($color13, $lightness: -20%);
+      box-shadow: unset;
+      border: 2px solid $color13;
+    }
+  }
+}
+
+.van-notice-bar {
+  border: 1.5px solid #000000;
+  border-radius: 10px;
+  --van-notice-bar-line-height: 20px;
+  margin-top: 10px;
+}
