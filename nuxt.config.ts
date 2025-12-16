@@ -15,7 +15,10 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   components: true,
-  css: ['~/assets/scss/main.scss'],
+  css: [
+    '~/assets/scss/main.scss',
+    '~/assets/scss/_vant.scss'
+  ],
   devtools: { enabled: true },
   fontawesome: {
     icons: {
@@ -71,7 +74,7 @@ export default defineNuxtConfig({
       login: '/auth',
       callback: '/auth/confirm',
     },
-    types: '~/app/types/database.types.ts'
+    types: '~/types/database.types.ts'
   },
   typescript: {
     typeCheck: true,
@@ -81,11 +84,6 @@ export default defineNuxtConfig({
     defaultLocale: 'zh-TW'
   },
   vite: {
-    plugins: [
-      Components({
-        resolvers: [VantResolver()]
-      })
-    ],
     css: {
       preprocessorOptions: {
         scss: {
@@ -94,6 +92,17 @@ export default defineNuxtConfig({
             @use "~/assets/scss/_mixin.scss" as *;
           `
         }
+      }
+    },
+    plugins: [
+      Components({
+        resolvers: [VantResolver()]
+      })
+    ],
+    server: {
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost'
       }
     }
   }
