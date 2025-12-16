@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <div class="auth__container">
+  <div class="auth__container custom-tab">
     <van-tabs 
       v-model:active="active" 
       sticky 
@@ -38,13 +38,6 @@
 
 <style scoped lang="scss">
   .auth__container {
-    position: fixed;
-    top: 10%;
     text-align: center;
-  }
-  :deep(.van-tabs__nav--card) {
-    height: 40px;
-    border-radius: 10px;
-    overflow: hidden;
   }
 </style>
