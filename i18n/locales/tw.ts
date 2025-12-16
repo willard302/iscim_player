@@ -10,6 +10,7 @@ export default {
   iscim_music: "雲端音樂",
   log_in: "登入",
   log_out: "登出",
+  next: "下一頁",
   password: "密碼",
   password_confirm: "確認密碼",
   profile: "個人資料",
@@ -68,9 +69,36 @@ export default {
     tw: '中'
   },
   Menu: {
+    build_new_set: "建立清單",
     custom_music: "個人單曲",
+    five_elements_music: "五行音樂",
+    load_set: "讀取清單",
     music: "單曲",
+    next: "下一頁",
+    numbers_music: "數字音樂",
+    remove_all: "移除全部",
+    save_and_play: "儲存並播放",
     set: "套餐"
+  },
+  Message: {
+    please_enter_a_name_for_the_set: "請輸入歌單名稱",
+    please_select_a_music_at_least: "請至少選擇一首單曲",
+    what_you_want_now: "您現在想要的是？",
+    which_song_do_you_want_to_play: "請問您想播哪首歌？"
+  },
+  Music: {
+    fast: "快速版",
+    fast_charge: "快速充電",
+    full_charge: "完整充電",
+    major_meetings: "重大會議",
+    medium: "正常版",
+    reinforce_learning: "強化學習",
+    review_before_exam: "考前衝刺",
+    routine: "例行公事",
+    slow: "慢速版",
+    take_a_nap: "小憩片刻",
+    weekday_review: "平日複習",
+    working: "工作中",
   },
   Set: {
     custom: "客製化清單",
