@@ -46,7 +46,7 @@ export type Song = {
   index?: number
   chakra?: number
   checked?: boolean
-  order?: number
+  order?: number | null
 }
 
 export type MusicMenu = {
@@ -58,22 +58,10 @@ export type MusicMenu = {
 
 export type ChakraType = {
   name: string,
-  num: number,
+  id?: string,
+  num?: number,
   idx: number,
-  list: any[]
-}
-
-export type ChakraItem = {
-  name: string,
-  idx: number,
-  id: string
-}
-
-export type ChakraInfo = {
-  name: string,
-  num: number,
-  idx: number,
-  lists: any[],
+  lists?: any[]
 }
 
 export type MenuStoreState = {
@@ -90,10 +78,11 @@ export type MusicStoreState = {
   item: null
   subMusic: MusicMenu[]
   subMusicUpdated: MusicMenu[]
-  subSet: any[],
-  chakra: ChakraInfo,
-  slidePercent: number,
-  diskRotation: number,
+  subSet: any[]
+  chakra: ChakraType
+  newSet: SetType
+  slidePercent: number
+  diskRotation: number
   isDragging: boolean
 }
 
@@ -110,23 +99,11 @@ export type PlayerStoreState = {
   duraTime: string
 }
 
-interface SetList {
-  title: string,
-  src: string
-}
-
-export type MusicSetList = {
-  name: string,
-  amount: number,
-  intro: string,
-  content: SetList[],
-  chakra: any[],
-}
-
-export type MenuTypes = {
-  navMenu: boolean
-  music: boolean
-  mymusic: boolean
-  set: boolean
-  chakra: boolean
+export type SetType = {
+  name: string
+  type: string
+  content: Song[]
+  chakra?: any
+  intro?: string
+  mode?: string
 }

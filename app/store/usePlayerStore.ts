@@ -6,7 +6,7 @@ export const usePlayerStore = defineStore("player", () => {
     isPlaying:false,
     src: "",
     index: -1,
-    volume: 1,
+    volume: 100,
     volume_on: true,
     loop: "normal",
     currentSec: 0,

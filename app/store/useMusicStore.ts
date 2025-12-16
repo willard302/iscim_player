@@ -3,7 +3,7 @@ import { usePlayerStore } from "./usePlayerStore";
 
 
 export const useMusicStore = defineStore("music", () => {
-
+  
   const playerStore = usePlayerStore();
 
   const state = reactive<MusicStoreState>({
@@ -20,6 +20,13 @@ export const useMusicStore = defineStore("music", () => {
       idx: 0,
       lists: []
     },
+    newSet: {
+      name: "",
+      type: "custom",
+      mode: "",
+      chakra: {},
+      content: []
+    },
     slidePercent: 0,
     diskRotation: 0,
     isDragging: false
@@ -34,15 +41,26 @@ export const useMusicStore = defineStore("music", () => {
   };
 
   const resetMusic = () => {
-    state.name = "Please Select Music";
+    state.name = "Hints.select_music";
     state.queue = [];
     state.slidePercent = 0;
   };
 
+  const initNewSet = () => {
+    Object.assign(state.newSet, {
+      name: "",
+      type: "custom",
+      mode: "",
+      chakra: {},
+      content: []
+    })
+  }
+
   return {
     ...toRefs(state),
     setLoop,
-    resetMusic
+    resetMusic,
+    initNewSet
   };
 },
 {
