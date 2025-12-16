@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DisclaimerNotice from '~/components/DisclaimerNotice.vue';
+
 definePageMeta({title: "introduce"})
 </script>
 
@@ -17,15 +19,7 @@ definePageMeta({title: "introduce"})
         <div>{{$t("Introduce.artist")}}</div>
         <div>{{$t("Introduce.composition")}}</div>
       </van-notice-bar>
-
-      <van-notice-bar 
-        class="disclaimer" 
-        background="transparent"
-        color="red"
-        wrapable
-      >
-        《 {{$t("Disclaimer.title")}} 》 {{$t("Disclaimer.content")}}
-      </van-notice-bar>
+      <disclaimer-notice />
     </div>
   </van-space>
 </template>
@@ -37,18 +31,7 @@ definePageMeta({title: "introduce"})
   justify-content: space-between;
 }
 
-.van-notice-bar {
-  border: 1.5px solid #000000;
-  border-radius: 10px;
-  --van-notice-bar-line-height: 20px;
-  margin-top: 10px;
-}
-
 .article__container {
   line-height: 24px;
-}
-
-.disclaimer {
-  align-items: flex-start;
 }
 </style>
