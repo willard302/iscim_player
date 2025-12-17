@@ -5,7 +5,7 @@ export type ButtonItem = {
   text: string
   type: ButtonNativeType
   to?: string
-  action?: string
+  action?: () => void
 };
 
 export type FieldOption = {

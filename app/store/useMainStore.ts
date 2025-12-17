@@ -3,8 +3,6 @@ import type { UserRow, UserUpdate } from "~/types/supabase"
 
 export const useMainStore = defineStore('main', () => {
 
-  
-
   const state = reactive<MainStoreState>({
     isAuthenticated: false,
     tabBarActive: "home",
