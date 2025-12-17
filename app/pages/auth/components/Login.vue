@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { useMainStore } from '~/store/useMainStore';
 import type { ButtonItem, FieldItem } from '~/types/data.types';
+import { useMainStore } from '~/store/useMainStore';
+import { useAuthStore } from '~/store/useAuthStore';
 const { login, showPassword } = useAuth();
 const { getUser, insertUser } = useDataBase();
 const router = useRouter();
 const mainStore = useMainStore();
+const authStore = useAuthStore();
 
-const buttonItems: ButtonItem[] = [
-  { text: "submit", type: "submit" }
-];
 const fieldItems: FieldItem[] = reactive([
   { 
     label: "username",
@@ -31,6 +30,11 @@ const fieldItems: FieldItem[] = reactive([
     autocomplete: "current-password"
   }
 ]);
+
+const buttonItems: ButtonItem[] = [
+  { text: "log_in", type: "submit" },
+  { text: "Menu.forget_password", type: "button", action: authStore.handleShowForgetPassword }
+];
 
 const handleLogin = async(account: FieldItem[]) => {
   showLoadingToast({
@@ -89,6 +93,7 @@ const handleShowPassword = (name: string) => {
     :fieldItems="fieldItems"
     :buttonItems="buttonItems"
     @submit="handleLogin"
+    @button="authStore.handleShowForgetPassword"
     @passwordToggle="handleShowPassword"
   />
 </template>

@@ -58,7 +58,8 @@ const onCancel = () => {
 
 const handleShowPassword = (type: string) => {
   emit('passwordToggle', type);
-}
+};
+
 </script>
 
 <template>
