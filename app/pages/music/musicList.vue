@@ -193,7 +193,7 @@ onMounted(async() => {
     />
   
     <!-- 音乐列表主体 -->
-    <div v-show="menuStore.openMenu !== 'off'" class="list__container checkout">
+    <div v-show="menuStore.openMenu === 'off'" class="list__container checkout">
       <van-list>
         <van-cell 
           v-for="(list, idx) in musicStore.queue" 

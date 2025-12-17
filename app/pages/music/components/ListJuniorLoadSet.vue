@@ -1,33 +1,46 @@
 <script setup lang="ts">
 import { useMusicStore } from '~/store/useMusicStore';
-import MusicListSlot from './MusicListSlot.vue';
 
 const musicStore = useMusicStore();
+const {loadSongSets} = usePlaylist();
 
-const { loadSongSets, removeSet } = usePlaylist();
+const active = reactive({
+  set: 0
+});
+
+const handleSelect = (e: any) => {
+  loadSongSets(e, e.chakra)
+}
 </script>
 
 <template>
-
-  <div>
-    ListJuniorLoadSet
-  </div>
-
-  <!-- <TopTabbar
-    :items="musicStore.subSet"
-    :activeTab="showMenu"
-    @tab-change="onClickAction"
-  ></TopTabbar> -->
-
-  <!-- <music-list-slot
-    v-for="(item, idx) in musicStore.subSet"
-    :key="idx"
-    :list="item"
-    type="junior-mode"
-    className="customSet set__container scroll__container"
-    @get-music="loadSongSets"
-    @remove-music="removeSet"
-  /> -->
+  <van-tabs
+    v-model:active="active.set"
+    type="card"
+  >
+    <van-tab
+      v-for="(m, mIdx) in musicStore.subSet"
+      :key="mIdx"
+      :title="$t(m.name)"
+    >
+      <van-cell-group inset>
+        <van-cell
+          v-for="(i, iIdx) in m.menu"
+          :key="iIdx"
+          :title="i.name"
+          clickable
+          @click="handleSelect(i)"
+        />
+      </van-cell-group>
+    </van-tab>
+  </van-tabs>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .van-cell-group--inset {
+    --van-cell-group-background: transparent;
+  }
+  .van-cell--clickable {
+    --van-cell-background: transparent;
+  }
+</style>

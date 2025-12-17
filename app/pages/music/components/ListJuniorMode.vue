@@ -36,8 +36,7 @@ const items = reactive<TabItem[]>([
   },
   { 
     name: "Menu.load_set", 
-    comp: shallowRef(ListJuniorLoadSet), 
-    props: {} 
+    comp: shallowRef(ListJuniorLoadSet)
   },
   { 
     name: "Menu.remove_all", 
@@ -106,29 +105,6 @@ const onRemove = () => {
   emit('remove-all')
 };
 
-const onClickAction = (item:any) => {
-  switch(item) {
-    case "load_set":
-      isTab.value = (isTab.value === item) ? "" : item;
-      showMenu.value = 'numbers_set';
-      break;
-    case "build_new_set":
-      isTab.value = (isTab.value === item) ? "" : item;
-      menuStore.step = 1;
-      showMenu.value = 'numbers_music'
-      break;
-    default:
-      if (menuStore.step === 2) {
-        musicStore.newSet = item;
-        showMenu.value = item;
-      } else {
-        // 切换菜单显示
-        showMenu.value = item;
-      }
-      break;
-  }
-};
-
 const OnBeforeChange = (name: string) => {
   const targetItem = items.find(i => i.name === name);
 
@@ -158,7 +134,7 @@ const OnBeforeChange = (name: string) => {
       <component 
         :is="t.comp" 
         v-bind="t.props" 
-        v-on="t.events"
+        v-on="t.events || {}"
       />
     </van-tab>
   </van-tabs>
