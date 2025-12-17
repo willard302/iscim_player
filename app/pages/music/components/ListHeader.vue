@@ -14,18 +14,21 @@ const handleClickLeft = () => {
   menuStore.toggleMenu(menuStore.openMenu === 'off' ? 'listMode' : 'back');
 };
 const handleClickRight = () => {
-  menuStore.toggleMenu(menuStore.openMenu === 'off' ? 'navMenu' : 'off');
+  if (menuStore.isJuniorMode) {
+    menuStore.toggleMenu(menuStore.openMenu === 'off' ? 'juniorMenu' : 'off')
+  } else {
+    menuStore.toggleMenu(menuStore.openMenu === 'off' ? 'navMenu' : 'off');
+  }
 };
 </script>
 
 <template>
-   <van-nav-bar
+  <van-nav-bar
     fixed
-    left-arrow
     @click-left="handleClickLeft"
     @click-right="handleClickRight"
   >
-    <template #left>
+    <template #left v-if="!menuStore.isJuniorMode">
       <font-awesome v-show="!openSubNav" icon="arrow-left" />
     </template>
     <template #title>
@@ -47,5 +50,9 @@ const handleClickRight = () => {
 <style scoped lang="scss">
 :deep(.van-dropdown-menu__bar) {
   box-shadow: unset;
+}
+
+.van-nav-bar {
+  --van-nav-bar-z-index: 9999;
 }
 </style>

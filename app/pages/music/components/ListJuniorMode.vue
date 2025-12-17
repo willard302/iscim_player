@@ -130,14 +130,12 @@ const onClickAction = (item:any) => {
 };
 
 const OnBeforeChange = (name: string) => {
-  console.log(name)
   const targetItem = items.find(i => i.name === name);
 
   if (targetItem && targetItem.action) {
     targetItem.action();
     return false;
   };
-
   return true;
 }
 

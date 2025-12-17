@@ -188,12 +188,12 @@ onMounted(async() => {
   <div :class="[{'openNav': menuStore.openMenu !== 'off'}]">
     <!-- Junior模式 -->
      <ListJuniorMode 
-      v-if="menuStore.isJuniorMode"
+      v-if="menuStore.openMenu === 'juniorMenu'"
       @remove-all="removeAll"
     />
   
     <!-- 音乐列表主体 -->
-    <div class="list__container checkout">
+    <div v-show="menuStore.openMenu !== 'off'" class="list__container checkout">
       <van-list>
         <van-cell 
           v-for="(list, idx) in musicStore.queue" 

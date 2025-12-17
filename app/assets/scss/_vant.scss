@@ -1,6 +1,8 @@
 @use 'sass:color';
 
 .custom-tab {
+  --van-tabs-card-height: 60px;
+
   .van-tabs__wrap {
     overflow: visible;
   }

@@ -111,7 +111,6 @@ const handleSelectMode = (e: string) => {
         <template v-if="menuStore.step === 1">
           <van-tabs
             v-model:active="active.music"
-            sticky
             type="card"
           >
             <van-tab
