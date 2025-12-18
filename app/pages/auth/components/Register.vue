@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { showFailToast, showLoadingToast, showSuccessToast } from "vant";
 import type { ButtonItem, FieldItem } from "~/types/data.types";
 
 const router = useRouter();
-const { register, showPassword } = useAuth();
+const { showPassword } = useCommon();
+const { register } = useAuth();
 
 const fieldItems: FieldItem[] = reactive([
   { 
@@ -45,24 +45,14 @@ const handleRegister = async() => {
   const username = fieldItems.find(item => item.name === "username")?.value;
   const password = fieldItems.find(item => item.name === "password")?.value;
   const password_confirm = fieldItems.find(item => item.name === "password_confirm")?.value;
-  if (password !== password_confirm) return showFailToast("password is different");
-  showLoadingToast({
-    message: "Loading...",
-    forbidClick: true
-  });
+  if (password !== password_confirm) return showFailToast($t("Message.password_is_different"));
+  showLoadingToast("Loading...");
 
-  const { error } = await register(username as string, password as string);
+  const data = await register(username as string, password as string);
+  console.log(data)
 
-  if(error) {
-    showFailToast({
-      message: error.message,
-      forbidClick: true
-    })
-  } else {
-    showSuccessToast({
-      message: "register successfully",
-      forbidClick: true
-    });
+  if(data.user && data.user.id) {
+    showSuccessToast($t("Message.register_successfully"));
     router.push("/auth")
   }
 };

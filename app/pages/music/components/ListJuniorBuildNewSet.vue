@@ -81,11 +81,11 @@ const handleCheck = (music: any) => {
 const handleNext = () => {
   showMenu.value = '';
   if (musicListsSelected.value.length === 0) {
-    showFailToast({message: $t("Message.please_select_a_music_at_least")});
+    showFailToast($t("Message.please_select_a_music_at_least"));
     return;
   }; 
   if (musicStore.newSet.name.length === 0) {
-    showFailToast({message: $t("Message.please_enter_a_name_for_the_set")});
+    showFailToast($t("Message.please_enter_a_name_for_the_set"));
     return;
   };
   musicStore.newSet.content = musicListsSelected.value;

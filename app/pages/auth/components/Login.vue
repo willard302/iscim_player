@@ -2,7 +2,8 @@
 import type { ButtonItem, FieldItem } from '~/types/data.types';
 import { useMainStore } from '~/store/useMainStore';
 import { useAuthStore } from '~/store/useAuthStore';
-const { login, showPassword } = useAuth();
+const { login } = useAuth();
+const { showPassword } = useCommon()
 const { getUser, insertUser } = useDataBase();
 const router = useRouter();
 const mainStore = useMainStore();
@@ -37,10 +38,7 @@ const buttonItems: ButtonItem[] = [
 ];
 
 const handleLogin = async(account: FieldItem[]) => {
-  showLoadingToast({
-    message: "Loading...",
-    forbidClick: true
-  });
+  showLoadingToast("Loading...");
 
   const username = account.find(item => item.name === 'username')?.value;
   const password = account.find(item => item.name === 'password')?.value;
@@ -74,10 +72,7 @@ const handleLogin = async(account: FieldItem[]) => {
   if (user === null) {
     throw new Error(`the user is null.`)
   } else{
-    showSuccessToast({
-      message: "login successfully",
-      forbidClick: true
-    });
+    showSuccessToast($t("Message.login_successfully"));
     setTimeout(() => {
       router.push('/userCenter');
     }, 2000);

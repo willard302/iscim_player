@@ -7,7 +7,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (to.path === '/auth') return;
 
   if (!mainStore.isAuthenticated || !mainStore.userInfo) {
-    console.warn("not authenticated...");
     if (typeof logout === 'function') logout();
     return navigateTo('/auth');
   };

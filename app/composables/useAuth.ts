@@ -8,41 +8,45 @@ export const useAuth = () => {
 
   const login = async(email: string, password: string) => {
     
-    await logout();
+    await logout(false);
 
     const {data, error} = await client.auth.signInWithPassword({
       email, password
     });
 
-    if (error) throw (`Login failed: ${error.message}`);
+    if (error) throw new Error (error.message || 'Login failed');
 
     return data;
   };
 
-  const logout = async() => {
-    showLoadingToast('loading...')
-    const res = await client.auth.signOut();
-    if (!res.error) {
+  const logout = async(redirect = true) => {
+    showLoadingToast("Loading...");
+
+    try {
+      const {error} = await client.auth.signOut();
+      if (error) throw error;
+        
       mainStore.initAuth();
-      navigateTo('/auth');
-      return;
-    }
-    console.error('logout failed')
+
+      if (redirect) {
+        await navigateTo('/auth', { replace: true });
+      };      
+    } catch (error) {
+      console.error("Logout failed:", error);
+      showFailToast("Logout error")
+    } finally {
+      closeToast();
+    };
   };
 
   const register = async(username: string, password: string) => {
-    const result = await client.auth.signUp({
+    const {data, error} = await client.auth.signUp({
       email: username,
       password: password
     });
-    return result;
+    if (error) throw new Error(error.message)
+    return data;
   };
 
-  const showPassword = (fields: FieldItem[], name: string) => {
-    const password = fields.find(item => item.name === name);
-    if (!password) return;
-    password.type = password?.type === 'password' ? 'text' : 'password';
-  };
-
-  return { login, logout, register, showPassword }
+  return { login, logout, register }
 }

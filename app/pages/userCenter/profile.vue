@@ -11,13 +11,13 @@ const isEditable = ref(false);
 const onSubmit = async (val: Partial<UserRow>) => {
   if (!mainStore.userInfo || !mainStore.userInfo.id) throw new Error("There is no user data or user id.");
 
-  showLoadingToast({message: "Loading..."});
+  showLoadingToast("Loading...");
 
   mainStore.setUser(val)
   await updateUser(mainStore.userInfo.id, mainStore.userInfo);
   
   showSuccessToast({
-    message: 'saved success!',
+    message: $t("Message.save_successfully"),
     onClose: () => isEditable.value = false
   });
 };

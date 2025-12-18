@@ -1,3 +1,5 @@
+import type { FieldItem } from "~/types/data.types";
+
 export const useCommon = () => {
 
   const formatTime = (seconds: number) => {
@@ -23,8 +25,15 @@ export const useCommon = () => {
     return `${finalDate}T${hours}:${minutes}:${seconds}`;
   };
 
+  const showPassword = (fields: FieldItem[], name: string) => {
+    const password = fields.find(item => item.name === name);
+    if (!password) return;
+    password.type = password?.type === 'password' ? 'text' : 'password';
+  };
+
   return {
     formatTime,
     dateToString,
+    showPassword
   }
 }
