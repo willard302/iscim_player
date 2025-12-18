@@ -1,5 +1,4 @@
 import { useMainStore } from "~/store/useMainStore";
-import type { FieldItem } from "~/types/data.types";
 
 export const useAuth = () => {
   
@@ -20,8 +19,6 @@ export const useAuth = () => {
   };
 
   const logout = async(redirect = true) => {
-    showLoadingToast("Loading...");
-
     try {
       const {error} = await client.auth.signOut();
       if (error) throw error;
@@ -33,7 +30,6 @@ export const useAuth = () => {
       };      
     } catch (error) {
       console.error("Logout failed:", error);
-      showFailToast("Logout error")
     } finally {
       closeToast();
     };

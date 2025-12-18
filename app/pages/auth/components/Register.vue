@@ -46,10 +46,9 @@ const handleRegister = async() => {
   const password = fieldItems.find(item => item.name === "password")?.value;
   const password_confirm = fieldItems.find(item => item.name === "password_confirm")?.value;
   if (password !== password_confirm) return showFailToast($t("Message.password_is_different"));
+  
   showLoadingToast("Loading...");
-
   const data = await register(username as string, password as string);
-  console.log(data)
 
   if(data.user && data.user.id) {
     showSuccessToast($t("Message.register_successfully"));
