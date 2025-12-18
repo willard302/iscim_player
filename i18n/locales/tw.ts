@@ -90,8 +90,13 @@ export default {
     set: "套餐"
   },
   Message: {
+    loading: "讀取中",
+    login_successfully: "登入成功",
+    password_is_different: "密碼不一樣",
     please_enter_a_name_for_the_set: "請輸入歌單名稱",
     please_select_a_music_at_least: "請至少選擇一首單曲",
+    register_successfully: "註冊成功",
+    save_successfully: "儲存成功",
     what_you_want_now: "您現在想要的是？",
     which_song_do_you_want_to_play: "請問您想播哪首歌？"
   },

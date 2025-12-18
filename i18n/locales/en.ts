@@ -90,8 +90,13 @@ export default {
     set: "Set",
   },
   Message: {
+    loading: "Loading",
+    login_successfully: "Login successfully",
+    password_is_different: "Password is different",
     please_enter_a_name_for_the_set: "Please enter a name for the set.",
     please_select_a_music_at_least: "Please select a music at least.",
+    register_successfully: "Register successfully",
+    save_successfully: "save_successfully",
     what_you_want_now: "What you want now ?",
     which_song_do_you_want_to_play: "Which song do you want to play ?",
   },
