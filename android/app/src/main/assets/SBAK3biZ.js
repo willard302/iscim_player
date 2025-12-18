@@ -1,0 +1,1 @@
+import{r as h,G as n,ac as i,Q as r,J as c,am as u,an as l,y as d,b as g}from"./CxRIJn2k.js";const p=(a,o)=>{const t=h(),e=()=>{t.value=d(a).height};return n(()=>{i(e);for(let s=1;s<=3;s++)setTimeout(e,100*s)}),r(()=>i(e)),c([u,l],e),t};function f(a,o){const t=p(a);return e=>g("div",{class:o("placeholder"),style:{height:t.value?`${t.value}px`:void 0}},[e()])}export{f as u};
