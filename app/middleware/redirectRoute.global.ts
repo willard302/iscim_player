@@ -1,27 +1,29 @@
 import { useMainStore } from "~/store/useMainStore";
 
-export default defineNuxtRouteMiddleware((to, from) => {
-  const { logout } = useAuth();
+export default defineNuxtRouteMiddleware(async(to, from) => {
   const mainStore = useMainStore();
 
-  if (to.path === '/auth') return;
+  const publicRoutes = ['/auth', '/policy', '/en/policy'];
+  const isPublicRoute = publicRoutes.some(r => to.path.startsWith(r));
+
+  if (isPublicRoute) return;
 
   if (!mainStore.isAuthenticated || !mainStore.userInfo) {
-    if (typeof logout === 'function') logout();
-    return navigateTo('/auth');
+    const { logout } = useAuth();
+
+    if (typeof logout === 'function') await logout(false);
+
+    return navigateTo('/auth', {replace: true});
   };
 
   if (to.path === '/') {
     return navigateTo('/home');
   };
 
+  const parts = to.path.split('/').filter(Boolean);
+  const currentTab = parts[0];
 
-  if (mainStore.tabBarActive) {
-    const isTabBarCorrect = to.path.includes(mainStore.tabBarActive);
-    if (!isTabBarCorrect) {
-      const newTab = to.path.split('/').join('');
-      if (!newTab) return;
-      mainStore.setTabBarActive(newTab);
-    }
-  }
+  if (currentTab && mainStore.tabBarActive !== currentTab) {
+    mainStore.setTabBarActive(currentTab);
+  };
 })

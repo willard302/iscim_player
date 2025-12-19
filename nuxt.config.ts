@@ -73,6 +73,7 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: '/auth',
       callback: '/auth/confirm',
+      exclude: ["/policy/*", "/en/policy/*"]
     },
     types: '~/types/database.types.ts'
   },
