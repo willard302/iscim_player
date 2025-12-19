@@ -5,6 +5,7 @@ import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import Logo from '~/assets/img/iscim_player_logo.png';
 import ForgetPassword from './components/ForgetPassword.vue';
+import LocaleBar from '~/components/LocaleBar.vue';
 
   const authStore = useAuthStore();
 
@@ -21,7 +22,6 @@ import ForgetPassword from './components/ForgetPassword.vue';
   <div class="auth__container custom-tab">
       <van-tabs 
         v-model:active="active" 
-        sticky 
         type="card"
       >
         <van-image 
