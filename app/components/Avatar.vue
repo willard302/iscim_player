@@ -40,7 +40,7 @@ const onAfterRead = async (
 </script>
 
 <template>
-  <van-field name="uploader">
+  <van-field name="uploader" :border="false">
     <template #input>
       <van-uploader 
         v-model="avatar_url"
