@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
-import logo from "~/assets/img/iscim-logo.png";
+import logo from "~/assets/img/iscim_player_logo.png";
+import logo_pause from "~/assets/img/iscim_player_logo_pause.png";
 
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
@@ -45,7 +46,7 @@ const handleProgress = () => {
         width="240"
         fit="cover"
         round
-        :src="logo"
+        :src="playerStore.isPlaying ? logo_pause : logo"
       /> 
     </div>
     

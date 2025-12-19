@@ -11,7 +11,6 @@ const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 
 const active = ref('Menu.build_new_set')
-const isTab = ref("");
 const musicListsLocal = ref<MusicMenu[]>([]);
 const musicListsSelected = ref([]);
 const musicOrder = ref(0);
@@ -86,6 +85,7 @@ const initMusicListsSelected = () => {
 };
 
 const submitCustomSet = (e: any) => {
+  console.log(e)
   if (showMenu.value === "") {
     showNotify({message:"message.please_select_a_music_situation"})
     return;
@@ -96,8 +96,7 @@ const submitCustomSet = (e: any) => {
   emit('handle-save-set', setToEmit);
 
   // 重置状态
-  menuStore.step = 0;
-  isTab.value = "";
+  menuStore.resetStep();
   initMusicListsSelected();
 };
 

@@ -93,7 +93,8 @@ const handleNext = () => {
 };
 
 const handleSubmit = () => {
-  emit('submit', musicStore.newSet)
+  emit('submit', musicStore.newSet);
+  menuStore.resetStep()
 };
 
 const handleSelectMode = (e: string) => {

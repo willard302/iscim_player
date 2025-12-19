@@ -51,8 +51,4 @@ const handleClickRight = () => {
 :deep(.van-dropdown-menu__bar) {
   box-shadow: unset;
 }
-
-.van-nav-bar {
-  --van-nav-bar-z-index: 9999;
-}
 </style>

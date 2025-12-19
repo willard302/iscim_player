@@ -97,6 +97,7 @@ export const usePlayer = () => {
     } catch (error) {
       console.warn("Autoplay revented or load error: ", error);
       playerStore.isPlaying = false;
+      showFailToast("無法播放音訊");
     };
   };
 

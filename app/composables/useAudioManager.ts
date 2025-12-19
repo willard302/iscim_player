@@ -1,7 +1,7 @@
 let audioInstance: HTMLAudioElement | null = null;
 
 export const useAudioManager = () => {
-  const getAudio = (): HTMLAudioElement => {
+  const getAudio = (): HTMLAudioElement | null => {
     // 確保在客戶端執行
     if (typeof window === "undefined") return null as any;
 
@@ -16,6 +16,12 @@ export const useAudioManager = () => {
   const destroyAudio = () => {
     if (audioInstance) {
       audioInstance.pause();
+
+      audioInstance.ontimeupdate = null;
+      audioInstance.onended = null;
+      audioInstance.onloadedmetadata = null;
+      audioInstance.onerror = null;
+      
       audioInstance.src = "";
       audioInstance = null;
     }

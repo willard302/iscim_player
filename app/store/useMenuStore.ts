@@ -58,11 +58,15 @@ export const useMenuStore = defineStore('menu',() => {
         break;
     }
   };
+  const resetStep = () => {
+    state.step = 1;
+  }
 
   return {
     ...toRefs(state),
     toggleMenu,
-    backToMenu
+    backToMenu,
+    resetStep
   }
 },
 {
