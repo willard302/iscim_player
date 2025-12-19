@@ -9,6 +9,7 @@ import ForgetPassword from './components/ForgetPassword.vue';
   const authStore = useAuthStore();
 
   const active = ref(0);
+  const noticeText = ref("By choosing to continue, it is understood that you agree to our")
   
   const items = computed(() => [
     { name: 'log_in', comp: authStore.showForgetPassword ? ForgetPassword : Login },
@@ -37,12 +38,20 @@ import ForgetPassword from './components/ForgetPassword.vue';
         >
           <component :is="i.comp" />
         </van-tab>
+        <van-notice-bar wrapable>
+          {{ noticeText }}
+          <a href="/policy/service">{{$t("Notice.terms_of_service")}}</a>
+          {{ $t("and") }}
+          <a href="/policy/privacy">{{$t("Notice.privacy_policy")}}</a>
+        </van-notice-bar>
+        <disclaimer-notice />
       </van-tabs>
   </div>
 </template>
 
 <style scoped lang="scss">
-  .auth__container {
-    text-align: center;
+  .auth__container .van-image {
+    display: flex;
+    margin: auto;
   }
 </style>
