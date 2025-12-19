@@ -2,7 +2,7 @@
 
 <template>
   <LayoutHeader class="safe-area-top" />
-    <main class="bg-1">
+    <main class="theme-1">
       <slot />
     </main>
   <LayoutTabbar class="safr-area-bottom" />
