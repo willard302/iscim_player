@@ -2,7 +2,7 @@
 import type { ButtonItem, FieldItem } from '~/types/data.types';
 import { useMainStore } from '~/store/useMainStore';
 import { useAuthStore } from '~/store/useAuthStore';
-const { login } = useAuth();
+const { login, loginWithGoogle } = useAuth();
 const { showPassword } = useCommon()
 const { getUser, insertUser } = useDataBase();
 const router = useRouter();
@@ -81,16 +81,44 @@ const handleLogin = async(account: FieldItem[]) => {
 const handleShowPassword = (name: string) => {
   showPassword(fieldItems, name);
 };
+const handleGoogleLogin = async() => {
+  try {
+    showLoadingToast("Redirecting to Google...");
+    await loginWithGoogle();
+  } catch (error: any) {
+    showFailToast(error.message || "Google Login Failed")
+  }
+}
 </script>
 
 <template>
-  <FieldForm 
-    :fieldItems="fieldItems"
-    :buttonItems="buttonItems"
-    @submit="handleLogin"
-    @button="authStore.handleShowForgetPassword"
-    @passwordToggle="handleShowPassword"
-  />
+  <div class="login__container custom-button">
+    <FieldForm 
+      :fieldItems="fieldItems"
+      :buttonItems="buttonItems"
+      @submit="handleLogin"
+      @button="authStore.handleShowForgetPassword"
+      @passwordToggle="handleShowPassword"
+    />
+    <van-divider>{{ $t("or") }}</van-divider>
+    <div class="login__container--social">
+      <van-button
+        block
+        type="default"
+        @click="handleGoogleLogin()"
+      >
+        <template #icon>
+          <font-awesome :icon="['fab', 'google']" class="google-icon" />
+        </template>
+        Sign in with Google
+      </van-button>
+    </div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+  .login__container {
+    --van-divider-text-color: $color9;
+    --van-divider-border-color: $color8;
+  }
+</style>
