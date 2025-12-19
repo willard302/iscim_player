@@ -9,21 +9,15 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
   if (isPublicRoute) return;
 
   if (!mainStore.isAuthenticated || !mainStore.userInfo) {
-    const { logout } = useAuth();
 
-    if (typeof logout === 'function') await logout(false);
-
+    if (process.client) {
+      const { logout } = useAuth();
+      if (typeof logout === 'function') await logout(false);
+    }
     return navigateTo('/auth', {replace: true});
   };
 
   if (to.path === '/') {
     return navigateTo('/home');
-  };
-
-  const parts = to.path.split('/').filter(Boolean);
-  const currentTab = parts[0];
-
-  if (currentTab && mainStore.tabBarActive !== currentTab) {
-    mainStore.setTabBarActive(currentTab);
   };
 })

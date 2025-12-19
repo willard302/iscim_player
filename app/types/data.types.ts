@@ -33,7 +33,6 @@ export type Message = {
 
 export type MainStoreState = {
   isAuthenticated: boolean,
-  tabBarActive: string,
   locale: string,
   userInfo: UserInsert | UserUpdate
 }

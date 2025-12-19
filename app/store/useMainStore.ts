@@ -5,7 +5,6 @@ export const useMainStore = defineStore('main', () => {
 
   const state = reactive<MainStoreState>({
     isAuthenticated: false,
-    tabBarActive: "home",
     locale: "tw",
     userInfo: {}
   });
@@ -23,16 +22,11 @@ export const useMainStore = defineStore('main', () => {
     state.userInfo = {...value}
   };
 
-  const setTabBarActive = (active: string) => {
-    state.tabBarActive = active;
-  };
-
   return {
     ...toRefs(state),
     initAuth,
     setAuthenticiated,
-    setUser,
-    setTabBarActive
+    setUser
   }
 },
 {
