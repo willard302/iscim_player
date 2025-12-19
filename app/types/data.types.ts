@@ -108,3 +108,10 @@ export type SetType = {
   intro?: string
   mode?: string
 }
+
+export type PolicyPart = {
+  title: string
+  content?: string
+  contents?: string[]
+  lists?: string[]
+}
