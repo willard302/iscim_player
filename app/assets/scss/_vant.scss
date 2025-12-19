@@ -1,5 +1,10 @@
 @use 'sass:color';
 
+* {
+  --van-notice-bar-background: transparent;
+   --van-nav-bar-z-index: 9999;
+}
+
 .custom-tab {
   --van-tabs-card-height: 60px;
 
@@ -29,8 +34,16 @@
       color: color.scale($color13, $lightness: -20%);
       box-shadow: unset;
       border: 2px solid $color13;
-      background-image: linear-gradient(to right top, #f0e596, rgb(255, 249.2429906542, 199), #e6cca6);
+      background: transparent;
     }
+  }
+}
+
+.theme-1 .custom-tab .van-tab--card {
+  &:hover,
+  &:focus,
+  &.van-tab--active {
+    background-image: linear-gradient(to right top, #f0e596, rgb(255, 249.2429906542, 199), #e6cca6);
   }
 }
 
