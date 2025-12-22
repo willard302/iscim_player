@@ -110,6 +110,8 @@ export default {
     full_charge: "完整充電",
     major_meetings: "重大會議",
     medium: "正常版",
+    pro: "專業",
+    pub: "一般",
     reinforce_learning: "強化學習",
     review_before_exam: "考前衝刺",
     routine: "例行公事",

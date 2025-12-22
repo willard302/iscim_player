@@ -110,6 +110,8 @@ export default {
     full_charge: "Full Charge",
     major_meetings: "Major meetings",
     medium: "Medium",
+    pro: "Pro",
+    pub: "Pub",
     reinforce_learning: "Reinforce learning",
     review_before_exam: "Review before exam",
     routine: "Routine",
