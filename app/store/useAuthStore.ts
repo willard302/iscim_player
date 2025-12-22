@@ -1,15 +1,22 @@
 export const useAuthStore = defineStore("auth", () => {
   const state = reactive({
-    showForgetPassword: false
+    showForgetPassword: false,
+    active: "log_in",
+    showLogin: true,
   });
 
   const handleShowForgetPassword = () => {
     state.showForgetPassword = !state.showForgetPassword;
   };
+
+  const handleSwitchTab = (tab: string) => {
+    state.active = tab;
+  };
   
   return {
     ...toRefs(state),
-    handleShowForgetPassword
+    handleShowForgetPassword,
+    handleSwitchTab
   }
 },
 {

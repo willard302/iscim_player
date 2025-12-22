@@ -5,11 +5,9 @@ import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import Logo from '~/assets/img/iscim_player_logo.png';
 import ForgetPassword from './components/ForgetPassword.vue';
-import LocaleBar from '~/components/LocaleBar.vue';
 
   const authStore = useAuthStore();
 
-  const active = ref(0);
   const noticeText = ref("By choosing to continue, it is understood that you agree to our")
   
   const items = computed(() => [
@@ -21,7 +19,7 @@ import LocaleBar from '~/components/LocaleBar.vue';
 <template>
   <div class="auth__container custom-tab">
       <van-tabs 
-        v-model:active="active" 
+        v-model:active="authStore.active" 
         type="card"
       >
         <van-image 
@@ -35,6 +33,7 @@ import LocaleBar from '~/components/LocaleBar.vue';
           v-for="(i, idx) in items" 
           :key="idx"
           :title="$t(i.name)"
+          :name="i.name"
         >
           <component :is="i.comp" />
         </van-tab>

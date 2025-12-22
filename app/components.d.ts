@@ -28,10 +28,8 @@ declare module 'vue' {
     VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
     VanList: typeof import('vant/es')['List']
-    VanLoading: typeof import('vant/es')['Loading']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanNoticeBar: typeof import('vant/es')['NoticeBar']
-    VanOverlay: typeof import('vant/es')['Overlay']
     VanPicker: typeof import('vant/es')['Picker']
     VanPopup: typeof import('vant/es')['Popup']
     VanRow: typeof import('vant/es')['Row']
@@ -43,7 +41,6 @@ declare module 'vue' {
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
     VanUploader: typeof import('vant/es')['Uploader']
-    VanWatermark: typeof import('vant/es')['Watermark']
   }
 }
 
@@ -65,10 +62,8 @@ declare global {
   const VanIcon: typeof import('vant/es')['Icon']
   const VanImage: typeof import('vant/es')['Image']
   const VanList: typeof import('vant/es')['List']
-  const VanLoading: typeof import('vant/es')['Loading']
   const VanNavBar: typeof import('vant/es')['NavBar']
   const VanNoticeBar: typeof import('vant/es')['NoticeBar']
-  const VanOverlay: typeof import('vant/es')['Overlay']
   const VanPicker: typeof import('vant/es')['Picker']
   const VanPopup: typeof import('vant/es')['Popup']
   const VanRow: typeof import('vant/es')['Row']
@@ -80,5 +75,4 @@ declare global {
   const VanTabbarItem: typeof import('vant/es')['TabbarItem']
   const VanTabs: typeof import('vant/es')['Tabs']
   const VanUploader: typeof import('vant/es')['Uploader']
-  const VanWatermark: typeof import('vant/es')['Watermark']
 }
