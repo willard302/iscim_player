@@ -1,1 +1,0 @@
-import{e as a,I as t,J as n,c as o,o as r,K as s}from"./CxRIJn2k.js";const l=a({__name:"confirm",setup(i){const e=t();return n(e,()=>{if(e)return s("/home")},{immediate:!0}),(c,m)=>(r(),o("div",null,"Waiting for login..."))}});export{l as default};

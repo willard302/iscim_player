@@ -1,1 +1,0 @@
-import{_ as t,c as s,o,b9 as a}from"./CxRIJn2k.js";const c={},n={class:"theme-1"};function r(e,_){return o(),s("main",n,[a(e.$slots,"default",{},void 0,!0)])}const f=t(c,[["render",r],["__scopeId","data-v-e5011412"]]);export{f as default};
