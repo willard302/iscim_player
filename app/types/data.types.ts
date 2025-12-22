@@ -71,7 +71,7 @@ export type MenuStoreState = {
 }
 
 export type MusicStoreState = {
-  type: string
+  isPro: boolean
   name: string
   queue: Song[]
   item: null

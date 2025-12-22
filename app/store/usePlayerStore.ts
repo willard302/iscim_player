@@ -5,7 +5,7 @@ export const usePlayerStore = defineStore("player", () => {
   const state = reactive<PlayerStoreState>({
     isPlaying:false,
     src: "",
-    index: -1,
+    index: 0,
     volume: 100,
     volume_on: true,
     loop: "normal",
@@ -17,7 +17,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   const resetPlayer = () => {
     state.src = "";
-    state.index = -1;
+    state.index = 0;
     state.currentSec = 0;
     state.currentTime = "00:00";
     state.duration = 0;

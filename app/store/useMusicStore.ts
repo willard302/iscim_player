@@ -7,7 +7,7 @@ export const useMusicStore = defineStore("music", () => {
   const playerStore = usePlayerStore();
 
   const state = reactive<MusicStoreState>({
-    type: "pro",
+    isPro: false,
     name: "Hints.select_music",
     queue: [],
     item: null,
@@ -16,7 +16,7 @@ export const useMusicStore = defineStore("music", () => {
     subSet: [],
     chakra: {
       name: "enhance",
-      num: -1,
+      num: 0,
       idx: 0,
       lists: []
     },
@@ -64,12 +64,17 @@ export const useMusicStore = defineStore("music", () => {
     })
   };
 
+  const handleToggleType = () => {
+    state.isPro = !state.isPro
+  };
+
   return {
     ...toRefs(state),
     setLoop,
     composeMusic,
     resetMusic,
     initNewSet,
+    handleToggleType
   };
 },
 {

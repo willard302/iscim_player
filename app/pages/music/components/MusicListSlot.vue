@@ -2,14 +2,6 @@
 import { useMenuStore } from '~/store/useMenuStore'
 import type { MusicMenu } from '~/types/data.types'
 
-interface menuItem {
-  id: string
-  chakra: any
-  value: string
-  intro: string
-  name: string
-}
-
 const props = defineProps<{
   list: MusicMenu,
   type?: string,
@@ -19,8 +11,7 @@ const emit = defineEmits(['get-music', 'save-music', 'remove-music']);
 
 const newSet = ref("");
 const onEmitMusic = (item:any) => {
-  console.log(item)
-  emit('get-music', item);
+  emit('get-music', item, item.chakra);
 };
 
 const menuStore = useMenuStore();

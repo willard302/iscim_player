@@ -99,15 +99,13 @@ const handleProgress = () => {
         >
           <font-awesome :icon="playerStore.volume_on ? 'volume-high' : 'volume-off'" />
         </van-button>
-        <div style="flex: 1;">
-          <van-slider 
-            v-model="playerStore.volume"
-            :min="0"
-            :max="100"
-            button-size="10px"
-            @update:model-value="player.setVolume"
-          />
-        </div>
+        <van-slider 
+          v-model="playerStore.volume"
+          :min="0"
+          :max="100"
+          button-size="10px"
+          @update:model-value="player.setVolume"
+        />
       </van-col>
     </van-row>
 
