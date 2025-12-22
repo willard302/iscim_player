@@ -27,7 +27,7 @@ export const usePlaylist = () => {
       src: song.src,
       index: playerStore.index,
       chakra: chakra 
-        ? (chakra.num === 99 ? chakra : chakra.num)
+        ? (musicStore.chakra.num === 99 ? chakra : chakra.num)
         : (musicStore.chakra.num || 0)
     };
 
@@ -36,12 +36,14 @@ export const usePlaylist = () => {
 
     // 如果是第一首歌，立即加载
     if (musicStore.name === "Hints.select_music") {
+      console.log(list)
       musicStore.name = list.name;
       playerStore.src = list.src;
     };
   };
 
-  const loadSongSets = (musicList:any, chakraList = []) => {
+  const loadSongSets = (musicList:any, chakraList: number[]) => {
+    console.log(musicList, chakraList)
     const {idx: startIdx, num: chakraNum} = musicStore.chakra;
     let chakraIndex = startIdx;
     

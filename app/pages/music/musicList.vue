@@ -2,20 +2,17 @@
 definePageMeta({title:"album_list", layout: "music"});
 import ListJuniorMode from './components/ListJuniorMode.vue';
 import MusicListSlot from './components/MusicListSlot.vue';
-import { useMainStore } from '~/store/useMainStore';
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
-import type { ChakraType, Song } from '~/types/data.types';
+import type { ChakraType } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
 const player = usePlayer();
-const mainStore = useMainStore();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
 const menuStore = useMenuStore();
 
-const user = mainStore.userInfo;
 const subChakra: ChakraType[] = [
   { name: "Chakra.Balance", idx: 0, id: "Balance" },
   { name: "Chakra.Overall", idx: 99, id: "OverAll" },
@@ -36,11 +33,11 @@ const menu_1th = computed(() => {
   const myMusic = { name: "Menu.custom_music", id: "mymusic" };
   const pro = [chakra, set, music, myMusic];
   const pub = [set, music];
-  return user ? pro : pub;
+  return musicStore.isPro ? pro : pub;
 });
 
 const getApiUrls = () => {
-  if (musicStore.type === 'pro') {
+  if (musicStore.isPro) {
     return [
       "/music_default/menu.json",
       "/music_set/default_pro.json",
@@ -58,7 +55,7 @@ const getApiUrls = () => {
 };
 
 const setupDataSets = (result:any) => {
-  if (musicStore.type === 'pro') {
+  if (musicStore.isPro) {
     musicStore.subSet = [
       {
         name: "Set.numbers",
@@ -90,7 +87,7 @@ const setupDataSets = (result:any) => {
         menu: result[1],
       },
       {
-        name: "Set.fiveElements",
+        name: "Set.five_elements",
         menu: result[2]
       }
     ];
@@ -148,7 +145,7 @@ const removeList = (index: number) => {
     player.pauseMusic();
     musicStore.queue.splice(index, 1);
 
-    playerStore.index = -1;
+    playerStore.index = 0;
     playerStore.src = "";
     musicStore.name = "Hints.select_music";
     return;
@@ -311,6 +308,11 @@ onMounted(async() => {
 
   .van-cell {
     background: transparent;
+  }
+
+  :deep(.van-cell__value) {
+    max-width: 24px;
+    text-align: center;
   }
 
   .playing {
