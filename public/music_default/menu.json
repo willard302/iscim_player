@@ -3,60 +3,60 @@
     "id": "Relaxed Beta",
     "name": "Relaxed Beta",
     "intro": "Relaxed working state (e.g.,regular work)",
-    "src": "/music_default/Relaxed Beta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Relaxed%20Beta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L1JlbGF4ZWQgQmV0YS5tcDMiLCJpYXQiOjE3NjYzNzExNzksImV4cCI6MTc5NzkwNzE3OX0.7mM8dE1XQDMQTljOiHJBTbSf1Cjzqfq0z1F_pa0Rwh0"
   },
   {
     "id": "Relaxed Alpha",
     "name": "Relaxed Alpha",
     "intro": "Relaxed state of rest (e.g.,taking a break, spacing out, vegging out)",
-    "src": "/music_default/Relaxed Alpha.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Relaxed%20Alpha.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L1JlbGF4ZWQgQWxwaGEubXAzIiwiaWF0IjoxNzY2MzcxMjAyLCJleHAiOjE3OTc5MDcyMDJ9.Wc3N95Z38mHsCEychWHtd718UPJqpqEcHJSaLARirKU"
   },
   {
     "id": "Relaxed Theta",
     "name": "Relaxed Theta",
     "intro": "Relaxed light sleep (e.g., meditation, light sleep, half-sleep)",
-    "src": "/music_default/Relaxed Theta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Relaxed%20Theta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L1JlbGF4ZWQgVGhldGEubXAzIiwiaWF0IjoxNzY2MzcxMjI0LCJleHAiOjE3OTc5MDcyMjR9.KYaJ2MZ94gNDbECPoclCgKD6lozNRwaN1wGrJ0KSPWA"
   },
   {
     "id": "Relaxed H-Delta",
     "name": "Relaxed H-Delta",
     "intro": "Relaxed deep sleep (e.g., sleeping like a rock, be dead to the world)",
-    "src": "/music_default/Relaxed H-Delta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Relaxed%20H-Delta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L1JlbGF4ZWQgSC1EZWx0YS5tcDMiLCJpYXQiOjE3NjYzNzEyNDgsImV4cCI6MTc5NzkwNzI0OH0.nSLBaFVH9rrTPeVxOnZH16Xdw5VH49hqFEvPaVeTBig"
   },
   {
     "id": "Relaxed L-Delta",
     "name": "Relaxed L-Delta",
     "intro": "Relaxed deep sleep (brain waves with extremely low frequency)",
-    "src": "/music_default/Relaxed L-Delta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Relaxed%20L-Delta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L1JlbGF4ZWQgTC1EZWx0YS5tcDMiLCJpYXQiOjE3NjYzNzEyNzAsImV4cCI6MTc5NzkwNzI3MH0.hFUlLjDCleb6coGh_dwd391TwPdBmnOJBRsR2eTSB-4"
   },
   {
     "id": "Focused Beta",
     "name": "Focused Beta",
     "intro": "Concentrated working state (e.g., catching upon the report, taking an exam, in a confrontational competition)",
-    "src": "/music_default/Focused Beta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Focused%20Beta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L0ZvY3VzZWQgQmV0YS5tcDMiLCJpYXQiOjE3NjYzNzEyODgsImV4cCI6MTc5NzkwNzI4OH0.Mao5B-vB_M3dfjWh-zQK00XdsRELwcN1l7onk34O-9M"
   },
   {
     "id": "Focused Alpha",
     "name": "Focused Alpha",
     "intro": "Concentrated leisure state (e.g., playing mobile games or recreational games, shopping)",
-    "src": "/music_default/Focused Alpha.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Focused%20Alpha.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L0ZvY3VzZWQgQWxwaGEubXAzIiwiaWF0IjoxNzY2MzcxMzA0LCJleHAiOjE3OTc5MDczMDR9.MLkSMQmy3E63p7CJrgE4zme8U45VaLq0MqWSBCUoxB0"
   },
   {
     "id": "Focused Theta",
     "name": "Focused Theta",
     "intro": "A shallow state of meditation (e.g., shallow concentration, focus while meditating)",
-    "src": "/music_default/Focused Theta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Focused%20Theta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L0ZvY3VzZWQgVGhldGEubXAzIiwiaWF0IjoxNzY2MzcxMzQwLCJleHAiOjE3OTc5MDczNDB9.2ci3qi4UbdR8ynTD0BHDdNr1jnvp72V4zOOh1bG0iSM"
   },
   {
     "id": "Focused H-Delta",
     "name": "Focused H-Delta",
     "intro": "Deep meditation state (e.g., very deep meditation, into another time and space while meditating)",
-    "src": "/music_default/Focused H-Delta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Focused%20H-Delta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L0ZvY3VzZWQgSC1EZWx0YS5tcDMiLCJpYXQiOjE3NjYzNzEzNjQsImV4cCI6MTc5NzkwNzM2NH0.zqTOTV7JPo5WruODpR3rEcul7naBbQ5-xOS5l8_dNuE"
   },
   {
     "id": "Focused L-Delta",
     "name": "Focused L-Delta",
     "intro": "Deep meditation state (brain waves with extremely low frequency)",
-    "src": "/music_default/Focused L-Delta.mp3"
+    "src": "https://yntbuvjuyonqqenxcrzl.supabase.co/storage/v1/object/sign/music_default/Focused%20L-Delta.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jNTcyZDU2OC0xMmM4LTRiMmMtYjliMC00MTIzMGQwYzFjYTciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtdXNpY19kZWZhdWx0L0ZvY3VzZWQgTC1EZWx0YS5tcDMiLCJpYXQiOjE3NjYzNzEzODQsImV4cCI6MTc5NzkwNzM4NH0.2Wu4WBFcatdrPufR0EBEM1ae8LRgdZUkRRWuk4ESMNY"
   }
 ]
