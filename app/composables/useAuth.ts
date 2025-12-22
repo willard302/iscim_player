@@ -113,6 +113,7 @@ export const useAuth = () => {
       password: password
     });
     if (error) throw new Error(error.message)
+      
     return data;
   };
 

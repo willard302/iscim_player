@@ -38,7 +38,7 @@ const buttonItems: ButtonItem[] = [
 ];
 
 const handleLogin = async(account: FieldItem[]) => {
-  showLoadingToast("Loading...");
+  showLoadingToast($t("Message.loading"));
 
   const username = account.find(item => item.name === 'username')?.value;
   const password = account.find(item => item.name === 'password')?.value;
@@ -72,10 +72,10 @@ const handleLogin = async(account: FieldItem[]) => {
   if (user === null) {
     throw new Error(`the user is null.`)
   } else{
-    showSuccessToast($t("Message.login_successfully"));
-    setTimeout(() => {
-      router.push('/userCenter');
-    }, 2000);
+    showSuccessToast({
+      message: $t("Message.login_successfully"),
+      onClose: () => router.push('/userCenter')
+    });
   }
 };
 const handleShowPassword = (name: string) => {

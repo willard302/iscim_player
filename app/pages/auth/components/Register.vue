@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuthStore } from "~/store/useAuthStore";
 import type { ButtonItem, FieldItem } from "~/types/data.types";
 
 const router = useRouter();
@@ -47,17 +48,23 @@ const handleRegister = async() => {
   const password_confirm = fieldItems.find(item => item.name === "password_confirm")?.value;
   if (password !== password_confirm) return showFailToast($t("Message.password_is_different"));
   
-  showLoadingToast("Loading...");
+  showLoadingToast($t("Message.loading"));
   const data = await register(username as string, password as string);
 
   if(data.user && data.user.id) {
-    showSuccessToast($t("Message.register_successfully"));
-    router.push("/auth")
+    showSuccessToast({
+      message: $t("Message.register_successfully"), 
+      onClose: () => {
+        const authStore = useAuthStore();
+        authStore.handleSwitchTab("log_in");  
+      }
+    })
   }
 };
 const handleShowPassword = (name: string) => {
   showPassword(fieldItems, name);
 };
+
 </script>
 
 <template>

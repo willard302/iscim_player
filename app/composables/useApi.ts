@@ -1,9 +1,4 @@
-import { useLoadingStore } from "~/store/useLoadingStore"
-
 export const useApi = async <T>(url:string, options: any) => {
-  const loadingStore = useLoadingStore();
-
-  loadingStore.startLoading()
 
   try {
     const {data, error} = await useFetch<T>(url, {
@@ -21,8 +16,6 @@ export const useApi = async <T>(url:string, options: any) => {
   } catch (error) {
     console.error('Request Failed:', error);
     throw error;
-  } finally {
-    loadingStore.finishLoading();
-  }
+  };
 
 }
