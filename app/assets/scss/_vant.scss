@@ -46,6 +46,13 @@
     background-image: linear-gradient(to right top, #f0e596, rgb(255, 249.2429906542, 199), #e6cca6);
   }
 }
+.theme-2 .custom-tab .van-tab--card {
+  &:hover,
+  &:focus,
+  &.van-tab--active {
+    background-image: linear-gradient(to right top,#ead1fc, color.scale(#dadcff, $lightness: -10%),#d5e5fb);
+  }
+}
 
 .custom-button {
   .van-button {

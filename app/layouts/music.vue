@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import ListHeader from '~/pages/music/components/ListHeader.vue';
+import { useMusicStore } from '~/store/useMusicStore';
+const musicStore = useMusicStore();
 </script>
 
 <template>
   <ListHeader />
-    <main class="theme-1">
+    <main :class="musicStore.isPro ? 'theme-1' : 'theme-2'">
       <slot />
     </main>
   <LayoutTabbar />
