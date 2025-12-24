@@ -1,5 +1,6 @@
 <script setup lang="ts">
 definePageMeta({title:"album_list", layout: "music"});
+import MenuSlot from './components/MenuSlot.vue';
 import ListJuniorMode from './components/ListJuniorMode.vue';
 import MusicListSlot from './components/MusicListSlot.vue';
 import { useMenuStore } from '~/store/useMenuStore';
@@ -116,9 +117,9 @@ const loadApiData = async() => {
     const result = await Promise.all(request);
     //  设置基础音乐数据 
     musicStore.subMusic = [
-      {name: "Music.fast", menu: musicStore.composeMusic(result[0], 'Fast')},
-      {name: "Music.medium", menu: musicStore.composeMusic(result[0], 'Medium')},
-      {name: "Music.slow", menu: musicStore.composeMusic(result[0], 'Slow')}
+      {name: "Music.fast", id: "fast", menu: musicStore.composeMusic(result[0], 'Fast')},
+      {name: "Music.medium", id: "medium", menu: musicStore.composeMusic(result[0], 'Medium')},
+      {name: "Music.slow", id: "slow", menu: musicStore.composeMusic(result[0], 'Slow')}
     ];
     
     // 根据用户类型设置不同的数据集
@@ -182,15 +183,10 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div :class="[{'openNav': menuStore.openMenu !== 'off'}]">
-    <!-- Junior模式 -->
-     <ListJuniorMode 
-      v-if="menuStore.openMenu === 'juniorMenu'"
-      @remove-all="removeAll"
-    />
+  <div>
   
     <!-- 音乐列表主体 -->
-    <div v-show="menuStore.openMenu === 'off'" class="list__container checkout">
+    <div v-show="menuStore.active.musicList" class="list__container checkout">
       <van-list>
         <van-cell 
           v-for="(list, idx) in musicStore.queue" 
@@ -209,9 +205,20 @@ onMounted(async() => {
       </van-list>
     </div>
 
-    <div v-show="menuStore.openMenu !== 'off'" class="list__container menu">
+    <!-- Junior模式 -->
+    <ListJuniorMode 
+      v-if="menuStore.active.juniorMenu"
+      @remove-all="removeAll"
+    />
 
-      <van-list v-show="menuStore.openMenu === 'navMenu'">
+    <div v-show="menuStore.active.advanceMenu" class="list__container menu">
+
+      <MenuSlot
+        v-show="menuStore.openMenu === 'navMenu'"
+        :lists="menu_1th"
+        @remove-all="removeAll"
+      />
+      <!-- <van-list v-show="menuStore.openMenu === 'navMenu'">
         <van-cell 
           v-for="(item, idx) in menu_1th" 
           :key="idx"
@@ -222,35 +229,51 @@ onMounted(async() => {
           :title="$t('clean_all')"
           @click="removeAll()"
         />
-      </van-list>
+      </van-list> -->
 
-      <van-list v-show="menuStore.openMenu === 'music'">
+      <MenuSlot 
+        v-show="menuStore.openMenu === 'music'"
+        :lists="musicStore.subMusic"
+      />
+      <!-- <van-list v-show="menuStore.openMenu === 'music'">
         <van-cell
           v-for="(item, idx) in musicStore.subMusic" 
           :key="idx" 
           :title="$t(item.name)"
-          @click="menuStore.toggleMenu(item.name)"
+          @click="menuStore.toggleMenu(item.id)"
         />
-      </van-list>
+      </van-list> -->
 
-      <van-list v-show="menuStore.openMenu === 'mymusic'">
+      <MenuSlot 
+        v-show="menuStore.openMenu === 'mymusic'"
+        :lists="musicStore.subMusicUpdated"
+      />
+      <!-- <van-list v-show="menuStore.openMenu === 'mymusic'">
         <van-cell 
           v-for="(item, idx) in musicStore.subMusicUpdated"
           :key="idx"
           :title="$t(item.name)"
           @click="menuStore.toggleMenu(item.name)"
         />
-      </van-list>
+      </van-list> -->
 
-      <van-list v-show="menuStore.openMenu === 'set'">
+      <MenuSlot 
+        v-show="menuStore.openMenu === 'set'"
+        :lists="musicStore.subSet"
+      />
+      <!-- <van-list v-show="menuStore.openMenu === 'set'">
         <van-cell 
           v-for="(item, idx) in musicStore.subSet"
           :key="idx"
           :title="$t(item.name)"
           @click="menuStore.toggleMenu(item.name)"
         />
-      </van-list>
+      </van-list> -->
       
+      <!-- <MenuSlot 
+        v-show="menuStore.openMenu === 'chakra'"
+        :lists="subChakra"
+      />  -->
       <van-list v-show="menuStore.openMenu === 'chakra'">
         <van-cell 
           v-for="(item, idx) in subChakra" 

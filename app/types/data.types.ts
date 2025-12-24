@@ -50,9 +50,9 @@ export type Song = {
 
 export type MusicMenu = {
   name: string,
-  id?: string,
+  id: string,
   class?: string,
-  menu: Song[]
+  menu?: Song[]
 }
 
 export type ChakraType = {
@@ -63,10 +63,16 @@ export type ChakraType = {
   lists?: any[]
 }
 
+interface MenuActive {
+  musicList: boolean
+  juniorMenu: boolean
+  advanceMenu: boolean
+}
+
 export type MenuStoreState = {
-  openMenu: string,
-  openSubNav: boolean,
-  isJuniorMode: boolean,
+  active: MenuActive
+  openMenu: string
+  isJuniorMode: boolean
   step: number
 }
 

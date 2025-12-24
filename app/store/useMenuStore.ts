@@ -3,14 +3,31 @@ import type { MenuStoreState } from "~/types/data.types";
 export const useMenuStore = defineStore('menu',() => {
 
   const state = reactive<MenuStoreState>({
+    active: {
+      musicList: true,
+      juniorMenu: false,
+      advanceMenu: false
+    },
     openMenu: "off",
-    openSubNav: false,
 
     isJuniorMode: true,
     step: 1
-  })
+  });
+
+  const toggleAdvanceMenu = () => {
+    state.active.advanceMenu = !state.active.advanceMenu;
+  };
+
+  const toggleMusicList = () => {
+    state.active.musicList = !state.active.musicList;
+  };
+
+  const toggleJuniorMenu = () => {
+    state.active.juniorMenu = !state.active.juniorMenu;
+  };
   
   const toggleMenu = (item:string) => {
+    if (!item) return;
     switch (item) {
       case "navMenu":
         state.openMenu === "off"
@@ -66,7 +83,10 @@ export const useMenuStore = defineStore('menu',() => {
     ...toRefs(state),
     toggleMenu,
     backToMenu,
-    resetStep
+    resetStep,
+    toggleMusicList,
+    toggleJuniorMenu,
+    toggleAdvanceMenu
   }
 },
 {
