@@ -3,61 +3,45 @@ import type { MenuStoreState } from "~/types/data.types";
 export const useMenuStore = defineStore('menu',() => {
 
   const state = reactive<MenuStoreState>({
-    active: {
-      musicList: true,
-      juniorMenu: false,
-      advanceMenu: false
-    },
-    openMenu: "off",
-
+    openMenu: "",
+    isMusicList: true,
+    isAdvancedMenu: false,
+    isJuniorMenu: false,
     isJuniorMode: true,
     step: 1
   });
 
   const toggleAdvanceMenu = () => {
-    state.active.advanceMenu = !state.active.advanceMenu;
+    state.isAdvancedMenu = !state.isAdvancedMenu;
   };
 
   const toggleMusicList = () => {
-    state.active.musicList = !state.active.musicList;
+    state.isMusicList = !state.isMusicList;
   };
 
   const toggleJuniorMenu = () => {
-    state.active.juniorMenu = !state.active.juniorMenu;
+    state.isJuniorMenu = !state.isJuniorMenu;
+  };
+
+  const toggleJuniorMode = () => {
+    state.isJuniorMode = !state.isJuniorMode;
   };
   
   const toggleMenu = (item:string) => {
     if (!item) return;
-    switch (item) {
-      case "navMenu":
-        state.openMenu === "off"
-          ? (state.openMenu = "navMenu")
-          : (state.openMenu = "off");
-        break;
-      case "listMode":
-        state.openMenu = "off";
-        state.isJuniorMode = !state.isJuniorMode;
-        break;
-      case "back":
-        backToMenu();
-        break;
-      default:
-        state.openMenu === item
-          ? (state.openMenu = "off")
-          : (state.openMenu = item);
-        break;
-    };
+    state.openMenu = item
   };
+
   const backToMenu = () => {
     switch (state.openMenu) {
-      case "Set.numbers":
-      case "Set.five_elements":
-      case "Set.custom":
+      case "numbers":
+      case "five_elements":
+      case "custom":
         state.openMenu = "set";
         break;
-      case "Music.fast":
-      case "Music.medium":
-      case "Music.slow":
+      case "fast":
+      case "medium":
+      case "slow":
         state.openMenu = "music";
         break;
       case "numbers_music":
@@ -71,10 +55,11 @@ export const useMenuStore = defineStore('menu',() => {
         state.openMenu = "navMenu";
         break;
       default:
-        state.openMenu = "off";
+        state.openMenu = "";
         break;
     }
   };
+  
   const resetStep = () => {
     state.step = 1;
   }
@@ -86,6 +71,7 @@ export const useMenuStore = defineStore('menu',() => {
     resetStep,
     toggleMusicList,
     toggleJuniorMenu,
+    toggleJuniorMode,
     toggleAdvanceMenu
   }
 },

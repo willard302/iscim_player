@@ -9,8 +9,8 @@ const navItems = [home, musicPlayer, musicList, userCenter];
 
 const handleToTab = () => {
   const menuStore = useMenuStore();
-  menuStore.active.musicList = true;
-  menuStore.active.juniorMenu = false;
+  menuStore.isMusicList = true;
+  menuStore.isJuniorMenu = false;
 };
 
 </script>

@@ -43,7 +43,6 @@ export const usePlaylist = () => {
   };
 
   const loadSongSets = (musicList:any, chakraList: number[]) => {
-    console.log(musicList, chakraList)
     const {idx: startIdx, num: chakraNum} = musicStore.chakra;
     let chakraIndex = startIdx;
     
@@ -101,7 +100,8 @@ export const usePlaylist = () => {
   const addChakra = (item: ChakraType) => {
     musicStore.chakra.name = item.name;
     musicStore.chakra.num = item.idx;
-    menuStore.openMenu = 'off';
+    menuStore.openMenu = "";
+    menuStore.toggleAdvanceMenu();
   };
 
   return {

@@ -18,7 +18,7 @@ const musicStore = useMusicStore();
     </van-cell>
     <van-cell title="點歌模式" center>
       <template #value>
-        <van-button size="small" @click="menuStore.toggleMenu('listMode')">
+        <van-button size="small" @click="menuStore.toggleJuniorMode()">
           {{menuStore.isJuniorMode ? $t('basic_mode') : $t('advanced_mode')}}
         </van-button>
       </template>

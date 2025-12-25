@@ -60,24 +60,29 @@ const setupDataSets = (result:any) => {
     musicStore.subSet = [
       {
         name: "Set.numbers",
+        id: "numbers",
         menu: result[1],
       },
       {
         name: "Set.five_elements",
+        id: "five_elements",
         menu: result[2]
       },
       {
         name: "Set.custom",
+        id: "custom",
         menu: result[3],
       }
     ];
     musicStore.subMusicUpdated = [
       {
         name: "Menu.numbers_music",
+        id: "numbers_music",
         menu: musicStore.composeMusic(result[4], 'Numbers')
       },
       {
         name: "Menu.five_elements_music",
+        id: "five_elements_music",
         menu: musicStore.composeMusic(result[4], "Five_Elements")
       }
     ];
@@ -183,10 +188,10 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div>
+  <div :class="['music__list__container', {'junior__mode': menuStore.isJuniorMenu}]">
   
     <!-- 音乐列表主体 -->
-    <div v-show="menuStore.active.musicList" class="list__container checkout">
+    <div v-show="menuStore.isMusicList" class="musci__list__checkout">
       <van-list>
         <van-cell 
           v-for="(list, idx) in musicStore.queue" 
@@ -207,73 +212,59 @@ onMounted(async() => {
 
     <!-- Junior模式 -->
     <ListJuniorMode 
-      v-if="menuStore.active.juniorMenu"
+      v-if="menuStore.isJuniorMenu"
       @remove-all="removeAll"
     />
 
-    <div v-show="menuStore.active.advanceMenu" class="list__container menu">
+    <div v-show="menuStore.isAdvancedMenu" class="music__list__menu">
 
       <MenuSlot
         v-show="menuStore.openMenu === 'navMenu'"
         :lists="menu_1th"
         @remove-all="removeAll"
       />
-      <!-- <van-list v-show="menuStore.openMenu === 'navMenu'">
-        <van-cell 
-          v-for="(item, idx) in menu_1th" 
-          :key="idx"
-          :title="$t(item.name)"
-          @click="menuStore.toggleMenu(item.id)"
-        />
-        <van-cell 
-          :title="$t('clean_all')"
-          @click="removeAll()"
-        />
-      </van-list> -->
 
       <MenuSlot 
         v-show="menuStore.openMenu === 'music'"
         :lists="musicStore.subMusic"
       />
-      <!-- <van-list v-show="menuStore.openMenu === 'music'">
-        <van-cell
-          v-for="(item, idx) in musicStore.subMusic" 
-          :key="idx" 
-          :title="$t(item.name)"
-          @click="menuStore.toggleMenu(item.id)"
-        />
-      </van-list> -->
+
+      <MusicListSlot
+        v-for="(item, idx) in musicStore.subMusic" 
+        :key="idx"
+        v-show="menuStore.openMenu === item.id"
+        :list="item"
+        @get-music="addMusic"
+      />
 
       <MenuSlot 
         v-show="menuStore.openMenu === 'mymusic'"
         :lists="musicStore.subMusicUpdated"
       />
-      <!-- <van-list v-show="menuStore.openMenu === 'mymusic'">
-        <van-cell 
-          v-for="(item, idx) in musicStore.subMusicUpdated"
-          :key="idx"
-          :title="$t(item.name)"
-          @click="menuStore.toggleMenu(item.name)"
-        />
-      </van-list> -->
+
+      <MusicListSlot
+        v-for="(item, idx) in musicStore.subMusicUpdated" 
+        :key="idx"
+        v-show="menuStore.openMenu === item.id"
+        :list="item"
+        @get-music="addMusic"
+      />
 
       <MenuSlot 
         v-show="menuStore.openMenu === 'set'"
         :lists="musicStore.subSet"
       />
-      <!-- <van-list v-show="menuStore.openMenu === 'set'">
-        <van-cell 
-          v-for="(item, idx) in musicStore.subSet"
-          :key="idx"
-          :title="$t(item.name)"
-          @click="menuStore.toggleMenu(item.name)"
-        />
-      </van-list> -->
-      
-      <!-- <MenuSlot 
-        v-show="menuStore.openMenu === 'chakra'"
-        :lists="subChakra"
-      />  -->
+
+      <MusicListSlot
+        v-for="(item, idx) in musicStore.subSet" 
+        :key="idx"
+        v-show="menuStore.openMenu === item.id"
+        :list="item"
+        @get-music="loadSongSets"
+        @save-music="saveSet"
+        @remove-music="removeSet"
+      />
+
       <van-list v-show="menuStore.openMenu === 'chakra'">
         <van-cell 
           v-for="(item, idx) in subChakra" 
@@ -282,35 +273,9 @@ onMounted(async() => {
           @click="addChakra(item)"
         />
       </van-list>
-
-      <!-- 音乐列表槽 -->
-      <MusicListSlot
-        v-for="(item, idx) in musicStore.subMusic" 
-        :key="idx"
-        v-show="menuStore.openMenu === item.name"
-        :list="item"
-        @get-music="addMusic"
-      />
-      <!-- updated -->
-      <MusicListSlot
-        v-for="(item, idx) in musicStore.subMusicUpdated" 
-        :key="idx"
-        v-show="menuStore.openMenu === item.name"
-        :list="item"
-        @get-music="addMusic"
-      />
       
-      <!-- 集合菜單 -->
-      <MusicListSlot
-        v-for="(item, idx) in musicStore.subSet" 
-        :key="idx"
-        v-show="menuStore.openMenu === item.name"
-        :list="item"
-        @get-music="loadSongSets"
-        @save-music="saveSet"
-        @remove-music="removeSet"
-      />
     </div>
+    
     <van-divider />
     <disclaimer-notice />
   </div>
@@ -318,16 +283,27 @@ onMounted(async() => {
 
 <style scoped lang="scss">
 @use "sass:color";
-.list__container {
-  width: 100%;
+
+.van-divider {
+  --van-divider-margin: 10px auto;
 }
 
-.list__container.checkout {
+.music__list__container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  .van-list {
-    height: 60vh;
-    overflow-y: scroll;
+  &.junior__mode {
+    height: 130%;
   }
+}
+
+.musci__list__checkout {
+
+  height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   .van-cell {
     background: transparent;
@@ -343,12 +319,13 @@ onMounted(async() => {
   }
 }
 
-.list__container.menu {
+.music__list__menu {
 
   position: absolute;
-  top: 48px;
+  top: 46px;
   left: 0;
   z-index: 99;
+  width: 100%;
 
   .van-cell {
     background: color.adjust($color: #ffffff, $alpha: -0.1);

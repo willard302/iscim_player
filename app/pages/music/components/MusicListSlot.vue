@@ -33,7 +33,7 @@ const onEmitRemove = (setName:string, setIdx:number) => {
 </script>
 
 <template>
-  <van-list :class="[list.class, className]">
+  <van-list>
     <van-field
       v-if="menuStore.openMenu === 'Set.custom' && type !== 'junior-mode'"
       v-model="newSet"

@@ -52,7 +52,7 @@ const items = reactive<TabItem[]>([
 ]);
 
 onMounted(() => {
-  initMusicListsSelected()
+  initMusicListsSelected();
 });
 
 const initMusicListsSelected = () => {

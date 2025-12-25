@@ -49,29 +49,26 @@ export type Song = {
 }
 
 export type MusicMenu = {
-  name: string,
-  id: string,
-  class?: string,
+  name: string
+  id: string
+  class?: string
+  intro?: string
   menu?: Song[]
 }
 
 export type ChakraType = {
-  name: string,
-  id?: string,
-  num?: number,
-  idx: number,
+  name: string
+  id?: string
+  num?: number
+  idx: number
   lists?: any[]
 }
 
-interface MenuActive {
-  musicList: boolean
-  juniorMenu: boolean
-  advanceMenu: boolean
-}
-
 export type MenuStoreState = {
-  active: MenuActive
   openMenu: string
+  isMusicList: boolean
+  isAdvancedMenu: boolean
+  isJuniorMenu: boolean
   isJuniorMode: boolean
   step: number
 }

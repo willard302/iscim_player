@@ -54,10 +54,11 @@ const subTitle = computed((): string => {
     case 2: return "Message.what_you_want_now";
     default: return "";
   };
-})
+});
 
 const handleCheck = (music: any) => {
   props.musicListsLocal.forEach(musicList => {
+    if (!musicList.menu) return;
     musicList.menu.forEach(item => {
       if (item !== music) return;
 
@@ -205,9 +206,10 @@ const handleSelectMode = (e: string) => {
     --van-divider-margin: 10px;
   }
 
-  .musicList__body .van-cell-group {
+  :deep(.van-tabs__content) {
     height: 40vh;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
+
 </style>
 

@@ -12,11 +12,11 @@ import type { MusicMenu } from '~/types/data.types';
 
   const handleRemoveALl = () => {
     emit("remove-all")
-  }
+  };
 </script>
 
 <template>
-  <van-list v-show="menuStore.openMenu === 'navMenu'">
+  <van-list>
     <van-cell 
       v-for="(item, idx) in props.lists" 
       :key="idx"

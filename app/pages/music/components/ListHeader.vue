@@ -8,7 +8,7 @@ const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 
 const openSubNav = computed(() => {
-  return menuStore.active.advanceMenu || menuStore.active.juniorMenu;
+  return menuStore.isAdvancedMenu || menuStore.isJuniorMenu;
 });
 const handleClickLeft = () => {
   menuStore.backToMenu();
@@ -30,7 +30,7 @@ const handleClickRight = () => {
     @click-left="handleClickLeft"
     @click-right="handleClickRight"
   >
-    <template #left v-if="!menuStore.isJuniorMode && menuStore.active.advanceMenu && menuStore.openMenu !== 'navMenu'">
+    <template #left v-if="!menuStore.isJuniorMode && menuStore.isAdvancedMenu && menuStore.openMenu !== 'navMenu'">
       <font-awesome icon="arrow-left" />
     </template>
     <template #title>
