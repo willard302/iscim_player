@@ -12,4 +12,8 @@ const musicStore = useMusicStore();
   <LayoutTabbar />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+  * {
+    --van-nav-bar-z-index: 9999;
+  }
+</style>
