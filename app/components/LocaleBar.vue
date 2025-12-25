@@ -46,6 +46,7 @@ watch(
   border: none;
   border-radius: 10px;
   font-weight: 700;
-  --van-dropdown-menu-shadow: none
+  --van-dropdown-menu-shadow: none;
+  --van-dropdown-menu-height: 46px;
 }
 </style>
