@@ -9,7 +9,7 @@ const { register } = useAuth();
 const fieldItems: FieldItem[] = reactive([
   { 
     label: "username",
-    value: "test001@gmail.com", 
+    value: "", 
     name: "username", 
     type: "text",
     placeholder: "Hints.enter_email",
@@ -19,7 +19,7 @@ const fieldItems: FieldItem[] = reactive([
   },
   {
     label: "password", 
-    value: "123456", 
+    value: "", 
     name: "password", 
     type: "password",
     placeholder: "Hints.enter_password",
@@ -29,7 +29,7 @@ const fieldItems: FieldItem[] = reactive([
   },
   {
     label: "password_confirm", 
-    value: "123456", 
+    value: "", 
     name: "password_confirm", 
     type: "password",
     placeholder: "Hints.enter_password",
