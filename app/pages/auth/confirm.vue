@@ -18,7 +18,7 @@ const handleLogin = () => {
 
 // 跳轉到首頁
 const handleGoHome = () => {
-  router.replace('/');
+  router.replace('/home');
 };
 
 onMounted(() => {
