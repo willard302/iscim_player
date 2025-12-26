@@ -9,6 +9,7 @@ import { usePlayerStore } from '~/store/usePlayerStore';
 import type { ChakraType } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
+const { getMusics, getSets } = useDataBase();
 const player = usePlayer();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
@@ -37,98 +38,61 @@ const menu_1th = computed(() => {
   return musicStore.isPro ? pro : pub;
 });
 
-const getApiUrls = () => {
-  if (musicStore.isPro) {
-    return [
-      "/music_default/menu.json",
-      "/music_set/default_pro.json",
-      "/music_set/default_fiveElements.json",
-      "/music_set/custom_new.json",
-      "/music_custom/menu.json",
-    ];
-  };
-  
-  return [
-    "/music_default/menu.json", 
-    "/music_set/default_pub.json",
-    "/music_set/default_fiveElements.json",
-  ];
-};
+const loadDataSets = async() => {
 
-const setupDataSets = (result:any) => {
+  const music_custom = await getMusics('custom') || [];
+  const set_custom = await getSets({category: 'custom', is_pro: true});
+  const set_numbers = await getSets({category: 'numbers', is_pro: musicStore.isPro});
+  const set_five_elements = await getSets({category: 'five_elements', is_pro: musicStore.isPro});
+
+  musicStore.subSet = [
+    {
+      name: "Set.numbers",
+      id: "numbers",
+      menu: set_numbers,
+    },
+    {
+      name: "Set.five_elements",
+      id: "five_elements",
+      menu: set_five_elements
+    }
+  ];
+  
   if (musicStore.isPro) {
-    musicStore.subSet = [
-      {
-        name: "Set.numbers",
-        id: "numbers",
-        menu: result[1],
-      },
-      {
-        name: "Set.five_elements",
-        id: "five_elements",
-        menu: result[2]
-      },
-      {
-        name: "Set.custom",
-        id: "custom",
-        menu: result[3],
-      }
-    ];
+    const custom_music = Array.isArray(music_custom) ? music_custom : [];
+
+    musicStore.subSet.push({
+      name: "Set.custom",
+      id: "custom",
+      menu: set_custom
+    })
+
     musicStore.subMusicUpdated = [
       {
         name: "Menu.numbers_music",
         id: "numbers_music",
-        menu: musicStore.composeMusic(result[4], 'Numbers')
+        menu: musicStore.composeMusic(custom_music, 'Numbers')
       },
       {
         name: "Menu.five_elements_music",
         id: "five_elements_music",
-        menu: musicStore.composeMusic(result[4], "Five_Elements")
+        menu: musicStore.composeMusic(custom_music, "Five_Elements")
       }
     ];
-  } else {
-    musicStore.subSet = [
-      {
-        name: "Set.numbers",
-        menu: result[1],
-      },
-      {
-        name: "Set.five_elements",
-        menu: result[2]
-      }
-    ];
-  };
+  }
 };
-const loadApiData = async() => {
-
-  const apiUrls = getApiUrls();
-
+const loadDataMusics = async() => {
+  const music_default = await getMusics('default') || [];
   try {
-    const request = apiUrls.map(async( url ) => {
-      const res = await fetch(url);
-
-      if (!res.ok) {
-        throw new Error(`HTTP ERROR! Status: ${res.status}, URL: ${url}`);
-      };
-
-      const contentType = res.headers.get("content-type");
-      if (contentType && contentType.indexOf("application/json") === -1) {
-        const text = await res.text();
-        console.error(`錯誤:預期是JSON但收到HTML，請檢查路徑${url}`);
-        console.error(`回傳內容預覽：${text.substring(0, 50)}`);
-      };
-      return res.json();
-    });
-    const result = await Promise.all(request);
     //  设置基础音乐数据 
     musicStore.subMusic = [
-      {name: "Music.fast", id: "fast", menu: musicStore.composeMusic(result[0], 'Fast')},
-      {name: "Music.medium", id: "medium", menu: musicStore.composeMusic(result[0], 'Medium')},
-      {name: "Music.slow", id: "slow", menu: musicStore.composeMusic(result[0], 'Slow')}
+      {name: "Music.fast", id: "fast", menu: musicStore.composeMusic(music_default, 'Fast')},
+      {name: "Music.medium", id: "medium", menu: musicStore.composeMusic(music_default, 'Medium')},
+      {name: "Music.slow", id: "slow", menu: musicStore.composeMusic(music_default, 'Slow')}
     ];
     
     // 根据用户类型设置不同的数据集
-    setupDataSets(result);
+    loadDataSets();
   } catch (error) {
     console.error('Error fetching APIs: ', error);
   };
@@ -183,7 +147,7 @@ const initPlayer = () => {
 };
 
 onMounted(async() => {
-  await loadApiData();
+  await loadDataMusics();
 });
 </script>
 
@@ -200,7 +164,7 @@ onMounted(async() => {
           center
           :id="list.id"
           :title="list.name"
-          :value="list.chakra"
+          :value="(list.chakra as number)"
           @click="specified(idx)"
         >
           <template #right-icon>
