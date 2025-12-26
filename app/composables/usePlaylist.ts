@@ -1,34 +1,39 @@
+import { useMainStore } from "~/store/useMainStore";
 import { useMenuStore } from "~/store/useMenuStore";
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
-import type { ChakraType, Song } from "~/types/data.types";
+import type { ChakraType, SubMusic } from "~/types/data.types";
+import type { MusicRow, SetInsert, SetRow } from "~/types/supabase";
 
 export const usePlaylist = () => {
   
   const playerStore = usePlayerStore()
   const musicStore = useMusicStore();
   const menuStore = useMenuStore();
+  const mainStore = useMainStore();
   const player = usePlayer();
 
-  const addToLists = (item: Song) => {
+  const addToLists = (item: any) => {
     musicStore.queue.push(item);
 
     // 若尚未有歌曲 → 播第一首
     if (playerStore.index === -1) {
       player?.setSourceByIndex(0);
-      player?.playMusic();
     };
   };
 
-  const addMusic = (song:any, chakra?: any) => {
+  const addMusic = (song:MusicRow, chakra?: number) => {
+
+    if (!song || !song.src) {
+      console.warn("Invalid song data:", song);
+      return;
+    };
+
     const list = {
-      id: song.id,
-      name: song.name,
-      src: song.src,
-      index: playerStore.index,
-      chakra: chakra 
-        ? (musicStore.chakra.num === 99 ? chakra : chakra.num)
-        : (musicStore.chakra.num || 0)
+      ...song,
+      index: musicStore.queue.length,
+      chakra: chakra ?? (musicStore.chakra.num === 99 ? 0 : musicStore.chakra.num || 0),
+      created_by: mainStore.userInfo.name || 'System'
     };
 
     // 添加到播放列表
@@ -36,70 +41,73 @@ export const usePlaylist = () => {
 
     // 如果是第一首歌，立即加载
     if (musicStore.name === "Hints.select_music") {
-      console.log(list)
       musicStore.name = list.name;
-      playerStore.src = list.src;
     };
   };
 
-  const loadSongSets = (musicList:any, chakraList: number[]) => {
-    const {idx: startIdx, num: chakraNum} = musicStore.chakra;
-    let chakraIndex = startIdx;
-    
-    const sourceChakraList = 
-      chakraNum === 99
-        ? (chakraList.length ? chakraList : (musicList.chakra || []))
-        : [];
-    
+  const loadMusicSet = (musicList: SetInsert) => {
+    console.log(musicList)
+    const sourceChakraList = (musicList.chakras && musicList.chakras.length > 0 && !musicList.chakras.includes(99))
+      ? musicList.chakras : [];
+      
+    let chakraIndex = 0;
     const getNextChakra = () => {
       if (sourceChakraList.length === 0) return 0;
-
       const c = sourceChakraList[chakraIndex];
       chakraIndex = (chakraIndex + 1) % sourceChakraList.length;
       return c;
     };
 
-    musicList.content.forEach((song:any) => {
-      const chakra = getNextChakra();
-      addMusic(song, chakra);
-    })
+    if (Array.isArray(musicList.content)) {
+      musicList.content.forEach((song) => {
+        const chakra = getNextChakra();
+        addMusic(song as MusicRow, chakra);
+      })
+    };
+    menuStore.isJuniorMenu = false;
+    menuStore.isMusicList = true;
   };
 
   const saveSet = (newSetName: string) => {
+    if (!newSetName) return;
+
     musicStore.initNewSet();
-    musicStore.name = newSetName;
-    musicStore.queue.forEach((e) => {
-      musicStore.newSet.content.push({
+    musicStore.newSet.name = newSetName;
+    musicStore.newSet.category = 'custom';
+
+    musicStore.queue.forEach((e: any) => {
+
+      const musicItem: MusicRow = {
+        id: e.id,
         name: e.name,
-        id: e.name,
-        src: e.src
-      });
-      if (e.chakra) musicStore.newSet.chakra.push(e.chakra);
+        src: e.src,
+        intro: e.intro || null,
+        category: e.category || 'custom',
+        created_at: e.created_at || new Date().toISOString(),
+        created_by: e.created_by || ''
+      };
+
+      musicStore.newSet.content.push(musicItem)
+
+      if (e.chakra) musicStore.newSet.chakras?.push(e.chakra);
     });
-    
-    // 添加到自定义集合中
-    musicStore.subSet
-      .find(set => set.name === 'Set.custom')
-      .menu.push(musicStore.newSet);
   };
 
-  const removeSet = (item: any) => {
-    musicStore.subSet
-      .find(set => set.name === item.name)
-      .menu.splice(item.index, 1);
+  const removeSet = (item: SetRow) => {
+    const idx = musicStore.subSet.findIndex(s => s.id === item.id);
+    if (idx > -1) musicStore.subSet.splice(idx, 1);
   };
 
   const removeMusic = (music:any, musicSelected: any) => {
-    if (music.order > musicSelected.order) {
-      music.order--;
-    } else if (music.order === musicSelected.order) {
-      music.order = null;
+    if (music.sort_order > musicSelected.order) {
+      music.sort_order--;
+    } else if (music.sort_order === musicSelected.order) {
+      music.sort_order = null;
     };
   };
 
   const addChakra = (item: ChakraType) => {
-    musicStore.chakra.name = item.name;
-    musicStore.chakra.num = item.idx;
+    musicStore.chakra = item;
     menuStore.openMenu = "";
     menuStore.toggleAdvanceMenu();
   };
@@ -108,7 +116,7 @@ export const usePlaylist = () => {
     addToLists,
     addMusic,
     addChakra,
-    loadSongSets,
+    loadMusicSet,
     saveSet,
     removeSet,
     removeMusic

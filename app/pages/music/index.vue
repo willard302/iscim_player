@@ -12,21 +12,25 @@ onMounted(() => {
   player.initListeners();
 });
 
-// ============== 進度條控制 ==============
+const loopBadgeText = computed(() => {
+  const map: Record<string, string> = {
+    [LoopMode.NORMAL]: 'X',
+    [LoopMode.ONE]: '1',
+    [LoopMode.ALL]: 'A'
+  };
+  return map[playerStore.loop] || '';
+});
 
 const onDragStart = () => {
   musicStore.isDragging = true;
 };
-
 const onDragEnd = () => {
   musicStore.isDragging = false;
   handleProgress();
 };
-
 const handleProgress = () => {
   if (!playerStore.duration) return;
-  const percent = Math.max(0, Math.min(100, musicStore.slidePercent));
-  player.seek(percent);
+  player.seek(musicStore.slidePercent);
 };
 
 </script>
@@ -34,18 +38,12 @@ const handleProgress = () => {
 <template>
   <div class="player__container">
     <div 
-      :class="[
-        'disk__container', 
-        {'playing': playerStore.isPlaying}
-      ]" 
+      class="disk__container" 
       @click="player.togglePlay"
     >
       <van-image 
         :class="['disk__image', {'spinning': playerStore.isPlaying}]"
-        height="240"
-        width="240"
-        fit="cover"
-        round
+        height="240" width="240" fit="cover" round
         :src="playerStore.isPlaying ? logo_pause : logo"
       /> 
     </div>
@@ -72,38 +70,35 @@ const handleProgress = () => {
           <van-button size="small" round @click="player.prev()">
             <font-awesome icon="backward" />
           </van-button>
+
           <van-button size="small" round @click.lazy="player.togglePlay()">
             <font-awesome :icon="playerStore.isPlaying ? 'pause' : 'play'"/>
           </van-button>
+
           <van-button size="small" round @click="player.next()">
             <font-awesome icon="forward" />
           </van-button>
+
           <van-button 
-            size="small" 
-            round 
-            :class="['loop-btn', playerStore.loop]" 
+            size="small" round class="loop-btn" 
             @click="musicStore.setLoop()"
           >
             <font-awesome class="fa-solid fa-repeat" icon="repeat"/>
+            <span class="loop-badge">{{ loopBadgeText }}</span>
           </van-button>
         </van-space>
       </van-col>
       
-      <!-- 音量控制 -->
       <van-col span="10" class="volume__container">
         <van-button 
-          size="mini"
-          plain
-          style="border: none; margin-right: 5px;"
+          size="mini" plain style="border: none; margin-right: 5px;"
           @click="player.openVolume()"
         >
           <font-awesome :icon="playerStore.volume_on ? 'volume-high' : 'volume-off'" />
         </van-button>
         <van-slider 
           v-model="playerStore.volume"
-          :min="0"
-          :max="100"
-          button-size="10px"
+          :min="0" :max="100" button-size="10px"
           @update:model-value="player.setVolume"
         />
       </van-col>
@@ -168,23 +163,13 @@ const handleProgress = () => {
 .loop-btn {
   position: relative;
 
-  &::after {
+  .loop-badge {
     position: absolute;
-    bottom: -2px;
-    right: 2px;
-    font-size: 9px;
+    bottom: 2px;
+    right: 4px;
+    font-size: 0.6rem;
     font-weight: bold;
-    color: inherit;
   }
-
-  &.normal::after { content: "X" }
-  &.repeatOne::after { content: "1" }
-  &.repeatAll::after { content: "A" }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg);}
-  to { transform: rotate(360deg);}
 }
 
 .disk__container {
@@ -215,25 +200,27 @@ const handleProgress = () => {
     position: absolute;
     border-radius: 50%;
     z-index: 1;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     transition: all 1.5s;
   }
 
   &::before {
-    width: 95%;
-    height: 95%;
+    width: 95%; height: 95%;
     border: 3px solid #8d03a2;
     background-color: #c9adef94;
   }
 
   &::after {
-    width: 90% ;
-    height: 90% ;
+    width: 90%; height: 90%;
     border: 3px solid #b604d1;
     opacity: 0.6;
   }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg);}
+  to { transform: rotate(360deg);}
 }
 
 </style>

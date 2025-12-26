@@ -28,8 +28,8 @@ export const useMenuStore = defineStore('menu',() => {
   };
   
   const toggleMenu = (item:string) => {
-    if (!item) return;
-    state.openMenu = item
+    state.openMenu = item;
+    console.log(item)
   };
 
   const backToMenu = () => {

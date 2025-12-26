@@ -3,18 +3,8 @@ import ListJuniorBuildNewSet from './ListJuniorBuildNewSet.vue';
 import ListJuniorLoadSet from './ListJuniorLoadSet.vue';
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
-import type { MusicMenu, Song } from '~/types/data.types';
-
-const emit = defineEmits(['remove-all', 'handle-play', 'handle-save-set'])
-
-const menuStore = useMenuStore();
-const musicStore = useMusicStore();
-
-const active = ref('Menu.build_new_set')
-const musicListsLocal = ref<MusicMenu[]>([]);
-const musicListsSelected = ref([]);
-const musicOrder = ref(0);
-const showMenu = ref("");
+import type { SubMusic } from '~/types/data.types';
+import type { MusicRow } from '~/types/supabase';
 interface TabItem {
   name: string,
   comp: any,
@@ -22,17 +12,30 @@ interface TabItem {
   props?: Record<string, any>;
   events?: Record<string, (...args: any[]) => void>
 }
-const items = reactive<TabItem[]>([
-  { 
-    name: "Menu.build_new_set", 
-    comp: shallowRef(ListJuniorBuildNewSet), 
-    props: {
-      musicListsLocal: musicListsLocal
-    },
-    events: {
-      'submit': (e) => submitCustomSet(e)
-    }
+
+const emit = defineEmits(['remove-all', 'handle-play', 'handle-save-set'])
+
+const menuStore = useMenuStore();
+const musicStore = useMusicStore();
+
+const active = ref('Menu.build_new_set')
+const subMusicLocal = ref<SubMusic[]>([]);
+const musicListsSelected = ref([]);
+const musicOrder = ref(0);
+const showMenu = ref("");
+
+const build_new_set = ref<TabItem>({ 
+  name: "Menu.build_new_set", 
+  comp: shallowRef(ListJuniorBuildNewSet), 
+  props: {
+    subMusicLocal: subMusicLocal
   },
+  events: {
+    'submit': (e:any) => submitCustomSet(e)
+  }
+})
+
+const items = ref<TabItem[]>([
   { 
     name: "Menu.load_set", 
     comp: shallowRef(ListJuniorLoadSet)
@@ -40,30 +43,25 @@ const items = reactive<TabItem[]>([
   { 
     name: "Menu.remove_all", 
     comp: null,
-    action: () => {
-      showConfirmDialog({
-        title: "警告",
-        message: "確定要移除全部？"
-      }).then(() => {
-        onRemove()
-      }).catch(() => console.log("cancel"))
-    }
+    action: () => emit('remove-all')
   }
 ]);
 
 onMounted(() => {
   initMusicListsSelected();
+  if(!musicStore.isPro) return;
+  items.value = [build_new_set.value, ...items.value]
 });
 
 const initMusicListsSelected = () => {
   musicListsSelected.value = [];
   musicOrder.value = 0;
   
-  if (musicListsLocal.value && Array.isArray(musicListsLocal.value)) {
-    musicListsLocal.value = musicStore.subMusicUpdated.map(category => {
+  if (subMusicLocal.value && Array.isArray(subMusicLocal.value)) {
+    subMusicLocal.value = musicStore.subMusicUpdated.map(category => {
       const newCategory = { ...category };
       if (newCategory.menu && Array.isArray(newCategory.menu)) {
-        newCategory.menu = newCategory.menu.map((item: Song) => ({
+        newCategory.menu = newCategory.menu.map((item: MusicRow) => ({
           ...item,
           checked: false,
           order: 0
@@ -77,9 +75,9 @@ const initMusicListsSelected = () => {
   // 重置set对象
   musicStore.newSet = {
     name: "",
-    type: "custom",
     mode: "",
-    chakra: {},
+    category: "custom",
+    chakras: [],
     content: []
   };
 };
@@ -100,12 +98,8 @@ const submitCustomSet = (e: any) => {
   initMusicListsSelected();
 };
 
-const onRemove = () => {
-  emit('remove-all')
-};
-
 const OnBeforeChange = (name: string) => {
-  const targetItem = items.find(i => i.name === name);
+  const targetItem = items.value.find(i => i.name === name);
 
   if (targetItem && targetItem.action) {
     targetItem.action();

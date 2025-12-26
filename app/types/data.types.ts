@@ -1,5 +1,5 @@
 import type { ButtonNativeType, FieldType } from "vant";
-import type { UserInsert, UserUpdate } from "./supabase";
+import type { MusicRow, SetInsert, UserInsert, UserUpdate } from "./supabase";
 
 export type ButtonItem = {
   text: string
@@ -37,33 +37,6 @@ export type MainStoreState = {
   userInfo: UserInsert | UserUpdate
 }
 
-export type Song = {
-  id: string
-  name: string
-  src: string
-  intro?: string
-  index?: number
-  chakra?: number
-  checked?: boolean
-  order?: number | null
-}
-
-export type MusicMenu = {
-  name: string
-  id: string
-  class?: string
-  intro?: string
-  menu?: Song[]
-}
-
-export type ChakraType = {
-  name: string
-  id?: string
-  num?: number
-  idx: number
-  lists?: any[]
-}
-
 export type MenuStoreState = {
   openMenu: string
   isMusicList: boolean
@@ -76,13 +49,13 @@ export type MenuStoreState = {
 export type MusicStoreState = {
   isPro: boolean
   name: string
-  queue: Song[]
+  queue: any[]
   item: null
-  subMusic: MusicMenu[]
-  subMusicUpdated: MusicMenu[]
-  subSet: any[]
+  subMusic: SubMusic[]
+  subMusicUpdated: SubMusic[]
+  subSet: SubSet[]
   chakra: ChakraType
-  newSet: SetType
+  newSet: SetInsert
   slidePercent: number
   diskRotation: number
   isDragging: boolean
@@ -102,13 +75,31 @@ export type PlayerStoreState = {
   duraTime: string
 }
 
-export type SetType = {
+export type ChakraType = {
   name: string
-  type: string
-  content: Song[]
-  chakra?: any
+  id?: string
+  num?: number
+  idx: number
+  lists?: any[]
+}
+
+export interface MusicLocal extends MusicRow {
+  checked?: boolean
+  sort_order?: number
+}
+
+export type SubMusic = {
+  name: string
+  id: string
   intro?: string
-  mode?: string
+  menu?: MusicLocal[]
+}
+
+export type SubSet = {
+  name: string,
+  id: string,
+  intro?: string,
+  menu: SetInsert[]
 }
 
 export type PolicyPart = {

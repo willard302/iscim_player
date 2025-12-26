@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useMenuStore } from '~/store/useMenuStore';
-import type { MusicMenu } from '~/types/data.types';
+import type { SubMusic, SubSet } from '~/types/data.types';
 
   const props = defineProps<{
-    lists: MusicMenu[] 
+    lists: SubSet[] | SubMusic[]
   }>();
 
   const emit = defineEmits(["remove-all"]);

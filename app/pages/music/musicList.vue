@@ -8,7 +8,7 @@ import { useMusicStore } from '~/store/useMusicStore';
 import { usePlayerStore } from '~/store/usePlayerStore';
 import type { ChakraType } from '~/types/data.types';
 
-const { addMusic, saveSet, removeSet, loadSongSets, addChakra } = usePlaylist();
+const { addMusic, saveSet, removeSet, loadMusicSet, addChakra } = usePlaylist();
 const { getMusics, getSets } = useDataBase();
 const player = usePlayer();
 const musicStore = useMusicStore();
@@ -138,8 +138,14 @@ const removeList = (index: number) => {
   player.playMusic();
 };
 const removeAll = () => {
-  player.pauseMusic();
-  initPlayer();
+  if (musicStore.queue.length <= 0) return showFailToast("列表已清空");
+    showConfirmDialog({
+    title: "警告",
+    message: "確定要移除全部？"
+  }).then(() => {
+    player.pauseMusic();
+    initPlayer();
+  }).catch(() => console.log("cancel"))
 };
 const initPlayer = () => {
   musicStore.resetMusic();
@@ -224,7 +230,7 @@ onMounted(async() => {
         :key="idx"
         v-show="menuStore.openMenu === item.id"
         :list="item"
-        @get-music="loadSongSets"
+        @get-music="loadMusicSet"
         @save-music="saveSet"
         @remove-music="removeSet"
       />

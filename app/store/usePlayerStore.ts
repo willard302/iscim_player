@@ -1,27 +1,24 @@
-import type { PlayerStoreState } from "~/types/data.types"
+import type { PlayerStoreState } from "~/types/data.types";
+
+const defaultState = (): PlayerStoreState => ({
+  isPlaying: false,
+  src: "",
+  index: 0,
+  volume: 100,
+  volume_on: true,
+  loop: "normal",
+  currentSec: 0,
+  currentTime: "00:00",
+  duration: 0,
+  duraTime: "00:00"
+});
 
 export const usePlayerStore = defineStore("player", () => {
 
-  const state = reactive<PlayerStoreState>({
-    isPlaying:false,
-    src: "",
-    index: 0,
-    volume: 100,
-    volume_on: true,
-    loop: "normal",
-    currentSec: 0,
-    currentTime: "00:00",
-    duration: 0,
-    duraTime: "00:00"
-  })
+  const state = reactive<PlayerStoreState>(defaultState());
 
   const resetPlayer = () => {
-    state.src = "";
-    state.index = 0;
-    state.currentSec = 0;
-    state.currentTime = "00:00";
-    state.duration = 0;
-    state.duraTime = "00:00"
+    Object.assign(state, defaultState());
   }
 
   return {

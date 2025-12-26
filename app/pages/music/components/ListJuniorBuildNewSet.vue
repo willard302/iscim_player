@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useMenuStore } from '~/store/useMenuStore';
 import { useMusicStore } from '~/store/useMusicStore';
-import type { MusicMenu, Song } from '~/types/data.types';
+import type { MusicLocal, SubMusic } from '~/types/data.types';
 
 const props = defineProps<{
-  musicListsLocal: MusicMenu[]
+  subMusicLocal: SubMusic[]
 }>();
 
 const emit = defineEmits(['submit'])
@@ -46,7 +46,7 @@ const newLists = [
 
 const showMenu = ref("");
 const musicOrder = ref(0);
-const musicListsSelected = ref<Song[]>([]);
+const musicListsSelected = ref<MusicLocal[]>([]);
 
 const subTitle = computed((): string => {
   switch(menuStore.step) {
@@ -57,7 +57,7 @@ const subTitle = computed((): string => {
 });
 
 const handleCheck = (music: any) => {
-  props.musicListsLocal.forEach(musicList => {
+  props.subMusicLocal.forEach(musicList => {
     if (!musicList.menu) return;
     musicList.menu.forEach(item => {
       if (item !== music) return;
@@ -67,13 +67,13 @@ const handleCheck = (music: any) => {
       if (item.checked) {
         musicOrder.value++;
         musicListsSelected.value.push(item);
-        item.order = musicOrder.value;
+        item.sort_order = musicOrder.value;
         return;
       };
 
       musicOrder.value--;
       musicListsSelected.value.forEach(one => removeMusic(one, music));
-      musicListsSelected.value = musicListsSelected.value.filter(one => one.order !== null);
+      musicListsSelected.value = musicListsSelected.value.filter(one => one.sort_order !== null);
       removeMusic(item, music);
     });
   });
@@ -89,7 +89,7 @@ const handleNext = () => {
     showFailToast($t("Message.please_enter_a_name_for_the_set"));
     return;
   };
-  musicStore.newSet.content = musicListsSelected.value;
+  musicStore.newSet.content = [...musicListsSelected.value];
   menuStore.step = 2;
 };
 
@@ -116,7 +116,7 @@ const handleSelectMode = (e: string) => {
             type="card"
           >
             <van-tab
-              v-for="(m, mIdx) in musicListsLocal"
+              v-for="(m, mIdx) in subMusicLocal"
               :key="mIdx"
               :title="$t(m.name)"
             >
@@ -132,7 +132,7 @@ const handleSelectMode = (e: string) => {
                     <template #right-icon>
                       <van-checkbox :name="i.name">
                         <template #icon>
-                          {{ i.order === 0 ? null : i.order }}
+                          {{ i.sort_order === 0 ? null : i.sort_order }}
                         </template>
                       </van-checkbox>
                     </template>

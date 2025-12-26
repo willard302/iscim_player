@@ -1,5 +1,6 @@
-import type { MusicStoreState, Song } from "~/types/data.types";
+import type { MusicStoreState } from "~/types/data.types";
 import { usePlayerStore } from "./usePlayerStore";
+import type { MusicRow, SetInsert } from "~/types/supabase";
 
 
 export const useMusicStore = defineStore("music", () => {
@@ -22,11 +23,12 @@ export const useMusicStore = defineStore("music", () => {
     },
     newSet: {
       name: "",
-      type: "custom",
-      mode: "",
-      chakra: {},
+      intro: "",
+      category: "custom",
+      is_pro: true,
+      chakras: [],
       content: []
-    },
+    } as SetInsert,
     slidePercent: 0,
     diskRotation: 0,
     isDragging: false,
@@ -41,7 +43,7 @@ export const useMusicStore = defineStore("music", () => {
     playerStore.loop = nextMode;
   };
 
-  const composeMusic = (musicList: Song[], musicClass: string) => {
+  const composeMusic = (musicList: MusicRow[], musicClass: string) => {
     return musicList.map(music => ({
       ...music,
       name: `${musicClass} ${music.name}`
@@ -57,9 +59,10 @@ export const useMusicStore = defineStore("music", () => {
   const initNewSet = () => {
     Object.assign(state.newSet, {
       name: "",
-      type: "custom",
-      mode: "",
-      chakra: {},
+      intro: "",
+      category: "custom",
+      is_pro: true,
+      chakras: [],
       content: []
     })
   };

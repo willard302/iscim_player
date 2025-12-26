@@ -2,15 +2,11 @@
 import { useMusicStore } from '~/store/useMusicStore';
 
 const musicStore = useMusicStore();
-const {loadSongSets} = usePlaylist();
+const {loadMusicSet} = usePlaylist();
 
 const active = reactive({
   set: 0
 });
-
-const handleSelect = (e: any) => {
-  loadSongSets(e, e.chakra)
-}
 </script>
 
 <template>
@@ -29,7 +25,7 @@ const handleSelect = (e: any) => {
           :key="iIdx"
           :title="i.name"
           clickable
-          @click="handleSelect(i)"
+          @click="loadMusicSet(i)"
         />
       </van-cell-group>
     </van-tab>

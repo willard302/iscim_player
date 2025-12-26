@@ -1,6 +1,12 @@
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
 
+export const LoopMode = {
+  NORMAL: "normal",
+  ONE: "repeatOne",
+  ALL: "repeatAll"
+} as const;
+
 export const usePlayer = () => {
   const { formatTime } = useCommon();
   const { getAudio } = useAudioManager();
@@ -12,15 +18,8 @@ export const usePlayer = () => {
     const audio = getAudio();
     if (!audio) return;
 
-    // 移除舊的監聽器
-    audio.ontimeupdate = null;
-    audio.onended = null;
-    audio.onloadedmetadata = null;
-    audio.onerror = null;
-
     audio.ontimeupdate = () => {
-      // 如果正在拖曳進度條，暫不更新進度（避免與使用者操作衝突，需配合前端實作）
-      if (musicStore.isDragging) return;
+      if (musicStore.isDragging) return // 如果正在拖曳進度條，暫不更新進度;
 
       const cur = audio.currentTime;
       playerStore.currentSec = cur;
@@ -35,27 +34,26 @@ export const usePlayer = () => {
       const dur = audio.duration;
       playerStore.duration = dur;
       playerStore.duraTime = formatTime(dur);
-
       audio.volume = playerStore.volume_on ? (playerStore.volume / 100) : 0;
-      // 確保載入後自動播放（如果狀態是 playing）
+
       if (playerStore.isPlaying) {
         audio.play().catch(e => console.warn("Auto-play blocked:", e));
       }
     };
 
     audio.onended = () => {
-      // 播放結束後的邏輯
       const isLast = playerStore.index >= musicStore.queue.length - 1;
 
       switch(playerStore.loop) {
-        case "normal":
-          isLast ? playerStore.isPlaying = false : next();
-          break;
-        case "repeatOne":
+        case LoopMode.ONE:
           playIndex(playerStore.index);
           break;
-        case "repeatAll":
+        case LoopMode.ALL:
           next();
+          break;
+        case LoopMode.NORMAL:
+        default:
+          isLast ? (playerStore.isPlaying = false) : next();
           break;
       }
     };
@@ -67,7 +65,6 @@ export const usePlayer = () => {
   };
 
   const setSourceByIndex = (i: number) => {
-    if (i < 0 || i >= musicStore.queue.length) return false;
     const item = musicStore.queue[i];
     if (!item) return;
 
@@ -95,9 +92,8 @@ export const usePlayer = () => {
       await audio.play();
       playerStore.isPlaying = true;
     } catch (error) {
-      console.warn("Autoplay revented or load error: ", error);
+      console.warn("Play error: ", error);
       playerStore.isPlaying = false;
-      showFailToast("無法播放音訊");
     };
   };
 
@@ -134,21 +130,20 @@ export const usePlayer = () => {
     const audio = getAudio();
     const volume = Math.max(0, Math.min(100,v));
     playerStore.volume = volume;
-    if (audio && playerStore.volume_on) {
-      audio.volume = volume / 100;
-    };
+    
     if (volume > 0) playerStore.volume_on = true;
+    
+    if (audio) {
+      audio.volume = playerStore.volume_on ?  (volume / 100) : 0;
+    };
   };
 
   const openVolume = () => {
-    const audio = getAudio();
     playerStore.volume_on = !playerStore.volume_on;
-    if (!audio) return;
-
-    const volume = playerStore.volume_on ? 100 : 0;
-    playerStore.volume = volume;
-    audio.volume = volume / 100;
-
+    if (playerStore.volume_on && playerStore.volume === 0) {
+      playerStore.volume = 100;
+    };
+    setVolume(playerStore.volume);
   };
 
   const seek = (percent: number) => {
@@ -157,7 +152,6 @@ export const usePlayer = () => {
 
     const time = (percent / 100) * audio.duration;
     audio.currentTime = time;
-
     playerStore.currentTime = formatTime(time);
   };
 

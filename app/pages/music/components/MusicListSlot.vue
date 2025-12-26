@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useMenuStore } from '~/store/useMenuStore'
-import type { MusicMenu } from '~/types/data.types'
+import type { SubMusic, SubSet } from '~/types/data.types'
 
 const props = defineProps<{
-  list: MusicMenu,
+  list: SubMusic | SubSet,
   type?: string,
   className?: string
 }>();
 const emit = defineEmits(['get-music', 'save-music', 'remove-music']);
 
-const newSet = ref("");
+const newSetName = ref("");
 const onEmitMusic = (item:any) => {
   emit('get-music', item, item.chakra);
 };
@@ -17,9 +17,10 @@ const onEmitMusic = (item:any) => {
 const menuStore = useMenuStore();
 
 const onEmitSave = () => {
-  if (!newSet.value.trim()) return alert("Please input a name for the set");  
-  emit('save-music', newSet.value);
-  newSet.value = "";
+  if (!newSetName.value.trim()) return alert("Please input a name for the set");  
+  emit('save-music', newSetName.value);
+  console.log(newSetName.value)
+  newSetName.value = "";
 };
 
 const onEmitRemove = (setName:string, setIdx:number) => {
@@ -35,8 +36,8 @@ const onEmitRemove = (setName:string, setIdx:number) => {
 <template>
   <van-list>
     <van-field
-      v-if="menuStore.openMenu === 'Set.custom' && type !== 'junior-mode'"
-      v-model="newSet"
+      v-if="menuStore.openMenu === 'custom' && type !== 'junior-mode'"
+      v-model="newSetName"
       placeholder="List Name"
     >
       <template #right-icon>
@@ -49,7 +50,7 @@ const onEmitRemove = (setName:string, setIdx:number) => {
       v-for="(one, idx) of list.menu" 
       :key="idx"
       :title="one.name"
-      :label="one.intro"
+      :label="(one.intro as string)"
       @click="onEmitMusic(one)"
     >
       <template v-if="list.name === 'Set.custom'"  #right-icon>

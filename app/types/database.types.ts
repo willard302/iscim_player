@@ -14,45 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      music_custom: {
+      music_library: {
         Row: {
-          id: string | null
+          category: string | null
+          created_at: string
+          created_by: string
+          id: string
           intro: string | null
-          no: number | null
-          url: string | null
+          name: string
+          src: string
         }
         Insert: {
-          id?: string | null
+          category?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
           intro?: string | null
-          no?: number | null
-          url?: string | null
+          name?: string
+          src?: string
         }
         Update: {
-          id?: string | null
+          category?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
           intro?: string | null
-          no?: number | null
-          url?: string | null
+          name?: string
+          src?: string
         }
         Relationships: []
       }
-      music_default: {
+      music_sets: {
         Row: {
-          id: string | null
+          category: string
+          chakras: number[] | null
+          content: Json | null
+          created_at: string
+          created_by: string
+          id: string
           intro: string | null
-          no: number | null
-          url: string | null
+          is_pro: boolean | null
+          mode: string | null
+          name: string
         }
         Insert: {
-          id?: string | null
+          category: string
+          chakras?: number[] | null
+          content?: Json | null
+          created_at?: string
+          created_by?: string
+          id?: string
           intro?: string | null
-          no?: number | null
-          url?: string | null
+          is_pro?: boolean | null
+          mode?: string | null
+          name: string
         }
         Update: {
-          id?: string | null
+          category?: string
+          chakras?: number[] | null
+          content?: Json | null
+          created_at?: string
+          created_by?: string
+          id?: string
           intro?: string | null
-          no?: number | null
-          url?: string | null
+          is_pro?: boolean | null
+          mode?: string | null
+          name?: string
         }
         Relationships: []
       }
