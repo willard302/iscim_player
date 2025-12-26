@@ -1,7 +1,6 @@
 <script setup lang="ts">
+definePageMeta({title: "home"})
 import DisclaimerNotice from '~/components/DisclaimerNotice.vue';
-
-definePageMeta({title: "introduce"})
 </script>
 
 <template>
