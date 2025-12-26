@@ -53,4 +53,7 @@ import ForgetPassword from './components/ForgetPassword.vue';
     display: flex;
     margin: auto;
   }
+  .van-notice-bar {
+    --van-notice-bar-background: transparent;
+  }
 </style>
