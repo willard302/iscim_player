@@ -9,7 +9,7 @@ export default {
   confirm: "確認",
   edit: "編輯",
   email: "電子信箱",
-  enhance: "增強",
+  enhance: "脈輪增強",
   female: "女性",
   gender: "性別",
   introduce: "介紹",
@@ -86,12 +86,12 @@ export default {
     five_elements_music: "五行音樂",
     forget_password: "忘記密碼",
     load_set: "讀取清單",
-    music: "單曲",
+    music: "音樂單曲",
     next: "下一頁",
     numbers_music: "數字音樂",
     remove_all: "移除全部",
     save_and_play: "儲存並播放",
-    set: "套餐"
+    set: "音樂清單"
   },
   Message: {
     loading: "讀取中",
