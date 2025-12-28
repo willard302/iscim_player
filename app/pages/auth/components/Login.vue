@@ -38,12 +38,13 @@ const buttonItems: ButtonItem[] = [
 ];
 
 const handleLogin = async(account: FieldItem[]) => {
-  showLoadingToast($t("Message.loading"));
 
   const username = account.find(item => item.name === 'username')?.value;
   const password = account.find(item => item.name === 'password')?.value;
 
-  if (!username || !password) throw new Error("There is no username or password.");
+  if (!username || !password) return console.error("There is no username or password.");
+
+  showLoadingToast($t("Message.loading"));
 
   const response = await login(username as string, password as string);
 

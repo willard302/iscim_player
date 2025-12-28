@@ -35,7 +35,7 @@ const handleClickRight = () => {
     </template>
     <template #title>
       <h3 class="audio__list__heading">
-        <template v-if="mainStore.userInfo">
+        <template v-if="musicStore.isPro">
           {{ (!musicStore.chakra.name || musicStore.chakra.name === 'Enhance') ? $t("album_list") : $t(musicStore.chakra.name) }}
         </template>
         <template v-else>
@@ -52,5 +52,8 @@ const handleClickRight = () => {
 <style scoped lang="scss">
 :deep(.van-dropdown-menu__bar) {
   box-shadow: unset;
+}
+.audio__list__heading {
+  font-size: 16px;
 }
 </style>

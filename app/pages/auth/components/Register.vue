@@ -46,6 +46,8 @@ const handleRegister = async() => {
   const username = fieldItems.find(item => item.name === "username")?.value;
   const password = fieldItems.find(item => item.name === "password")?.value;
   const password_confirm = fieldItems.find(item => item.name === "password_confirm")?.value;
+
+  if (!username || !password) return console.error("There is no username or password.")
   if (password !== password_confirm) return showFailToast($t("Message.password_is_different"));
   
   showLoadingToast($t("Message.loading"));
