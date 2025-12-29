@@ -121,5 +121,10 @@ const handleGoogleLogin = async() => {
   .login__container {
     --van-divider-text-color: $color9;
     --van-divider-border-color: $color8;
+
+    .van-button {
+      max-width: 90%;
+      margin: auto;
+    }
   }
 </style>
