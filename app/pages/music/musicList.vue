@@ -15,6 +15,8 @@ import type { ChakraType } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadMusicSet, addChakra } = usePlaylist();
 const { getMusics, getSets } = useDataBase();
+
+const router = useRouter();
 const player = usePlayer();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
@@ -33,6 +35,9 @@ const subChakra: ChakraType[] = [
   { name: "Chakra.Third_Eye", idx: 8, id: "Third Eye" },
   { name: "Chakra.Crown", idx: 9, id: "Crown" },
 ];
+
+const {target} = useSwipeChange(() => router.push('/userCenter'), () => router.push('/music'))
+
 const menu_1th = computed(() => {
   const chakra = { name: musicStore.chakra.name, id: "chakra" };
   const set = { name: "Menu.set", id: "set" };
@@ -163,7 +168,7 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div class="page__container">
+  <div class="page__container" ref="target">
     <div :class="['music__list__container', {'junior__mode': menuStore.isJuniorMenu}]">    
       <!-- 音乐列表主体 -->
       <div v-show="menuStore.isMusicList" class="musci__list__checkout">

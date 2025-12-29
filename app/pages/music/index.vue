@@ -12,7 +12,10 @@ import logo_pause from "~/assets/img/iscim_player_logo_pause.png";
 
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
+const router = useRouter();
 const player = usePlayer();
+
+const {target} = useSwipeChange(() => router.push('/music/musicList'), () => router.push('/home'))
 
 onMounted(() => {
   player.initListeners();
@@ -42,7 +45,7 @@ const handleProgress = () => {
 </script>
 
 <template>
-  <div class="page__container">
+  <div class="page__container" ref="target">
     <div class="player__container">
       <div 
         class="disk__container" 

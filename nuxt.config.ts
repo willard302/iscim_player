@@ -47,7 +47,8 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
     '@vesp/nuxt-fontawesome',
-    '@nuxtjs/supabase'
+    '@nuxtjs/supabase',
+    '@vueuse/nuxt'
   ],
   nitro: {
     routeRules: {

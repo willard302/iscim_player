@@ -16,6 +16,7 @@ const musicStore = useMusicStore();
 const router = useRouter();
 
 const { logout } = useAuth();
+const {target} = useSwipeChange(() => router.push('/home'), () => router.push('/music/musicList'))
 
 const username = ref("");
 
@@ -37,7 +38,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="page__container">
+  <div class="page__container" ref="target">
     <div class="profile__container">
       <Avatar />
       <div class="profile__header">

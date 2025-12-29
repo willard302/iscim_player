@@ -6,10 +6,12 @@ definePageMeta({
   pageOrder: 1
 });
 import DisclaimerNotice from '~/components/DisclaimerNotice.vue';
+const router = useRouter();
+const {target} = useSwipeChange(() => router.push('/music'), () => router.push('/userCenter'))
 </script>
 
 <template>
-  <div class="page__container">
+  <div class="page__container" ref="target">
     <van-space class="home__container" direction="vertical" :size="60">
       <div class="article__container">
         <p>{{ $t('introduce_article') }}</p>
@@ -40,5 +42,14 @@ import DisclaimerNotice from '~/components/DisclaimerNotice.vue';
 
 .article__container {
   line-height: 24px;
+}
+
+.page__container {
+  width: 100%;
+  height: 100%;       /* 確保填滿父層 */
+  overflow-x: hidden; /* 禁止水平捲軸 */
+  
+  /* 關鍵：告訴瀏覽器「水平滑動」由 JS 接管，不要觸發原生上一頁或捲動 */
+  touch-action: pan-y;
 }
 </style>
