@@ -1,5 +1,10 @@
 <script setup lang="ts">
-definePageMeta({title:"album_list", layout: "music"});
+definePageMeta({
+  title:"music_list",
+  showHeader: true,
+  showTabbar: true,
+  pageOrder: 3
+});
 import MenuSlot from './components/MenuSlot.vue';
 import ListJuniorMode from './components/ListJuniorMode.vue';
 import MusicListSlot from './components/MusicListSlot.vue';
@@ -158,101 +163,103 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div :class="['music__list__container', {'junior__mode': menuStore.isJuniorMenu}]">
+  <div class="page__container">
+    <div :class="['music__list__container', {'junior__mode': menuStore.isJuniorMenu}]">    
+      <!-- 音乐列表主体 -->
+      <div v-show="menuStore.isMusicList" class="musci__list__checkout">
+        <van-list>
+          <van-cell 
+            v-for="(list, idx) in musicStore.queue" 
+            :key="idx" 
+            :class="[{ playing: playerStore.index == idx }]"
+            center
+            :id="list.id"
+            :title="list.name"
+            :value="(list.chakra as number)"
+            @click="specified(idx)"
+          >
+            <template #right-icon>
+              <font-awesome icon="trash" @click="removeList(idx)"/>
+            </template>
+          </van-cell>
+        </van-list>
+      </div>
   
-    <!-- 音乐列表主体 -->
-    <div v-show="menuStore.isMusicList" class="musci__list__checkout">
-      <van-list>
-        <van-cell 
-          v-for="(list, idx) in musicStore.queue" 
-          :key="idx" 
-          :class="[{ playing: playerStore.index == idx }]"
-          center
-          :id="list.id"
-          :title="list.name"
-          :value="(list.chakra as number)"
-          @click="specified(idx)"
-        >
-          <template #right-icon>
-            <font-awesome icon="trash" @click="removeList(idx)"/>
-          </template>
-        </van-cell>
-      </van-list>
-    </div>
-
-    <!-- Junior模式 -->
-    <ListJuniorMode 
-      v-if="menuStore.isJuniorMenu"
-      @remove-all="removeAll"
-    />
-
-    <div v-show="menuStore.isAdvancedMenu" class="music__list__menu">
-
-      <MenuSlot
-        v-show="menuStore.openMenu === 'navMenu'"
-        :lists="menu_1th"
+      <!-- Junior模式 -->
+      <ListJuniorMode 
+        v-if="menuStore.isJuniorMenu"
         @remove-all="removeAll"
       />
-
-      <MenuSlot 
-        v-show="menuStore.openMenu === 'music'"
-        :lists="musicStore.subMusic"
-      />
-
-      <MusicListSlot
-        v-for="(item, idx) in musicStore.subMusic" 
-        :key="idx"
-        v-show="menuStore.openMenu === item.id"
-        :list="item"
-        @get-music="addMusic"
-      />
-
-      <MenuSlot 
-        v-show="menuStore.openMenu === 'mymusic'"
-        :lists="musicStore.subMusicUpdated"
-      />
-
-      <MusicListSlot
-        v-for="(item, idx) in musicStore.subMusicUpdated" 
-        :key="idx"
-        v-show="menuStore.openMenu === item.id"
-        :list="item"
-        @get-music="addMusic"
-      />
-
-      <MenuSlot 
-        v-show="menuStore.openMenu === 'set'"
-        :lists="musicStore.subSet"
-      />
-
-      <MusicListSlot
-        v-for="(item, idx) in musicStore.subSet" 
-        :key="idx"
-        v-show="menuStore.openMenu === item.id"
-        :list="item"
-        @get-music="loadMusicSet"
-        @save-music="saveSet"
-        @remove-music="removeSet"
-      />
-
-      <van-list v-show="menuStore.openMenu === 'chakra'">
-        <van-cell 
-          v-for="(item, idx) in subChakra" 
-          :key="idx"
-          :title="$t(item.name)"
-          @click="addChakra(item)"
+  
+      <div v-show="menuStore.isAdvancedMenu" class="music__list__menu">
+  
+        <MenuSlot
+          v-show="menuStore.openMenu === 'navMenu'"
+          :lists="menu_1th"
+          @remove-all="removeAll"
         />
-      </van-list>
+  
+        <MenuSlot 
+          v-show="menuStore.openMenu === 'music'"
+          :lists="musicStore.subMusic"
+        />
+  
+        <MusicListSlot
+          v-for="(item, idx) in musicStore.subMusic" 
+          :key="idx"
+          v-show="menuStore.openMenu === item.id"
+          :list="item"
+          @get-music="addMusic"
+        />
+  
+        <MenuSlot 
+          v-show="menuStore.openMenu === 'mymusic'"
+          :lists="musicStore.subMusicUpdated"
+        />
+  
+        <MusicListSlot
+          v-for="(item, idx) in musicStore.subMusicUpdated" 
+          :key="idx"
+          v-show="menuStore.openMenu === item.id"
+          :list="item"
+          @get-music="addMusic"
+        />
+  
+        <MenuSlot 
+          v-show="menuStore.openMenu === 'set'"
+          :lists="musicStore.subSet"
+        />
+  
+        <MusicListSlot
+          v-for="(item, idx) in musicStore.subSet" 
+          :key="idx"
+          v-show="menuStore.openMenu === item.id"
+          :list="item"
+          @get-music="loadMusicSet"
+          @save-music="saveSet"
+          @remove-music="removeSet"
+        />
+  
+        <van-list v-show="menuStore.openMenu === 'chakra'">
+          <van-cell 
+            v-for="(item, idx) in subChakra" 
+            :key="idx"
+            :title="$t(item.name)"
+            @click="addChakra(item)"
+          />
+        </van-list>
+        
+      </div>
       
+      <van-divider />
+      <disclaimer-notice />
     </div>
-    
-    <van-divider />
-    <disclaimer-notice />
   </div>
 </template>
 
 <style scoped lang="scss">
 @use "sass:color";
+@import url("~/assets/scss/_transitions.scss");
 
 .van-divider {
   --van-divider-margin: 10px auto;
@@ -292,7 +299,7 @@ onMounted(async() => {
 .music__list__menu {
 
   position: absolute;
-  top: 46px;
+  top: 0;
   left: 0;
   z-index: 99;
   width: 100%;

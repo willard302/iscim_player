@@ -27,7 +27,7 @@ body {
 }
 
 main {
-  padding: 10px 20px;
+  position: relative;
   height: calc(100vh - $height_top - $height_bottom);
   height: calc(100dvh - $height_top - $height_bottom);
 
@@ -51,4 +51,14 @@ main {
     #dadcff,
     #d5e5fb,
     #dceaf3);
+}
+
+.page__container {
+  height: 100%;
+  padding: 10px 20px;
+}
+
+.policy__container {
+  min-height: 100vh;
+  padding: 10px 20px;
 }

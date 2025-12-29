@@ -1,4 +1,10 @@
 <script setup lang="ts">
+definePageMeta({
+  title: "Music.player",
+  pageOrder: 2,
+  showHeader: true,
+  showTabbar: true
+});
 import { useMusicStore } from "~/store/useMusicStore";
 import { usePlayerStore } from "~/store/usePlayerStore";
 import logo from "~/assets/img/iscim_player_logo.png";
@@ -36,80 +42,83 @@ const handleProgress = () => {
 </script>
 
 <template>
-  <div class="player__container">
-    <div 
-      class="disk__container" 
-      @click="player.togglePlay"
-    >
-      <van-image 
-        :class="['disk__image', {'spinning': playerStore.isPlaying}]"
-        height="240" width="240" fit="cover" round
-        :src="playerStore.isPlaying ? logo_pause : logo"
-      /> 
-    </div>
-    
-    <h3 class="music__title van-ellipsis">{{ musicStore.queue.length === 0 ? $t(musicStore.name) : musicStore.name }}</h3>
-    
-    <div class="progress__container">
-      <van-slider 
-        v-model="musicStore.slidePercent" 
-        button-size="12px"
-        @drag-start="onDragStart"
-        @drag-end="onDragEnd"
-        @update:model-value="handleProgress"
-      />
-      <div class="time__labels">
-        <span class="time__text">{{ playerStore.currentTime }}</span>
-        <span class="time__text">{{ playerStore.duraTime }}</span>
+  <div class="page__container">
+    <div class="player__container">
+      <div 
+        class="disk__container" 
+        @click="player.togglePlay"
+      >
+        <van-image 
+          :class="['disk__image', {'spinning': playerStore.isPlaying}]"
+          height="240" width="240" fit="cover" round
+          :src="playerStore.isPlaying ? logo_pause : logo"
+        /> 
       </div>
-    </div>
-    
-    <van-row class="navigation__container" align="center" justify="space-between">
-      <van-col span="14" class="operation__container">
-        <van-space :size="8">
-          <van-button size="small" round @click="player.prev()">
-            <font-awesome icon="backward" />
-          </van-button>
-
-          <van-button size="small" round @click.lazy="player.togglePlay()">
-            <font-awesome :icon="playerStore.isPlaying ? 'pause' : 'play'"/>
-          </van-button>
-
-          <van-button size="small" round @click="player.next()">
-            <font-awesome icon="forward" />
-          </van-button>
-
-          <van-button 
-            size="small" round class="loop-btn" 
-            @click="musicStore.setLoop()"
-          >
-            <font-awesome class="fa-solid fa-repeat" icon="repeat"/>
-            <span class="loop-badge">{{ loopBadgeText }}</span>
-          </van-button>
-        </van-space>
-      </van-col>
       
-      <van-col span="10" class="volume__container">
-        <van-button 
-          size="mini" plain style="border: none; margin-right: 5px;"
-          @click="player.openVolume()"
-        >
-          <font-awesome :icon="playerStore.volume_on ? 'volume-high' : 'volume-off'" />
-        </van-button>
+      <h3 class="music__title van-ellipsis">{{ musicStore.queue.length === 0 ? $t(musicStore.name) : musicStore.name }}</h3>
+      
+      <div class="progress__container">
         <van-slider 
-          v-model="playerStore.volume"
-          :min="0" :max="100" button-size="10px"
-          @update:model-value="player.setVolume"
+          v-model="musicStore.slidePercent" 
+          button-size="12px"
+          @drag-start="onDragStart"
+          @drag-end="onDragEnd"
+          @update:model-value="handleProgress"
         />
-      </van-col>
-    </van-row>
-
-    <disclaimer-notice />
+        <div class="time__labels">
+          <span class="time__text">{{ playerStore.currentTime }}</span>
+          <span class="time__text">{{ playerStore.duraTime }}</span>
+        </div>
+      </div>
+      
+      <van-row class="navigation__container" align="center" justify="space-between">
+        <van-col span="14" class="operation__container">
+          <van-space :size="8">
+            <van-button size="small" round @click="player.prev()">
+              <font-awesome icon="backward" />
+            </van-button>
+  
+            <van-button size="small" round @click.lazy="player.togglePlay()">
+              <font-awesome :icon="playerStore.isPlaying ? 'pause' : 'play'"/>
+            </van-button>
+  
+            <van-button size="small" round @click="player.next()">
+              <font-awesome icon="forward" />
+            </van-button>
+  
+            <van-button 
+              size="small" round class="loop-btn" 
+              @click="musicStore.setLoop()"
+            >
+              <font-awesome class="fa-solid fa-repeat" icon="repeat"/>
+              <span class="loop-badge">{{ loopBadgeText }}</span>
+            </van-button>
+          </van-space>
+        </van-col>
+        
+        <van-col span="10" class="volume__container">
+          <van-button 
+            size="mini" plain style="border: none; margin-right: 5px;"
+            @click="player.openVolume()"
+          >
+            <font-awesome :icon="playerStore.volume_on ? 'volume-high' : 'volume-off'" />
+          </van-button>
+          <van-slider 
+            v-model="playerStore.volume"
+            :min="0" :max="100" button-size="10px"
+            @update:model-value="player.setVolume"
+          />
+        </van-col>
+      </van-row>
+  
+      <disclaimer-notice />
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use "sass:color";
+@import url("~/assets/scss/_transitions.scss");
 
 .player__container {
   width: 100%;
