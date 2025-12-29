@@ -108,3 +108,9 @@ export type PolicyPart = {
   contents?: string[]
   lists?: string[]
 }
+
+export type Picker = {
+  selectedIndexes: number[]
+  selectedOptions: FieldOption[]
+  selectedValues: string[]
+}

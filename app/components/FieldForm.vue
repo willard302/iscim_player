@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonItem, FieldItem, FieldOption } from '~/types/data.types';
+import type { ButtonItem, FieldItem, FieldOption, Picker } from '~/types/data.types';
 const { t } = useI18n();
 
 const props = defineProps<{
@@ -38,15 +38,7 @@ const openPicker = (field: FieldItem) => {
   showPicker.value = true;
 };
 
-interface SelectedType {
-  selectedIndexes: number[]
-  selectedOptions: FieldOption[]
-  selectedValues: string[]
-}
-
-const onConfirm = (
-  selected: SelectedType
-) => {
+const onConfirm = ( selected: Picker ) => {
   if (!pickerField.value) return;
   pickerField.value.value = selected.selectedValues[0] ?? '';
   showPicker.value = false;

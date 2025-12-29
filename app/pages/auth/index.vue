@@ -6,15 +6,16 @@ definePageMeta({
     mode: 'out-in'
   }
 })
-
+import Start from './components/Start.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
-import Logo from '~/assets/img/iscim_player_logo.png';
 import ForgetPassword from './components/ForgetPassword.vue';
+import Logo from '~/assets/img/iscim_player_logo.png';
 
   const authStore = useAuthStore();
+  const mainStore = useMainStore();
 
-  const noticeText = ref("By choosing to continue, it is understood that you agree to our")
+  const noticeText = ref("By choosing to continue, it is understood that you agree to our");
   
   const items = computed(() => [
     { name: 'log_in', comp: authStore.showForgetPassword ? ForgetPassword : Login },
