@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import ListJuniorBuildNewSet from './ListJuniorBuildNewSet.vue';
 import ListJuniorLoadSet from './ListJuniorLoadSet.vue';
-import { useMenuStore } from '~/store/useMenuStore';
-import { useMusicStore } from '~/store/useMusicStore';
 import type { SubMusic } from '~/types/data.types';
 import type { MusicRow } from '~/types/supabase';
 interface TabItem {

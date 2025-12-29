@@ -2,7 +2,7 @@
 import { useStorage } from '~/composables/useStorage';
 import { useDataBase } from '~/composables/useDataBase';
 import type { UploaderFileListItem } from 'vant';
-import { useMainStore } from '~/store/useMainStore';
+
 const { uploadFile, deleteFile } = useStorage();
 const { updateUser, getUser } = useDataBase();
 const mainStore = useMainStore();

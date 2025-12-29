@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { ButtonItem, FieldItem } from '~/types/data.types';
-import { useMainStore } from '~/store/useMainStore';
-import { useAuthStore } from '~/store/useAuthStore';
 const { login, loginWithGoogle } = useAuth();
 const { showPassword } = useCommon()
 const { getUser, insertUser } = useDataBase();

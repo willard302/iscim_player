@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ButtonItem, FieldItem } from '~/types/data.types';
-import { useAuthStore } from '~/store/useAuthStore';
 const { showPassword } = useCommon();
 const authStore = useAuthStore();
 

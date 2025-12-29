@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useMusicStore } from '~/store/useMusicStore';
 const musicStore = useMusicStore();
 const route = useRoute();
 const showHeader = computed(() => route.meta.showHeader ?? true);

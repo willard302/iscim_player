@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/store/useAuthStore";
 import type { ButtonItem, FieldItem } from "~/types/data.types";
 
 const router = useRouter();

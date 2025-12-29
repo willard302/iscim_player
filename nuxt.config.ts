@@ -39,7 +39,7 @@ export default defineNuxtConfig({
     ]
   },
   imports: {
-    dirs: ['app/composables']
+    dirs: ['app/composables', 'app/stores']
   },
   modules: [
     "@nuxtjs/i18n",

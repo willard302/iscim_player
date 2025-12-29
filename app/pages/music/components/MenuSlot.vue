@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useMenuStore } from '~/store/useMenuStore';
 import type { SubMusic, SubSet } from '~/types/data.types';
 
   const props = defineProps<{

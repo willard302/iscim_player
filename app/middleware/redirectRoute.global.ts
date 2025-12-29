@@ -1,5 +1,3 @@
-import { useMainStore } from "~/store/useMainStore";
-
 export default defineNuxtRouteMiddleware(async(to, from) => {
   const mainStore = useMainStore();
 

@@ -2,8 +2,8 @@
 import { Locale } from 'vant';
 import vantUS from 'vant/es/locale/lang/en-US';
 import vantTW from 'vant/es/locale/lang/zh-TW';
-import { useMainStore } from '~/store/useMainStore';
 import type { Message } from '~/types/data.types';
+
 const { setLocale, t } = useI18n();
 const mainStore = useMainStore();
 

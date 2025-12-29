@@ -6,9 +6,6 @@ definePageMeta({
   pageOrder: 4
 });
 import Avatar from '~/components/Avatar.vue';
-import { useMainStore } from '~/store/useMainStore';
-import { useMenuStore } from '~/store/useMenuStore';
-import { useMusicStore } from '~/store/useMusicStore';
 
 const mainStore = useMainStore();
 const menuStore = useMenuStore();

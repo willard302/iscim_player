@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useMenuStore } from '~/store/useMenuStore';
-import { useMusicStore } from '~/store/useMusicStore';
 import type { MusicLocal, SubMusic } from '~/types/data.types';
 
 const props = defineProps<{

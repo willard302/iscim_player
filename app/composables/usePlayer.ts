@@ -1,6 +1,3 @@
-import { useMusicStore } from "~/store/useMusicStore";
-import { usePlayerStore } from "~/store/usePlayerStore";
-
 export const LoopMode = {
   NORMAL: "normal",
   ONE: "repeatOne",

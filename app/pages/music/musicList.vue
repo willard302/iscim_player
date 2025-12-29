@@ -8,9 +8,6 @@ definePageMeta({
 import MenuSlot from './components/MenuSlot.vue';
 import ListJuniorMode from './components/ListJuniorMode.vue';
 import MusicListSlot from './components/MusicListSlot.vue';
-import { useMenuStore } from '~/store/useMenuStore';
-import { useMusicStore } from '~/store/useMusicStore';
-import { usePlayerStore } from '~/store/usePlayerStore';
 import type { ChakraType } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadMusicSet, addChakra } = usePlaylist();

@@ -1,7 +1,3 @@
-import { useMainStore } from "~/store/useMainStore";
-import { useMusicStore } from "~/store/useMusicStore";
-import { usePlayerStore } from "~/store/usePlayerStore";
-
 export const useAuth = () => {
   
   const client = useSupabaseClient();

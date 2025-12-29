@@ -1,8 +1,4 @@
-import { useMainStore } from "~/store/useMainStore";
-import { useMenuStore } from "~/store/useMenuStore";
-import { useMusicStore } from "~/store/useMusicStore";
-import { usePlayerStore } from "~/store/usePlayerStore";
-import type { ChakraType, SubMusic } from "~/types/data.types";
+import type { ChakraType } from "~/types/data.types";
 import type { MusicRow, SetInsert, SetRow } from "~/types/supabase";
 
 export const usePlaylist = () => {

@@ -5,8 +5,6 @@ definePageMeta({
   showHeader: true,
   showTabbar: true
 });
-import { useMusicStore } from "~/store/useMusicStore";
-import { usePlayerStore } from "~/store/usePlayerStore";
 import logo from "~/assets/img/iscim_player_logo.png";
 import logo_pause from "~/assets/img/iscim_player_logo_pause.png";
 

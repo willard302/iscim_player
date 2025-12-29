@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useMenuStore } from "~/store/useMenuStore";
 import logo from "/iscim_logo.png";
-import { useMusicStore } from "~/store/useMusicStore";
 
 const menuStore = useMenuStore();
 const musicStore = useMusicStore();

@@ -6,7 +6,7 @@ definePageMeta({
     mode: 'out-in'
   }
 })
-import { useAuthStore } from '~/store/useAuthStore';
+
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import Logo from '~/assets/img/iscim_player_logo.png';

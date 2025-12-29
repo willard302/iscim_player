@@ -4,7 +4,6 @@ definePageMeta({
   showHeader: true,
   showTabbar: false
 });
-import { useMainStore } from '~/store/useMainStore';
 import DataForm from './components/DataForm.vue';
 import type { UserRow } from '~/types/supabase';
 
