@@ -62,10 +62,12 @@ const privacy: PolicyPart[] = [
 </script>
 
 <template>
-  <article-slot 
-    :title="title"
-    :article="privacy"
-  />
+  <div class="policy__container">
+    <article-slot 
+      :title="title"
+      :article="privacy"
+    />
+  </div>
 </template>
 
 <style scoped></style>

@@ -126,11 +126,13 @@ const Service: PolicyPart[] = [
 </script>
 
 <template>
-  <article-slot 
-    :title="title"
-    title-class="title"
-    :article="Service"
-  />
+  <div class="policy__container">
+    <article-slot 
+      :title="title"
+      title-class="title"
+      :article="Service"
+    />
+  </div>
 </template>
 
 <style scoped></style>
