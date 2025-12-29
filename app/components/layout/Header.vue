@@ -8,14 +8,14 @@ const musicStore = useMusicStore();
 const route = useRoute();
 
 const title = computed(() => route.meta.title ? route.meta.title : "iscim_music");
-const isHome = computed(() => route.meta.title === 'home');
+const isMainPage = computed(() => route.meta.showTabbar);
 const isMusicList = computed(() => route.meta.title === 'music_list');
 const openSubNav = computed(() => menuStore.isAdvancedMenu || menuStore.isJuniorMenu);
 
 const onClickLeft = () => {
   if (isMusicList && menuStore.openMenu !== '') {
     menuStore.backToMenu();
-  } else if(isHome) {
+  } else if(isMainPage) {
     history.go(-1);
   } else {
     navigateTo('/home')
@@ -42,7 +42,7 @@ const onClickRight = () => {
     @click-right="onClickRight"
   >
     <template #left>
-      <van-icon v-if="!isHome" name="arrow-left" />
+      <van-icon v-if="!isMainPage" name="arrow-left" />
       <van-image v-else :src="logo" />
     </template>
     <template #title>
