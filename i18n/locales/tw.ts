@@ -1,6 +1,6 @@
 export default {
   advanced_mode: "專業",
-  album_list: "播放清單",
+  music_list: "播放清單",
   and: "和",
   basic_mode: "一般",
   cancel: "取消",
@@ -111,6 +111,9 @@ export default {
     full_charge: "完整充電",
     major_meetings: "重大會議",
     medium: "正常版",
+    menu_mode: "點歌模式",
+    music_mode: "音樂模式",
+    player: "音樂播放器",
     pro: "專業",
     pub: "一般",
     reinforce_learning: "強化學習",

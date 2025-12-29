@@ -1,6 +1,6 @@
 export default {
   advanced_mode: "Advanced",
-  album_list: "Album List",
+  music_list: "Album List",
   and: "And",
   basic_mode: "Basic",
   cancel: "Cancel",
@@ -111,6 +111,9 @@ export default {
     full_charge: "Full Charge",
     major_meetings: "Major meetings",
     medium: "Medium",
+    menu_mode: "Menu Mode",
+    music_mode: "Music Mode",
+    player: "Music Player",
     pro: "Pro",
     pub: "Pub",
     reinforce_learning: "Reinforce learning",
