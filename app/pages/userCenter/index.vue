@@ -1,18 +1,34 @@
 <script setup lang="ts">
-definePageMeta({title: "user_center"});
+definePageMeta({
+  title: "user_center",
+  showHeader: true,
+  showTabbar: true,
+  pageOrder: 4
+});
 import Avatar from '~/components/Avatar.vue';
 import { useMainStore } from '~/store/useMainStore';
+import { useMenuStore } from '~/store/useMenuStore';
+import { useMusicStore } from '~/store/useMusicStore';
+
 const mainStore = useMainStore();
+const menuStore = useMenuStore();
+const musicStore = useMusicStore();
 const router = useRouter();
 
 const { logout } = useAuth();
 
 const username = ref("");
 
-const lists = reactive([
-  { title: 'user_data', path: '/userCenter/profile' },
-  { title: 'setting', path: '/userCenter/setting' }
+const routeLists = reactive([
+  { title: 'user_data', path: '/userCenter/profile' }
 ]);
+
+const buttonLists = computed(() => {
+  return [
+    { title: 'Music.music_mode', action: musicStore.handleToggleType, label: musicStore.isPro ? $t("Music.pro") : $t("Music.pub") },
+    { title: 'Music.menu_mode', action: menuStore.toggleJuniorMode, label: menuStore.isJuniorMode ? $t('basic_mode') : $t('advanced_mode') },
+  ]
+})
 
 onMounted(() => {
   if (!mainStore.userInfo || !mainStore.userInfo.id ) throw new Error("There is no user, user_id.");
@@ -21,29 +37,43 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="profile__container">
-    <Avatar />
-    <div class="profile__header">
-      <van-divider >{{ mainStore.userInfo.name }}</van-divider>
+  <div class="page__container">
+    <div class="profile__container">
+      <Avatar />
+      <div class="profile__header">
+        <van-divider >{{ mainStore.userInfo.name }}</van-divider>
+      </div>
+      <van-cell-group class="profile__body" inset>
+
+        <van-cell
+          v-for="(b, bIdx) in buttonLists"
+          :key="bIdx"
+          :title="$t(b.title)"
+          center
+        >
+          <template #value>
+            <van-button size="small" @click="b.action">{{ b.label }}</van-button>
+          </template>
+        </van-cell>
+        <van-cell 
+          v-for="(item, idx) in routeLists" 
+          :key="idx" 
+          is-link 
+          :title="$t(item.title)"
+          @click="router.push(item.path)"
+        />
+        <van-cell 
+          :title="$t('log_out')"
+          is-link
+          @click="logout()"
+        />
+      </van-cell-group>
     </div>
-    <van-cell-group class="profile__body" inset>
-      <van-cell 
-        v-for="(item, idx) in lists" 
-        :key="idx" 
-        is-link 
-        :title="$t(item.title)"
-        @click="router.push(item.path)"
-      />
-      <van-cell 
-        :title="$t('log_out')"
-        is-link
-        @click="logout()"
-      />
-    </van-cell-group>
   </div>
 </template>
 
 <style scoped lang="scss">
+@import url("~/assets/scss/_transitions.scss");
 
 .van-cell-group {
   width: 100%;

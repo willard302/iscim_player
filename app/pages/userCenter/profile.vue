@@ -1,5 +1,9 @@
 <script setup lang="ts">
-definePageMeta({ title: 'user_data' });
+definePageMeta({ 
+  title: 'user_data',
+  showHeader: true,
+  showTabbar: false
+});
 import { useMainStore } from '~/store/useMainStore';
 import DataForm from './components/DataForm.vue';
 import type { UserRow } from '~/types/supabase';
@@ -27,12 +31,24 @@ const onEdit = (val:boolean) => {
 };
 </script>
 <template>
-  <DataForm
-    :user-data="mainStore.userInfo"
-    :editable="isEditable"
-    @editable="onEdit"
-    @submit="onSubmit"
-  />
+  <div class="page__container">
+    <DataForm
+      :user-data="mainStore.userInfo"
+      :editable="isEditable"
+      @editable="onEdit"
+      @submit="onSubmit"
+    />
+  </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@use "sass:color";
+  .van-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $color1;
+  }
+</style>

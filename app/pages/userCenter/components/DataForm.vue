@@ -134,6 +134,7 @@ const handleToggle = (action: string) => {
           <van-picker 
             :columns="pickerOptions.gender"
             @confirm="params => onConfirmPicker('gender', params)"
+            @cancel="handleToggle('gender')"
           />
         </van-popup>
 
@@ -168,6 +169,8 @@ const handleToggle = (action: string) => {
   align-items: center;
   justify-content: space-around;
   margin-top: 10px;
+  height: 70%;
+  overflow-y: auto;
 
   :deep(.van-space-item) {
     width: 45%
