@@ -27,7 +27,7 @@ export const useMusicStore = defineStore("music", () => {
       category: "custom",
       is_pro: true,
       chakras: [],
-      content: []
+      content: ""
     } as SetInsert,
     slidePercent: 0,
     diskRotation: 0,

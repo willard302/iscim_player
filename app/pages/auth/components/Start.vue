@@ -24,8 +24,6 @@ const onConfirm = (selected: Picker) => {
     mainStore.locale = 'tw'
   };
 
-  mainStore.isStart = false;
-
   const router = useRouter();
   router.push('/auth')
 };

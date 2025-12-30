@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import type { MusicLocal, SubMusic } from '~/types/data.types';
-
-const props = defineProps<{
-  subMusicLocal: SubMusic[]
-}>();
-
-const emit = defineEmits(['submit'])
-
-const checked = ref([]);
+import type { MusicRow } from '~/types/supabase';
 
 const active = reactive({
   music: 0
@@ -16,7 +9,7 @@ const active = reactive({
 const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 
-const { removeMusic } = usePlaylist();
+const { removeMusic, saveSet } = usePlaylist();
 
 const newLists = [
   { 
@@ -42,8 +35,7 @@ const newLists = [
   },
 ];
 
-const showMenu = ref("");
-const musicOrder = ref(0);
+const subMusicLocal = ref<SubMusic[]>([]);
 const musicListsSelected = ref<MusicLocal[]>([]);
 
 const subTitle = computed((): string => {
@@ -54,31 +46,29 @@ const subTitle = computed((): string => {
   };
 });
 
-const handleCheck = (music: any) => {
-  props.subMusicLocal.forEach(musicList => {
-    if (!musicList.menu) return;
-    musicList.menu.forEach(item => {
-      if (item !== music) return;
+const handleCheck = (item: any) => {
 
-      item.checked = !item.checked;
+  const index = musicListsSelected.value.findIndex(s => s === item);
+  const isSelected = index > -1 ;
 
-      if (item.checked) {
-        musicOrder.value++;
-        musicListsSelected.value.push(item);
-        item.sort_order = musicOrder.value;
-        return;
-      };
+  if (isSelected) {
 
-      musicOrder.value--;
-      musicListsSelected.value.forEach(one => removeMusic(one, music));
-      musicListsSelected.value = musicListsSelected.value.filter(one => one.sort_order !== null);
-      removeMusic(item, music);
-    });
-  });
+    removeMusic( item, item);
+    musicListsSelected.value.splice(index, 1);
+
+    item.checked = false;
+    item.sort_order = 0;
+  } else {
+    musicListsSelected.value.push(item);
+    item.checked = true;
+  };
+
+  musicListsSelected.value.forEach((selectedItem, idx) => {
+    selectedItem.sort_order = idx + 1;
+  })
 };
 
 const handleNext = () => {
-  showMenu.value = '';
   if (musicListsSelected.value.length === 0) {
     showFailToast($t("Message.please_select_a_music_at_least"));
     return;
@@ -87,18 +77,46 @@ const handleNext = () => {
     showFailToast($t("Message.please_enter_a_name_for_the_set"));
     return;
   };
-  musicStore.newSet.content = [...musicListsSelected.value];
+  musicStore.newSet.content = JSON.stringify([...musicListsSelected.value]);
   menuStore.step = 2;
 };
 
-const handleSubmit = () => {
-  emit('submit', musicStore.newSet);
+const handleSubmit = async() => {
+
+  const result = await saveSet();
+  console.log(result)
+  // initMusicListsSelected();
   menuStore.resetStep()
 };
 
 const handleSelectMode = (e: string) => {
   musicStore.newSet.mode = e;
 };
+
+const initMusicListsSelected = () => {
+  musicListsSelected.value = [];
+  
+  if (subMusicLocal.value && Array.isArray(subMusicLocal.value)) {
+    subMusicLocal.value = musicStore.subMusicUpdated.map(category => {
+      const newCategory = { ...category };
+      if (newCategory.menu && Array.isArray(newCategory.menu)) {
+        newCategory.menu = newCategory.menu.map((item: MusicRow) => ({
+          ...item,
+          checked: false,
+        }));
+      }
+      
+      return newCategory;
+    });
+  }
+  
+  // 重置set对象
+  musicStore.initNewSet();
+};
+
+onMounted(() => {
+  initMusicListsSelected();
+});
 </script>
 
 <template>
@@ -109,34 +127,34 @@ const handleSelectMode = (e: string) => {
       <div class="musicList__body">
 
         <template v-if="menuStore.step === 1">
-          <van-tabs
-            v-model:active="active.music"
-            type="card"
-          >
+          <van-tabs v-model:active="active.music" type="card">
             <van-tab
               v-for="(m, mIdx) in subMusicLocal"
               :key="mIdx"
               :title="$t(m.name)"
             >
-              <van-checkbox-group v-model="checked">
-                <van-cell-group inset>
-                  <van-cell
-                    v-for="(i, iIdx) in m.menu"
-                    :key="iIdx"
-                    :title="i.name"
-                    @click="handleCheck(i)"
-                    clickable
-                  >
-                    <template #right-icon>
-                      <van-checkbox :name="i.name">
-                        <template #icon>
-                          {{ i.sort_order === 0 ? null : i.sort_order }}
-                        </template>
-                      </van-checkbox>
-                    </template>
-                  </van-cell>
-                </van-cell-group>
-              </van-checkbox-group>
+              <van-cell-group inset>
+                <van-cell
+                  v-for="(i, iIdx) in m.menu"
+                  :key="iIdx"
+                  :title="i.name"
+                  clickable
+                  @click="handleCheck(i)"
+                >
+                  <template #right-icon>
+                    <van-checkbox 
+                      :model-value="!!i.checked"
+                      @click.stop="handleCheck(i)"
+                    >
+                      <template #icon>
+                        <div v-if="typeof i.sort_order === 'number' && i.sort_order > 0" class="sort-badge">
+                          {{ i.sort_order }}
+                        </div>
+                      </template>
+                    </van-checkbox>
+                  </template>
+                </van-cell>
+              </van-cell-group>
             </van-tab>
           </van-tabs>
         </template>
@@ -207,6 +225,16 @@ const handleSelectMode = (e: string) => {
   :deep(.van-tabs__content) {
     height: 40vh;
     overflow-y: auto;
+  }
+  .sort-badge {
+    width: 20px;
+    height: 20px;
+    background-color: #1989fa; /* Vant Blue */
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
   }
 
 </style>

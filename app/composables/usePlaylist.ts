@@ -1,5 +1,5 @@
 import type { ChakraType } from "~/types/data.types";
-import type { MusicRow, SetInsert, SetRow } from "~/types/supabase";
+import type { MusicInsert, MusicRow, SetInsert, SetRow } from "~/types/supabase";
 
 export const usePlaylist = () => {
   
@@ -42,7 +42,6 @@ export const usePlaylist = () => {
   };
 
   const loadMusicSet = (musicList: SetInsert) => {
-    console.log(musicList)
     const sourceChakraList = (musicList.chakras && musicList.chakras.length > 0 && !musicList.chakras.includes(99))
       ? musicList.chakras : [];
       
@@ -64,29 +63,37 @@ export const usePlaylist = () => {
     menuStore.isMusicList = true;
   };
 
-  const saveSet = (newSetName: string) => {
-    if (!newSetName) return;
+  const saveSet = async() => {
+    const {insertSet} = useDataBase();
 
-    musicStore.initNewSet();
-    musicStore.newSet.name = newSetName;
     musicStore.newSet.category = 'custom';
+    musicStore.newSet.created_by = mainStore.userInfo.name;
+    musicStore.newSet.is_pro = true;
+    // let queue: MusicInsert[] = []
+    // musicStore.queue.forEach((e: any) => {
 
-    musicStore.queue.forEach((e: any) => {
+    //   const musicItem: MusicRow = {
+    //     id: e.id,
+    //     name: e.name,
+    //     src: e.src,
+    //     intro: e.intro || null,
+    //     category: e.category || 'custom',
+    //     created_at: e.created_at || new Date().toISOString(),
+    //     created_by: e.created_by || ''
+    //   };
 
-      const musicItem: MusicRow = {
-        id: e.id,
-        name: e.name,
-        src: e.src,
-        intro: e.intro || null,
-        category: e.category || 'custom',
-        created_at: e.created_at || new Date().toISOString(),
-        created_by: e.created_by || ''
-      };
+    //   queue.push(musicItem);
 
-      musicStore.newSet.content.push(musicItem)
+    //   if (e.chakra) musicStore.newSet.chakras?.push(e.chakra);
+    // });
+    // musicStore.newSet.content = JSON.stringify(queue);
 
-      if (e.chakra) musicStore.newSet.chakras?.push(e.chakra);
-    });
+    console.log(musicStore.newSet)
+
+    const result = await insertSet(musicStore.newSet);
+    console.log(result)
+
+    // musicStore.initNewSet();
   };
 
   const removeSet = (item: SetRow) => {

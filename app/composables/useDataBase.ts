@@ -77,6 +77,18 @@ export const useDataBase = () => {
 
     handleError(error, "Error fetching sets");
     return data as SetInsert[];
+  };
+  const insertSet = async(setInfo: SetInsert) => {
+    if (!setInfo) return;
+    const { data, error } = await client
+      .from("music_sets")
+      .upsert(setInfo, {onConflict: 'id'})
+      .select("*")
+      .single();
+
+    handleError(error, `Error inserting set.`);
+    console.log("insert: ", data)
+    return data;
   }
 
   return {
@@ -84,7 +96,8 @@ export const useDataBase = () => {
     insertUser,
     updateUser,
     getMusics,
-    getSets
+    getSets,
+    insertSet
   }
 
 }

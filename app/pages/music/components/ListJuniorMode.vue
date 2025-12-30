@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import ListJuniorBuildNewSet from './ListJuniorBuildNewSet.vue';
 import ListJuniorLoadSet from './ListJuniorLoadSet.vue';
-import type { SubMusic } from '~/types/data.types';
-import type { MusicRow } from '~/types/supabase';
 interface TabItem {
   name: string,
   comp: any,
@@ -11,25 +9,18 @@ interface TabItem {
   events?: Record<string, (...args: any[]) => void>
 }
 
-const emit = defineEmits(['remove-all', 'handle-play', 'handle-save-set'])
+const emit = defineEmits(['remove-all', 'handle-play'])
 
 const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 
 const active = ref('Menu.build_new_set')
-const subMusicLocal = ref<SubMusic[]>([]);
-const musicListsSelected = ref([]);
-const musicOrder = ref(0);
-const showMenu = ref("");
 
 const build_new_set = ref<TabItem>({ 
   name: "Menu.build_new_set", 
-  comp: shallowRef(ListJuniorBuildNewSet), 
-  props: {
-    subMusicLocal: subMusicLocal
-  },
+  comp: shallowRef(ListJuniorBuildNewSet),
   events: {
-    'submit': (e:any) => submitCustomSet(e)
+    'submit': () => submitCustomSet()
   }
 })
 
@@ -46,54 +37,15 @@ const items = ref<TabItem[]>([
 ]);
 
 onMounted(() => {
-  initMusicListsSelected();
   if(!musicStore.isPro) return;
   items.value = [build_new_set.value, ...items.value]
 });
 
-const initMusicListsSelected = () => {
-  musicListsSelected.value = [];
-  musicOrder.value = 0;
-  
-  if (subMusicLocal.value && Array.isArray(subMusicLocal.value)) {
-    subMusicLocal.value = musicStore.subMusicUpdated.map(category => {
-      const newCategory = { ...category };
-      if (newCategory.menu && Array.isArray(newCategory.menu)) {
-        newCategory.menu = newCategory.menu.map((item: MusicRow) => ({
-          ...item,
-          checked: false,
-          order: 0
-        }));
-      }
-      
-      return newCategory;
-    });
-  }
-  
-  // 重置set对象
-  musicStore.newSet = {
-    name: "",
-    mode: "",
-    category: "custom",
-    chakras: [],
-    content: []
-  };
-};
 
-const submitCustomSet = (e: any) => {
-  console.log(e)
-  if (showMenu.value === "") {
-    showNotify({message:"message.please_select_a_music_situation"})
-    return;
-  };
-  const setToEmit = JSON.parse(JSON.stringify(musicStore.newSet));
 
-  emit('handle-play', setToEmit);
-  emit('handle-save-set', setToEmit);
+const submitCustomSet = () => {
 
-  // 重置状态
-  menuStore.resetStep();
-  initMusicListsSelected();
+  emit('handle-play');
 };
 
 const OnBeforeChange = (name: string) => {

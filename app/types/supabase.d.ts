@@ -11,7 +11,7 @@ export type SetRow = Omit<Set['Row'], 'content' | 'chakras'> & {
   chakras: number[];
 };
 export type SetInsert = Omit<Set['Insert'], 'content' | 'chakras'> & {
-  content: MusicInsert[];
+  content: string;
   chakras: number[];
 };
 export type SetUpdate = Set['Update'];
