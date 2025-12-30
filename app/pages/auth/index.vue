@@ -59,9 +59,12 @@ import Logo from '~/assets/img/iscim_player_logo.png';
 </template>
 
 <style scoped lang="scss">
-  .auth__container .van-image {
-    display: flex;
-    margin: auto;
+  .auth__container {
+    height: calc(100% + 20px);
+    .van-image {
+      display: flex;
+      margin: auto;
+    }
   }
   .van-notice-bar {
     --van-notice-bar-background: transparent;

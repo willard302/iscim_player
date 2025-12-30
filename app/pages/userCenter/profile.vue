@@ -42,12 +42,14 @@ const onEdit = (val:boolean) => {
 
 <style scoped lang="scss">
 @use "sass:color";
-  .van-form {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: $color1;
-  }
+
+.van-form {
+  position: fixed;
+  top: $height_top;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - $height_bottom);
+  margin-bottom: 0;
+  background: $color1;
+}
 </style>

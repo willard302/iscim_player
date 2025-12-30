@@ -43,7 +43,7 @@ const handleProgress = () => {
 </script>
 
 <template>
-  <div class="page__container" ref="target">
+  <div class="page__container h-full" ref="target">
     <div class="player__container">
       <div 
         class="disk__container" 

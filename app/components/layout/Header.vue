@@ -62,6 +62,10 @@ const onClickRight = () => {
 </template>
 
 <style scoped>
+  .van-nav-bar {
+    max-width: 600px;
+    position: absolute;
+  }
   :deep(.van-dropdown-menu__bar) {
     box-shadow: unset;
   }

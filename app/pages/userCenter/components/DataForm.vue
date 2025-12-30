@@ -164,12 +164,17 @@ const handleToggle = (action: string) => {
 </template>
 
 <style scoped lang="scss">
+
+.van-cell-group {
+  max-width: 400px;
+  margin: auto;
+}
+
 .button__container {
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin-top: 10px;
-  height: 70%;
   overflow-y: auto;
 
   :deep(.van-space-item) {

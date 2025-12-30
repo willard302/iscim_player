@@ -165,7 +165,7 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div class="page__container" ref="target">
+  <div class="page__container h-full" ref="target">
     <div :class="['music__list__container', {'junior__mode': menuStore.isJuniorMenu}]">    
       <!-- 音乐列表主体 -->
       <div v-show="menuStore.isMusicList" class="musci__list__checkout">

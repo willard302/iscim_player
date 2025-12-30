@@ -28,6 +28,10 @@ const handleToTab = () => {
 </template>
 
 <style scoped lang="scss">
+.van-tabbar {
+  max-width: 600px;
+  position: absolute;
+}
 svg {
   font-size: 1.4rem;
 }

@@ -32,3 +32,6 @@ $font-size-lg: 2rem;
 $height_top: 46px;
 $height_bottom: 50px;
 
+$height_content_1: calc(100vh - $height_top - $height_bottom);
+$height_content_2: calc(100dvh - $height_top - $height_bottom);
+
