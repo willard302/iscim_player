@@ -3,6 +3,7 @@ export const useAuthStore = defineStore("auth", () => {
     showForgetPassword: false,
     active: "log_in",
     showLogin: true,
+    email: ""
   });
 
   const handleShowForgetPassword = () => {

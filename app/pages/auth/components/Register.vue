@@ -57,7 +57,9 @@ const handleRegister = async() => {
       message: $t("Message.register_successfully"), 
       onClose: () => {
         const authStore = useAuthStore();
+        authStore.email = username as string;
         authStore.handleSwitchTab("log_in");  
+        router.push('/auth/confirm')
       }
     })
   }

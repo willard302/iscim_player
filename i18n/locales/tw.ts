@@ -32,6 +32,10 @@ export default {
   user_data: "會員資料",
   user_center: "會員中心",
   username: "帳號",
+  Button: {
+    back: "返回",
+    send_verification_email: "寄送認證郵件"
+  },
   Chakra: {
     Overall: "整體脈輪",
     Balance: "平衡脈輪",
@@ -95,15 +99,18 @@ export default {
     set: "音樂清單"
   },
   Message: {
+    if_you_have_not_received_the_letter_or_need_to_reverify:"如果您沒有收到認證信件，或是需要再次寄送認證信件",
     loading: "讀取中",
     login_successfully: "登入成功",
     password_is_different: "密碼不一樣",
+    please_check: "請確認您的信箱為",
     please_enter_a_name_for_the_set: "請輸入歌單名稱",
     please_select_a_music_at_least: "請至少選擇一首單曲",
     register_successfully: "註冊成功",
     save_successfully: "儲存成功",
     what_you_want_now: "您現在想要的是？",
-    which_song_do_you_want_to_play: "請問您想播哪首歌？"
+    which_song_do_you_want_to_play: "請問您想播哪首歌？",
+    we_have_send_verification_email: "我們已經寄出認證信"
   },
   Music: {
     fast: "快速版",

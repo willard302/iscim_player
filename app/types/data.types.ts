@@ -3,7 +3,7 @@ import type { MusicRow, SetInsert, UserInsert, UserUpdate } from "./supabase";
 
 export type ButtonItem = {
   text: string
-  type: ButtonNativeType
+  type?: ButtonNativeType
   to?: string
   action?: () => void
 };

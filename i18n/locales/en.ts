@@ -32,6 +32,10 @@ export default {
   user_data: "User Data",
   user_center: "User Center",
   username: "Username",
+  Button: {
+    back: "Back",
+    send_verification_email: "Send verification email"
+  },
   Chakra: {
     Overall: "Overall Chakra",
     Balance: "Balance Chakra",
@@ -95,15 +99,18 @@ export default {
     set: "Set",
   },
   Message: {
+    if_you_have_not_received_the_letter_or_need_to_reverify: "If you have not received the letter or need to reverify",
     loading: "Loading",
     login_successfully: "Login successfully",
     password_is_different: "Password is different",
+    please_check: "Please check your email at",
     please_enter_a_name_for_the_set: "Please enter a name for the set.",
     please_select_a_music_at_least: "Please select a music at least.",
     register_successfully: "Register successfully",
     save_successfully: "save_successfully",
     what_you_want_now: "What you want now ?",
     which_song_do_you_want_to_play: "Which song do you want to play ?",
+    we_have_send_verification_email: "We have send verification email"
   },
   Music: {
     fast: "Fast",
