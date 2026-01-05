@@ -13,8 +13,6 @@ const openSubNav = computed(() => menuStore.isAdvancedMenu || menuStore.isJunior
 const onClickLeft = () => {
   if (isMusicList && menuStore.openMenu !== '') {
     menuStore.backToMenu();
-  } else if(isMainPage) {
-    history.go(-1);
   } else {
     navigateTo('/home')
   }
