@@ -43,10 +43,10 @@ body {
   overscroll-behavior-y: none;
 
   background-color: var(--bg-color-1, #ffffff);
-  padding-top: env(--sat);
-  padding-bottom: env(--sab);
-  padding-left: env(--sal);
-  padding-right: env(--sar);
+  padding-top: var(--sat);
+  padding-bottom: var(--sab);
+  padding-left: var(--sal);
+  padding-right: var(--sar);
 }
 
 .van-popup.van-popup--bottom .van-form {
