@@ -1,16 +1,15 @@
-import Components from "unplugin-vue-components/vite";
-import {VantResolver} from "unplugin-vue-components/resolvers";
 export default defineNuxtConfig({
+  ssr: false,
   app: {
     baseURL: '/',
     buildAssetsDir: 'assets',
     head: {
       title: "iSCIM Player",
+      viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
       meta: [
-        {name: "viewport", content: "width=device-width, initial-scale=1"},
-        {name: "description", content: "iscim專用播放網站"}
+        {name: "description", content: "iscim專用播放網站"},
+        {name: "app-mobile-web-app-status-bar-style", content: "balck-trnaslucent"},
       ],
-      viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
     }
   },
   compatibilityDate: '2025-07-15',
@@ -36,7 +35,12 @@ export default defineNuxtConfig({
     locales: [
       {code: 'en', name: 'English', file: 'en.ts'},
       {code: 'tw', name: '繁體中文', file: 'tw.ts'}
-    ]
+    ],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
+    }
   },
   imports: {
     dirs: ['app/composables', 'app/stores']
@@ -66,9 +70,8 @@ export default defineNuxtConfig({
     {src:'~/plugins/vant.client.ts', mode: 'client'}
   ],
   piniaPluginPersistedstate: {
-    storage: 'sessionStorage'
+    storage: 'localStorage'
   },
-  ssr: false,
   supabase: {
     redirect: true,
     redirectOptions: {
@@ -96,11 +99,6 @@ export default defineNuxtConfig({
         }
       }
     },
-    plugins: [
-      Components({
-        resolvers: [VantResolver()]
-      })
-    ],
     server: {
       hmr: {
         protocol: 'ws',
