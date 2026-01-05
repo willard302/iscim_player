@@ -6,6 +6,17 @@ const config: CapacitorConfig = {
   webDir: '.output/public',
   server: {
     androidScheme: 'https'
+  },
+  plugins: {
+    Keyboard: {
+      resize: 'body',
+      style: 'DARK',
+      resizeOnFullScreen: true
+    },
+    SplashScreen: {
+      launchShowDuration: 2000,
+      backgroundColor: '#ffffff'
+    }
   }
 };
 
