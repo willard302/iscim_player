@@ -1,5 +1,11 @@
-@mixin Pad {
+@mixin PadWidth {
   @media (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin PadHeight{
+  @media (min-height: 700px) {
     @content;
   }
 }

@@ -32,7 +32,7 @@ const {target} = useSwipeChange(() => router.push('/music'), () => router.push('
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 @import url("~/assets/scss/_transitions.scss");
 
 .home__container {
@@ -42,6 +42,11 @@ const {target} = useSwipeChange(() => router.push('/music'), () => router.push('
 
 .article__container {
   line-height: 24px;
+
+  @include PadHeight {
+    line-height: 36px;
+    font-size: 18px;
+  }
 }
 
 .page__container {

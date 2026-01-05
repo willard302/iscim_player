@@ -51,7 +51,7 @@ const handleProgress = () => {
       >
         <van-image 
           :class="['disk__image', {'spinning': playerStore.isPlaying}]"
-          height="240" width="240" fit="cover" round
+          fit="cover" round
           :src="playerStore.isPlaying ? logo_pause : logo"
         /> 
       </div>
@@ -128,6 +128,10 @@ const handleProgress = () => {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  @include PadHeight {
+    padding-top: 42px;
+  }
 }
 
 .music__title {
@@ -136,6 +140,10 @@ const handleProgress = () => {
   color: $color-font;
   font-size: 18px;
   font-weight: 600;
+
+  @include PadHeight {
+    font-size: 24px;
+  }
 }
 
 .progress__container {
@@ -152,6 +160,10 @@ const handleProgress = () => {
   justify-content: space-between;
   font-size: 12px;
   color: var(--van-text-color-2);
+
+  @include PadHeight {
+    font-size: 18px;
+  }
 }
 
 .navigation__container {
@@ -162,12 +174,27 @@ const handleProgress = () => {
 .operation__container {
   display: flex;
   align-items: center;
+
+  .van-button--small {
+    @include PadHeight {
+      --van-button-small-height: 40px;
+      width: 40px;
+    }
+  }
 }
 
 .volume__container {
   display: flex;
   align-items: center;
   padding-left: 10px;
+
+  .van-button--mini {
+
+    @include PadHeight {
+      --van-button-mini-height: 36px;
+      width: 36px;
+    }
+  }
 }
 
 .loop-btn {
@@ -195,10 +222,17 @@ const handleProgress = () => {
   }
 
   .disk__image {
+    height: 240px;
+    width: 240px;
     z-index: 2;
     background-color: transparent;
     animation: spin 20s linear infinite;
     animation-play-state: paused;
+
+    @include PadHeight {
+      height: 300px;
+      width: 300px;
+    }
 
     &.spinning {
       animation-play-state: running;

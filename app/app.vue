@@ -13,7 +13,7 @@
   position: relative;
   background-color: $color1;
 
-  @include Pad {
+  @include PadWidth {
     max-width: 576px;
     margin: 10px auto;
     box-shadow: 2px 2px 3px color.scale($color8, $lightness: 12%);
