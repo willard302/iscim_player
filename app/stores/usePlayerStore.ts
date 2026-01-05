@@ -27,7 +27,5 @@ export const usePlayerStore = defineStore("player", () => {
   }
 },
 {
-  persist : {
-    storage: localStorage
-  }
+  persist : true
 })
