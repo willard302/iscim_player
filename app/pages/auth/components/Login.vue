@@ -59,8 +59,7 @@ const handleLogin = async(account: FieldItem[]) => {
     console.log("creating user profile...")
     const newInfo = await insertUser({
       id: user_id,
-      email: username as string,
-      avatar_url: "https://vvbtzvedcvhxibozbryz.supabase.co/storage/v1/object/public/icc_avatar/1765174676551-model01w.png"
+      email: username as string
     });
     if (newInfo) await insertUser(newInfo);
     navigateTo('/userCenter')

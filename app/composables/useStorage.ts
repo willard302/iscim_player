@@ -7,29 +7,38 @@ export const useStorage = () => {
     files: UploaderFileListItem | UploaderFileListItem[], 
     bucketName: string 
   ): Promise<string[]> => {
-    if (!files) throw "No file selected";
+    if (!files) throw new Error("No file selected");
 
     const fileArray = Array.isArray(files) ? files : [files];
 
     const results = await Promise.all(
       fileArray.map(async(fileItem) => {
         const file = fileItem.file;
-
         if (!file) throw new Error("File is undefined");
 
-        const filePath = `${Date.now()}-${file.name}`;
-        const { error } = await client.storage
+        const fileExt = file.name.split('.').pop()?.toLowerCase() || "png";
+
+        const fileName = `${Date.now()}-${Math.floor(Math.random() * 100000)}.${fileExt}`;
+
+        const filePath = fileName;
+
+        const { error, data } = await client.storage
           .from(bucketName)
           .upload(filePath, file, {
             cacheControl: '3600',
             upsert: false
           });
 
-        if (error) throw `Upload error: ${error.message}`;
+        if (error) {
+          console.error("Supabase Upload Error: ", error);
+          throw new Error(`Upload error: ${error.message}`);
+        };
 
         const { data: publicUrlData } = client.storage
           .from(bucketName)
           .getPublicUrl(filePath);
+
+        console.log(publicUrlData)
 
         return publicUrlData?.publicUrl ?? "";
       })
