@@ -26,6 +26,7 @@ export default {
   or: "或",
   password: "密碼",
   password_confirm: "確認密碼",
+  player_queue: "播放佇列",
   preferences: "偏好設定",
   profile: "個人資料",
   register: "註冊",
@@ -98,7 +99,8 @@ export default {
     numbers_music: "數字音樂",
     remove_all: "移除全部",
     save_and_play: "儲存並播放",
-    set: "音樂清單"
+    set: "音樂清單",
+    system_music: "系統單曲"
   },
   Message: {
     if_you_have_not_received_the_letter_or_need_to_reverify:"如果您沒有收到認證信件，或是需要再次寄送認證信件",

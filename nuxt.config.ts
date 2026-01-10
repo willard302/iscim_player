@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         'house', 'user', 'pen', 'caret-right', 'check', 'ellipsis-vertical', 'music', 
         'compact-disc', 'square-plus', 'backward', 'pause', 'play', 'forward', 'repeat',
         'volume-high', 'volume-off', 'bars', 'xmark', 'trash', 'arrow-left', 'floppy-disk',
-        'eye', 'eye-slash'
+        'eye', 'eye-slash', 'music'
       ],
       regular: ['user', 'face-smile']
     }
@@ -74,6 +74,7 @@ export default defineNuxtConfig({
     storage: 'localStorage'
   },
   supabase: {
+    redirect: false,
     types: '~/types/database.types.ts'
   },
   typescript: {

@@ -26,6 +26,7 @@ export default {
   or: "Or",
   password: "Password",
   password_confirm: "Password Confirm",
+  player_queue: "Player Queue",
   preferences: "Preferences",
   profile: "Profile",
   register: "Register",
@@ -99,6 +100,7 @@ export default {
     remove_all: "Remove All",
     save_and_play: "Save and Play",
     set: "Set",
+    system_music: "System Music"
   },
   Message: {
     if_you_have_not_received_the_letter_or_need_to_reverify: "If you have not received the letter or need to reverify",

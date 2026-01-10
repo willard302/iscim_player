@@ -5,13 +5,9 @@ definePageMeta({
   showTabbar: true,
   pageOrder: 3
 });
-import MenuSlot from './components/MenuSlot.vue';
-import ListJuniorMode from './components/ListJuniorMode.vue';
-import MusicListSlot from './components/MusicListSlot.vue';
 import type { ChakraType } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadMusicSet, addChakra } = usePlaylist();
-const { getMusics, getSets } = useDataBase();
 
 const router = useRouter();
 const player = usePlayer();
@@ -35,75 +31,6 @@ const subChakra: ChakraType[] = [
 
 const {target} = useSwipeChange(() => router.push('/userCenter'), () => router.push('/music'))
 
-const menu_1th = computed(() => {
-  const chakra = { name: musicStore.chakra.name, id: "chakra" };
-  const set = { name: "Menu.set", id: "set" };
-  const music = { name: "Menu.music", id: "music" };
-  const myMusic = { name: "Menu.custom_music", id: "mymusic" };
-  const pro = [chakra, set, music, myMusic];
-  const pub = [set, music];
-  return musicStore.isPro ? pro : pub;
-});
-
-const loadDataSets = async() => {
-
-  const music_custom = await getMusics('custom') || [];
-  const set_custom = await getSets({category: 'custom', is_pro: true});
-  const set_numbers = await getSets({category: 'numbers', is_pro: musicStore.isPro});
-  const set_five_elements = await getSets({category: 'five_elements', is_pro: musicStore.isPro});
-
-  musicStore.subSet = [
-    {
-      name: "Set.numbers",
-      id: "numbers",
-      menu: set_numbers,
-    },
-    {
-      name: "Set.five_elements",
-      id: "five_elements",
-      menu: set_five_elements
-    }
-  ];
-  
-  if (musicStore.isPro) {
-    const custom_music = Array.isArray(music_custom) ? music_custom : [];
-
-    musicStore.subSet.push({
-      name: "Set.custom",
-      id: "custom",
-      menu: set_custom
-    })
-
-    musicStore.subMusicUpdated = [
-      {
-        name: "Menu.numbers_music",
-        id: "numbers_music",
-        menu: musicStore.composeMusic(custom_music, 'Numbers')
-      },
-      {
-        name: "Menu.five_elements_music",
-        id: "five_elements_music",
-        menu: musicStore.composeMusic(custom_music, "Five_Elements")
-      }
-    ];
-  }
-};
-const loadDataMusics = async() => {
-  const music_default = await getMusics('default') || [];
-  try {
-    //  设置基础音乐数据 
-    musicStore.subMusic = [
-      {name: "Music.fast", id: "fast", menu: musicStore.composeMusic(music_default, 'Fast')},
-      {name: "Music.medium", id: "medium", menu: musicStore.composeMusic(music_default, 'Medium')},
-      {name: "Music.slow", id: "slow", menu: musicStore.composeMusic(music_default, 'Slow')}
-    ];
-    
-    // 根据用户类型设置不同的数据集
-    loadDataSets();
-  } catch (error) {
-    console.error('Error fetching APIs: ', error);
-  };
-};
 const specified = (index: number) => {
   if (!playerStore.isPlaying) {
     playerStore.index = index;
@@ -159,9 +86,6 @@ const initPlayer = () => {
   playerStore.resetPlayer();
 };
 
-onMounted(async() => {
-  await loadDataMusics();
-});
 </script>
 
 <template>
@@ -185,72 +109,6 @@ onMounted(async() => {
             </template>
           </van-cell>
         </van-list>
-      </div>
-  
-      <!-- Junior模式 -->
-      <ListJuniorMode 
-        v-if="menuStore.isJuniorMenu"
-        @remove-all="removeAll"
-      />
-  
-      <div v-show="menuStore.isAdvancedMenu" class="music__list__menu">
-  
-        <MenuSlot
-          v-show="menuStore.openMenu === 'navMenu'"
-          :lists="menu_1th"
-          @remove-all="removeAll"
-        />
-  
-        <MenuSlot 
-          v-show="menuStore.openMenu === 'music'"
-          :lists="musicStore.subMusic"
-        />
-  
-        <MusicListSlot
-          v-for="(item, idx) in musicStore.subMusic" 
-          :key="idx"
-          v-show="menuStore.openMenu === item.id"
-          :list="item"
-          @get-music="addMusic"
-        />
-  
-        <MenuSlot 
-          v-show="menuStore.openMenu === 'mymusic'"
-          :lists="musicStore.subMusicUpdated"
-        />
-  
-        <MusicListSlot
-          v-for="(item, idx) in musicStore.subMusicUpdated" 
-          :key="idx"
-          v-show="menuStore.openMenu === item.id"
-          :list="item"
-          @get-music="addMusic"
-        />
-  
-        <MenuSlot 
-          v-show="menuStore.openMenu === 'set'"
-          :lists="musicStore.subSet"
-        />
-  
-        <MusicListSlot
-          v-for="(item, idx) in musicStore.subSet" 
-          :key="idx"
-          v-show="menuStore.openMenu === item.id"
-          :list="item"
-          @get-music="loadMusicSet"
-          @save-music="saveSet"
-          @remove-music="removeSet"
-        />
-  
-        <van-list v-show="menuStore.openMenu === 'chakra'">
-          <van-cell 
-            v-for="(item, idx) in subChakra" 
-            :key="idx"
-            :title="$t(item.name)"
-            @click="addChakra(item)"
-          />
-        </van-list>
-        
       </div>
       
       <van-divider />
