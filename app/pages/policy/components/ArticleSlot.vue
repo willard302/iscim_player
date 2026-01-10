@@ -19,7 +19,6 @@ import type { PolicyPart } from '~/types/data.types';
         <li v-for="(l, lIdx) in t.lists" :key="lIdx">{{ $t(l) }}</li>
       </ul>
     </div>
-    <van-button @click="navigateTo('/auth')">{{ $t("confirm") }}</van-button>
   </div>
 </template>
 
