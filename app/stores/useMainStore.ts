@@ -22,11 +22,16 @@ export const useMainStore = defineStore('main', () => {
     state.userInfo = {...value}
   };
 
+  const toogleLocale = () => {
+    state.locale = state.locale === 'tw' ? 'en' : 'tw'
+  };
+
   return {
     ...toRefs(state),
     initAuth,
     setAuthenticiated,
-    setUser
+    setUser,
+    toogleLocale
   }
 },
 {

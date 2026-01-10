@@ -26,4 +26,7 @@ const showTabbar = computed(() => route.meta.showTabbar ?? true);
     justify-content: center;
     align-items: center;
   }
+  main {
+    margin: 46px auto 50px;
+  }
 </style>

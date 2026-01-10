@@ -8,7 +8,7 @@ export const useMusicStore = defineStore("music", () => {
   const playerStore = usePlayerStore();
 
   const state = reactive<MusicStoreState>({
-    isPro: false,
+    isPro: true,
     name: "Hints.select_music",
     queue: [],
     item: null,

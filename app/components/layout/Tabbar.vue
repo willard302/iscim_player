@@ -2,8 +2,7 @@
 const home = { label: 'home', path: '/home', icon: ['fas', 'house'] };
 const musicPlayer = { label: 'music', path: '/music', icon: ['fas', 'music'] };
 const musicList = { label: 'musicList', path: '/music/musicList', icon: ['fas', 'compact-disc'] };
-const userCenter = { label: 'userCenter', path: '/userCenter', icon: ['fas', 'user'] };
-const navItems = [home, musicPlayer, musicList, userCenter];
+const navItems = [home, musicPlayer, musicList];
 
 const handleToTab = () => {
   const menuStore = useMenuStore();

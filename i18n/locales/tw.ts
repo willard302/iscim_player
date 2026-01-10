@@ -16,6 +16,7 @@ export default {
   introduce: "介紹",
   introduce_article: "人腦由 1000 億個神經元組成，這些神經元由 100 兆條神經連接起來。當大量神經元發送同步脈衝時，它們會振盪並形成波浪腦電波。腦電波的形狀與我們身體各系統的運作、日常生活作息、晝夜節律密切相關。iSCIM音樂療法根據每天的氣候節奏產生特殊的治療頻率音樂，幫助您保持腦電波的正確平衡，讓您每天都能呈現最好的狀態。",
   iscim_music: "雲端音樂",
+  language: "系統語言",
   log_in: "登入",
   log_out: "登出",
   male: "男性",
@@ -25,6 +26,7 @@ export default {
   or: "或",
   password: "密碼",
   password_confirm: "確認密碼",
+  preferences: "偏好設定",
   profile: "個人資料",
   register: "註冊",
   setting: "設定",
@@ -81,8 +83,8 @@ export default {
     composition: "巴赫大鍵琴協奏曲。 F 小調 5，BWV 1056 - II。 米歇爾·朗多的《Largo》",
   },
   Locale: {
-    en: '英',
-    tw: '中'
+    en: '英文',
+    tw: '中文'
   },
   Menu: {
     back: "返回",

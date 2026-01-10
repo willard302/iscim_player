@@ -19,15 +19,8 @@ const onClickLeft = () => {
 };
 
 const onClickRight = () => {
-  if (!isMusicList) return;
-
-  if (menuStore.isJuniorMode) {
-    menuStore.toggleMusicList();
-    menuStore.toggleJuniorMenu();
-  } else {
-    menuStore.toggleAdvanceMenu();
-    menuStore.openMenu = "navMenu";
-  }
+  const router = useRouter();
+  router.push('/preferences')
 };
 
 </script>
@@ -38,7 +31,7 @@ const onClickRight = () => {
     @click-right="onClickRight"
   >
     <template #left>
-      <van-icon v-if="!isMainPage" name="arrow-left" />
+      <van-icon v-if="route.meta.showHeaderArrow" name="arrow-left" />
       <van-image v-else :src="logo" />
     </template>
     <template #title>
@@ -53,8 +46,7 @@ const onClickRight = () => {
       <NuxtLink v-else class="title">{{ $t(title) }}</NuxtLink>
     </template>
     <template #right>
-      <font-awesome v-if="isMusicList" :icon="openSubNav ? 'xmark' : 'bars'" />
-      <LocaleBar v-else />
+      <van-icon name="setting" size="20" />
     </template>
   </van-nav-bar>
 </template>
