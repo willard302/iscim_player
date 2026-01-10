@@ -16,10 +16,6 @@ const mainStore = useMainStore();
 const musicStore = useMusicStore();
 const router = useRouter();
 
-const { logout } = useAuth();
-
-const username = ref("");
-
 const buttonLists = computed(() => [
   { 
     title: 'Music.music_mode', 
@@ -43,7 +39,7 @@ const routeLists = reactive([
 onMounted(() => {
   if (!mainStore.userInfo || !mainStore.userInfo.id ) {
     console.error("There is no user, user_id.");
-    router.push('/auth');
+    router.push('/home');
   };
 });
 </script>
@@ -69,11 +65,6 @@ onMounted(() => {
         :title="$t(item.title)"
         @click="router.push(item.path)"
       />
-      <!-- <van-cell 
-        :title="$t('log_out')"
-        is-link
-        @click="logout()"
-      /> -->
     </van-cell-group>
   </div>
 </template>
