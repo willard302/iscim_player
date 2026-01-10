@@ -40,17 +40,17 @@ export default {
     send_verification_email: "Send verification email"
   },
   Chakra: {
-    Overall: "Overall Chakra",
-    Balance: "Balance Chakra",
-    Root: "Root Chakra",
-    Sacral: "Sacral Chakra",
-    Navel: "Navel Chakra",
-    Waist: "Waist Chakra",
-    Solar_Plexus: "Solar Plexus Chakra",
-    Heart: "Heart Chakra",
-    Pineal: "Pineal Chakra",
-    Third_Eye: "Third Eye Chakra",
-    Crown: "Crown Chakra"
+    overall: "Overall Chakra",
+    balance: "Balance Chakra",
+    root: "Root Chakra",
+    sacral: "Sacral Chakra",
+    navel: "Navel Chakra",
+    waist: "Waist Chakra",
+    solar_plexus: "Solar Plexus Chakra",
+    heart: "Heart Chakra",
+    pineal: "Pineal Chakra",
+    third_eye: "Third Eye Chakra",
+    crown: "Crown Chakra"
   },
   Disclaimer: {
     title: "Disclaimer",

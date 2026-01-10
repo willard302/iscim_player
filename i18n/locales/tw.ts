@@ -40,17 +40,17 @@ export default {
     send_verification_email: "寄送認證郵件"
   },
   Chakra: {
-    Overall: "整體脈輪",
-    Balance: "平衡脈輪",
-    Root: "無始輪",
-    Sacral: "無名輪",
-    Navel: "名色輪",
-    Waist: "如意輪",
-    Solar_Plexus: "太陽叢輪",
-    Heart: "明心輪",
-    Pineal: "智慧輪",
-    Third_Eye: "法眼輪",
-    Crown: "禪心輪"
+    overall: "整體脈輪",
+    balance: "平衡脈輪",
+    root: "無始輪",
+    sacral: "無名輪",
+    navel: "名色輪",
+    waist: "如意輪",
+    solar_plexus: "太陽叢輪",
+    heart: "明心輪",
+    pineal: "智慧輪",
+    third_eye: "法眼輪",
+    crown: "禪心輪"
   },
   Disclaimer: {
     title: "免責聲明",

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ChakraType } from '~/types/data.types';
+
 definePageMeta({
   layout: "sub-page",
   title: "preferences",
@@ -16,6 +18,23 @@ const mainStore = useMainStore();
 const musicStore = useMusicStore();
 const router = useRouter();
 
+const showPickerChakras = ref(false);
+const pickerValue = ref([]);
+
+const subChakra = computed(() => [
+  { text: $t("Chakra.balance"), idx: 0, value: "Balance" },
+  { text: $t("Chakra.overall"), idx: 99, value: "OverAll" },
+  { text: $t("Chakra.root"), idx: 1, value: "Root" },
+  { text: $t("Chakra.sacral"), idx: 2, value: "Sacral" },
+  { text: $t("Chakra.navel"), idx: 3, value: "Navel" },
+  { text: $t("Chakra.waist"), idx: 4, value: "Waist" },
+  { text: $t("Chakra.solar_plexus"), idx: 5, value: "Solar Plexus" },
+  { text: $t("Chakra.heart"), idx: 6, value: "Heart" },
+  { text: $t("Chakra.pineal"), idx: 7, value: "Pineal" },
+  { text: $t("Chakra.third_eye"), idx: 8, value: "Third Eye" },
+  { text: $t("Chakra.crown"), idx: 9, value: "Crown" },
+]);
+
 const buttonLists = computed(() => [
   { 
     title: 'Music.music_mode', 
@@ -27,6 +46,11 @@ const buttonLists = computed(() => [
     action: mainStore.toogleLocale, 
     label: mainStore.locale === 'tw' ? $t('Locale.tw') : $t('Locale.en')
   },
+  { 
+    title: 'enhance', 
+    action: () => showPickerChakras.value = true, 
+    label: $t(String(musicStore.chakra.name))
+  },
 ]);
 
 const routeLists = reactive([
@@ -35,13 +59,13 @@ const routeLists = reactive([
   { title: 'Notice.privacy_policy', path: '/policy/privacy' }
 ]);
 
+const onConfirm = (res: any) => {
+  showPickerChakras.value = false;
+  pickerValue.value = res.selectedValues;
+  musicStore.chakra.name = res.selectedOptions[0].text;
+  musicStore.chakra.num = subChakra.value.find(s => s.text === musicStore.chakra.name)?.idx;
+};
 
-onMounted(() => {
-  if (!mainStore.userInfo || !mainStore.userInfo.id ) {
-    console.error("There is no user, user_id.");
-    router.push('/home');
-  };
-});
 </script>
 
 <template>
@@ -66,6 +90,15 @@ onMounted(() => {
         @click="router.push(item.path)"
       />
     </van-cell-group>
+
+    <van-popup v-model:show="showPickerChakras" destroy-on-close round position="bottom">
+      <van-picker
+        :model-value="pickerValue"
+        :columns="subChakra"
+        @cancel="showPickerChakras = false"
+        @confirm="onConfirm"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -73,7 +106,7 @@ onMounted(() => {
 @import url("~/assets/scss/_transitions.scss");
 
 .van-button--small {
-  width: 42px;
+  width: 72px;
 }
 
 .van-cell-group {

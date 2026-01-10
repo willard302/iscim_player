@@ -54,6 +54,7 @@ export type MusicStoreState = {
   slidePercent: number
   diskRotation: number
   isDragging: boolean
+  isLoading: boolean
   isDataLoaded: boolean
 }
 
@@ -71,9 +72,11 @@ export type PlayerStoreState = {
 }
 
 export type ChakraType = {
-  name: string
+  name?: string
+  text?: string
   id?: string
   num?: number
+  value?: string
   idx: number
   lists?: any[]
 }

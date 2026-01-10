@@ -1,10 +1,11 @@
 <script setup lang="ts">
 definePageMeta({
-  title:"music_list",
+  title:"player_queue",
   showHeader: true,
   showTabbar: true,
   pageOrder: 3
 });
+import type { ChakraType } from '~/types/data.types';
 
 const { addMusic, saveSet, removeSet, loadMusicSet, addChakra } = usePlaylist();
 
@@ -13,6 +14,20 @@ const player = usePlayer();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
 const menuStore = useMenuStore();
+
+const subChakra: ChakraType[] = [
+  { name: "Chakra.balance", idx: 0, id: "Balance" },
+  { name: "Chakra.overall", idx: 99, id: "OverAll" },
+  { name: "Chakra.root", idx: 1, id: "Root" },
+  { name: "Chakra.sacral", idx: 2, id: "Sacral" },
+  { name: "Chakra.navel", idx: 3, id: "Navel" },
+  { name: "Chakra.waist", idx: 4, id: "Waist" },
+  { name: "Chakra.solar_plexus", idx: 5, id: "Solar Plexus" },
+  { name: "Chakra.heart", idx: 6, id: "Heart" },
+  { name: "Chakra.pineal", idx: 7, id: "Pineal" },
+  { name: "Chakra.third_eye", idx: 8, id: "Third Eye" },
+  { name: "Chakra.crown", idx: 9, id: "Crown" },
+];
 
 const {target} = useSwipeChange(() => router.push('/userCenter'), () => router.push('/music'))
 

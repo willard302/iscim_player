@@ -18,7 +18,7 @@ export const useMusicStore = defineStore("music", () => {
     subMusicUpdated: [],
     subSet: [],
     chakra: {
-      name: "enhance",
+      name: "Chakra.overall",
       num: 0,
       idx: 0,
       lists: []
@@ -34,6 +34,7 @@ export const useMusicStore = defineStore("music", () => {
     slidePercent: 0,
     diskRotation: 0,
     isDragging: false,
+    isLoading: false,
     isDataLoaded: false
   });
 
@@ -76,6 +77,10 @@ export const useMusicStore = defineStore("music", () => {
   const initMusicData = async() => {
 
     if (state.isDataLoaded) return;
+    if (state.isLoading) return;
+
+    state.isLoading = true;
+    showLoadingToast("Loading...");
 
     try {
       const p_music_default = getMusics('default');
@@ -131,6 +136,8 @@ export const useMusicStore = defineStore("music", () => {
       state.isDataLoaded = true;
     } catch (error) {
       console.error(`Error fetching APIs: ${error}`);
+    } finally {
+      state.isLoading = false;
     }
   };
 
