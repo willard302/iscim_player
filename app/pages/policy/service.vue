@@ -1,5 +1,8 @@
 <script setup lang="ts">
-definePageMeta({layout: 'auth'})
+definePageMeta({
+  layout: 'sub-page',
+  title: "Notice.terms_of_service"
+})
 import type { PolicyPart } from '~/types/data.types';
 import ArticleSlot from './components/ArticleSlot.vue';
 

@@ -9,9 +9,7 @@ import type { PolicyPart } from '~/types/data.types';
 
 <template>
   <div class="custom-button">
-    <div :class="titleClass">
-      {{ $t(title) }}
-    </div>
+    <div :class="titleClass">{{ $t(title) }}</div>
 
     <div v-for="(t, tIdx) in article" :key="tIdx">
       <van-divider>{{ $t(t.title) }}</van-divider>

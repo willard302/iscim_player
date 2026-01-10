@@ -20,10 +20,6 @@ const { logout } = useAuth();
 
 const username = ref("");
 
-const routeLists = reactive([
-  { title: 'user_data', path: '/userCenter/profile' }
-]);
-
 const buttonLists = computed(() => [
   { 
     title: 'Music.music_mode', 
@@ -36,6 +32,13 @@ const buttonLists = computed(() => [
     label: mainStore.locale === 'tw' ? $t('Locale.tw') : $t('Locale.en')
   },
 ]);
+
+const routeLists = reactive([
+  { title: 'user_data', path: '/userCenter/profile' },
+  { title: 'Notice.terms_of_service', path: '/policy/service' },
+  { title: 'Notice.privacy_policy', path: '/policy/privacy' }
+]);
+
 
 onMounted(() => {
   if (!mainStore.userInfo || !mainStore.userInfo.id ) {

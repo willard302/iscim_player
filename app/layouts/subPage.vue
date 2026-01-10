@@ -22,7 +22,7 @@ const title = computed(() => (route.meta.title as string) || '詳細內容');
 <template>
   <div class="subpage-layout">
     <van-nav-bar
-      :title="title"
+      :title="$t(title)"
       left-text="返回"
       left-arrow
       fixed
