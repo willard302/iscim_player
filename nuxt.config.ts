@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     }
   },
   i18n: {
+    strategy: 'no_prefix',
     defaultLocale: 'tw',
     locales: [
       {code: 'en', name: 'English', file: 'en.ts'},
@@ -73,7 +74,7 @@ export default defineNuxtConfig({
     storage: 'localStorage'
   },
   supabase: {
-    redirect: true,
+    redirect: false,
     redirectOptions: {
       login: '/auth',
       callback: '/auth/confirm',

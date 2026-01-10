@@ -1,4 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Locale } from 'vant';
+import vantUS from 'vant/es/locale/lang/en-US';
+import vantTW from 'vant/es/locale/lang/zh-TW';
+
+const mainStore = useMainStore();
+const { setLocale } = useI18n();
+
+watch(
+  () => mainStore.locale,
+  (newLocale) => {
+    switch(newLocale) {
+      case 'tw':
+        setLocale('tw');
+        Locale.use('zh-TW', vantTW);
+        break;
+      default:
+        setLocale('en');
+        Locale.use('en-US', vantUS);
+        break;
+    }
+  },
+  {immediate: true}
+);
+</script>
 <template>
   <div class="wrap">
     <NuxtLayout>

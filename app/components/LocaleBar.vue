@@ -1,32 +1,11 @@
 <script setup lang="ts">
-import { Locale } from 'vant';
-import vantUS from 'vant/es/locale/lang/en-US';
-import vantTW from 'vant/es/locale/lang/zh-TW';
-import type { Message } from '~/types/data.types';
-
-const { setLocale, t } = useI18n();
+const { t } = useI18n();
 const mainStore = useMainStore();
 
-const messages: Message[] = [
+const messages = computed(() => [
   { text: t('Locale.en'), value: 'en' },
   { text: t('Locale.tw'), value: 'tw' }
-];
-
-watch(
-  () => mainStore.locale,
-  (newLocale) => {
-    switch(newLocale) {
-      case 'tw':
-        setLocale('tw');
-        Locale.use('zh-TW', vantTW);
-        break;
-      default:
-        setLocale('en');
-        Locale.use('en-US', vantUS);
-        break;
-    }
-  }
-)
+])
 
 </script>
 

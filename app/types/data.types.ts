@@ -26,11 +26,6 @@ export type FieldItem = {
   options?: FieldOption[]
 };
 
-export type Message = {
-  text: string
-  value: string
-};
-
 export type MainStoreState = {
   isAuthenticated: boolean,
   locale: string,

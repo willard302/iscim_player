@@ -10,7 +10,7 @@ const authStore = useAuthStore();
 const fieldItems: FieldItem[] = reactive([
   { 
     label: "username",
-    value: "", 
+    value: "test001@gmail.com", 
     name: "username", 
     type: "text",
     placeholder: "Hints.enter_email",
@@ -20,7 +20,7 @@ const fieldItems: FieldItem[] = reactive([
   },
   {
     label: "password", 
-    value: "", 
+    value: "123456", 
     name: "password", 
     type: "password",
     placeholder: "Hints.enter_password",
@@ -36,45 +36,48 @@ const buttonItems: ButtonItem[] = [
 ];
 
 const handleLogin = async(account: FieldItem[]) => {
-
-  const username = account.find(item => item.name === 'username')?.value;
-  const password = account.find(item => item.name === 'password')?.value;
-
-  if (!username || !password) return console.error("There is no username or password.");
-
-  showLoadingToast($t("Message.loading"));
-
-  const response = await login(username as string, password as string);
-
-  if (!response.user || !response.user.id) throw new Error("Login failed");
-
-  const user_id = response.user.id;
-
-  mainStore.setAuthenticiated(!!user_id);
-  mainStore.setUser({id: user_id});
-
-  const user = await getUser(user_id);
-  if (!user) {
-    console.error("user profile is null.");
-    console.log("creating user profile...")
-    const newInfo = await insertUser({
-      id: user_id,
-      email: username as string
-    });
-    if (newInfo) await insertUser(newInfo);
-    navigateTo('/userCenter')
-    return;
-  }
-  mainStore.setUser(user);
   
-  if (user === null) {
-    throw new Error(`the user is null.`)
-  } else{
-    showSuccessToast({
-      message: $t("Message.login_successfully"),
-      onClose: () => router.push('/userCenter')
-    });
-  }
+  // const username = account.find(item => item.name === 'username')?.value;
+  // const password = account.find(item => item.name === 'password')?.value;
+
+  // if (!username || !password) return console.error("There is no username or password.");
+
+  // showLoadingToast($t("Message.loading"));
+
+  // const response = await login(username as string, password as string);
+
+  // if (!response.user || !response.user.id) throw new Error("Login failed");
+
+  // const user_id = response.user.id;
+
+  // mainStore.setAuthenticiated(!!user_id);
+  // mainStore.setUser({id: user_id});
+  mainStore.setAuthenticiated(true);
+  mainStore.setUser({id: '12322223111'})
+
+  // const user = await getUser(user_id);
+  // if (!user) {
+  //   console.error("user profile is null.");
+  //   console.log("creating user profile...")
+  //   const newInfo = await insertUser({
+  //     id: user_id,
+  //     email: username as string
+  //   });
+  //   if (newInfo) await insertUser(newInfo);
+  //   navigateTo('/home')
+  //   return;
+  // }
+  // mainStore.setUser(user);
+  
+  // if (user === null) {
+  //   throw new Error(`the user is null.`)
+  // } else{
+  //   showSuccessToast({
+  //     message: $t("Message.login_successfully"),
+  //     onClose: () => router.push('/home')
+  //   });
+  // }
+  router.push('/home')
 };
 const handleShowPassword = (name: string) => {
   showPassword(fieldItems, name);
