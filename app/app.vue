@@ -4,6 +4,7 @@ import vantUS from 'vant/es/locale/lang/en-US';
 import vantTW from 'vant/es/locale/lang/zh-TW';
 
 const mainStore = useMainStore();
+const playerStore = usePlayerStore();
 const { setLocale } = useI18n();
 
 watch(
@@ -28,6 +29,18 @@ watch(
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+
+    <!-- <PlayerMiniBar v-if="playerStore.currentSong" /> -->
+     <PlayerMiniBar />
+
+    <van-popup
+      v-model:show="playerStore.isExpanded"
+      position="bottom"
+      :style="{ height: '100%', width: '100%' }"
+      :duration="0.3"
+    >
+      <PlayerFullScreen />
+    </van-popup>
   </div>
 </template>
 <style scoped lang="scss">

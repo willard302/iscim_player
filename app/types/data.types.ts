@@ -60,6 +60,8 @@ export type MusicStoreState = {
 
 export type PlayerStoreState = {
   isPlaying: boolean
+  isExpanded: boolean
+  currentSong: MusicLocal | null
   src: string
   index: number
   volume: number

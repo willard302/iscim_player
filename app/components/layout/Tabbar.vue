@@ -1,9 +1,8 @@
 <script setup lang="ts">
 const home = { label: 'home', path: '/home', icon: ['fas', 'house'] };
-const musicPlayer = { label: 'music', path: '/music', icon: ['fas', 'music'] };
 const musicList = { label: 'musicList', path: '/music/musicList', icon: ['fas', 'compact-disc'] };
 const musicLibrary = { label: 'musicLibrary', path: '/musicLibrary', icon: ['fas', 'music'] };
-const navItems = [home, musicPlayer, musicList, musicLibrary];
+const navItems = [home, musicList, musicLibrary];
 
 const handleToTab = () => {
   const menuStore = useMenuStore();
