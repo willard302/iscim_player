@@ -10,6 +10,10 @@ const musicStore = useMusicStore();
 const player = usePlayer();
 const { setLocale } = useI18n();
 
+const showPlayerMiniBar = computed(() => {
+  return (playerStore.currentSong?.id!!)
+});
+
 watch(
   () => mainStore.locale,
   (newLocale) => {
@@ -36,10 +40,10 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="wrap">
+  <div :class="['wrap', {playing: showPlayerMiniBar}]">
     <NuxtLayout>
       <NuxtPage />
-        <PlayerMiniBar v-if="playerStore.currentSong?.id" />
+        <PlayerMiniBar v-if="showPlayerMiniBar" />
 
         <van-popup
           v-model:show="playerStore.isExpanded"

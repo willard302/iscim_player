@@ -43,7 +43,7 @@ const openSetOption = (item: any) => {
             @click="handleLoadSet(i)"
           >
             <template #right-icon>
-              <van-icon name="bars" @click.stop="openSetOption(i)" />
+              <van-icon name="ellipsis" size="20" @click.stop="openSetOption(i)" />
             </template>
           </van-cell>
         </van-cell-group>

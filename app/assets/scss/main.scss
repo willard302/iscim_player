@@ -66,6 +66,11 @@ main {
   overflow-y: auto;
 }
 
+.playing main {
+  height: calc($height_content_1 - 50px);
+  height: calc($height_content_2 - 50px);
+}
+
 .theme-1 {
   background-image: linear-gradient(to right top,
     #e1ebb1,

@@ -26,4 +26,7 @@ const showTabbar = computed(() => route.meta.showTabbar ?? true);
   main {
     margin: 46px auto 50px;
   }
+  .playing main {
+    margin: 46px auto 100px;
+  }
 </style>
