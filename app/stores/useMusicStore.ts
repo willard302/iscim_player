@@ -11,6 +11,7 @@ export const useMusicStore = defineStore("music", () => {
 
   const state = reactive<MusicStoreState>({
     isPro: true,
+    openQueue: false,
     name: "Hints.select_music",
     queue: [],
     item: null,
@@ -37,6 +38,10 @@ export const useMusicStore = defineStore("music", () => {
     isLoading: false,
     isDataLoaded: false
   });
+
+  const setPlayerQueue = (value: boolean) => {
+    state.openQueue = value;
+  };
 
   const setLoop = () => {
     const modeList = ["normal", "repeatOne", "repeatAll"] as const;
@@ -144,6 +149,7 @@ export const useMusicStore = defineStore("music", () => {
   return {
     ...toRefs(state),
     setLoop,
+    setPlayerQueue,
     composeMusic,
     resetMusic,
     initNewSet,

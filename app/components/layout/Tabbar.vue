@@ -1,13 +1,11 @@
 <script setup lang="ts">
 const home = { label: 'home', path: '/home', icon: ['fas', 'house'] };
-const musicList = { label: 'musicList', path: '/music/musicList', icon: ['fas', 'compact-disc'] };
 const musicLibrary = { label: 'musicLibrary', path: '/musicLibrary', icon: ['fas', 'music'] };
-const navItems = [home, musicList, musicLibrary];
+const navItems = [home, musicLibrary];
 
 const handleToTab = () => {
   const menuStore = useMenuStore();
   menuStore.isMusicList = true;
-  menuStore.isJuniorMenu = false;
 };
 
 </script>

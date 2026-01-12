@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const playerStore = usePlayerStore();
+const musicStore = useMusicStore();
 const player = usePlayer();
 </script>
 
@@ -7,7 +8,7 @@ const player = usePlayer();
   <van-row
     align="center" 
     justify="space-between"
-    class="mini-player" 
+    :class="['mini-player', {showQueue: musicStore.openQueue}]" 
   >
     <van-col span="20" class="info" @click="playerStore.setExpand(true)">
       <span>{{ playerStore.currentSong?.name || '未播放' }}</span>
@@ -21,6 +22,7 @@ const player = usePlayer();
       <van-icon 
         name="bars"
         size="24"
+        @click.lazy="musicStore.setPlayerQueue(true)"
       />
     </van-col>
   </van-row>
@@ -32,13 +34,19 @@ const player = usePlayer();
   bottom: calc(50px + env(safe-area-inset-bottom)); /* 關鍵：要在 TabBar 上方 */
   left: 0;
   right: 0;
-  height: 60px;
+  height: 50px;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   border-top: 1px solid #eee;
   padding: 0 16px;
   z-index: 99; /* 確保蓋在內容上，但不要擋住 Popup */
   color: $color1;
+  transition: bottom 0.3s ease;
+
+  &.showQueue {
+    bottom: 0;
+    z-index: 9999;
+  }
 }
 
 .controls {

@@ -36,13 +36,12 @@ export type MenuStoreState = {
   openMenu: string
   isMusicList: boolean
   isAdvancedMenu: boolean
-  isJuniorMenu: boolean
-  isJuniorMode: boolean
   step: number
 }
 
 export type MusicStoreState = {
   isPro: boolean
+  openQueue: boolean
   name: string
   queue: any[]
   item: null

@@ -10,7 +10,7 @@ export const usePlaylist = () => {
   const player = usePlayer();
 
   const addToLists = (item: any) => {
-    musicStore.queue.push(item);
+    musicStore.queue.unshift(item);
 
     // 若尚未有歌曲 → 播第一首
     if (playerStore.index === -1) {
@@ -59,7 +59,6 @@ export const usePlaylist = () => {
         addMusic(song as MusicRow, chakra);
       })
     };
-    menuStore.isJuniorMenu = false;
     menuStore.isMusicList = true;
   };
 

@@ -16,9 +16,6 @@ const showTabbar = computed(() => route.meta.showTabbar ?? true);
 </template>
 
 <style scoped lang="scss">
-  * {
-    --van-nav-bar-z-index: 9999;
-  }
   .layout {
     position: relative;
     display: flex;

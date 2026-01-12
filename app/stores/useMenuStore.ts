@@ -6,8 +6,6 @@ export const useMenuStore = defineStore('menu',() => {
     openMenu: "",
     isMusicList: true,
     isAdvancedMenu: false,
-    isJuniorMenu: false,
-    isJuniorMode: true,
     step: 1
   });
 
@@ -17,14 +15,6 @@ export const useMenuStore = defineStore('menu',() => {
 
   const toggleMusicList = () => {
     state.isMusicList = !state.isMusicList;
-  };
-
-  const toggleJuniorMenu = () => {
-    state.isJuniorMenu = !state.isJuniorMenu;
-  };
-
-  const toggleJuniorMode = () => {
-    state.isJuniorMode = !state.isJuniorMode;
   };
   
   const toggleMenu = (item:string) => {
@@ -70,8 +60,6 @@ export const useMenuStore = defineStore('menu',() => {
     backToMenu,
     resetStep,
     toggleMusicList,
-    toggleJuniorMenu,
-    toggleJuniorMode,
     toggleAdvanceMenu
   }
 },

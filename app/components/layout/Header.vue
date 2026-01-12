@@ -8,7 +8,7 @@ const route = useRoute();
 const title = computed(() => route.meta.title ? route.meta.title : "iscim_music");
 const isMainPage = computed(() => route.meta.showTabbar);
 const isMusicList = computed(() => route.meta.title === 'music_list');
-const openSubNav = computed(() => menuStore.isAdvancedMenu || menuStore.isJuniorMenu);
+const openSubNav = computed(() => menuStore.isAdvancedMenu);
 
 const onClickLeft = () => {
   if (isMusicList && menuStore.openMenu !== '') {

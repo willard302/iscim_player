@@ -39,5 +39,10 @@ export const usePlayerStore = defineStore("player", () => {
   }
 },
 {
-  persist : true
+  persist: {
+    afterHydrate: (ctx) => {
+      ctx.store.isPlaying = false;
+      ctx.store.isExpanded = false;
+    }
+  }
 })

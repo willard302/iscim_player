@@ -5,6 +5,9 @@ import vantTW from 'vant/es/locale/lang/zh-TW';
 
 const mainStore = useMainStore();
 const playerStore = usePlayerStore();
+const musicStore = useMusicStore();
+
+const player = usePlayer();
 const { setLocale } = useI18n();
 
 watch(
@@ -23,24 +26,39 @@ watch(
   },
   {immediate: true}
 );
+
+onMounted(() => {
+  player.initListeners();
+
+  if (playerStore.src) {
+    player.setSourceByIndex(playerStore.index);
+  }
+});
 </script>
 <template>
   <div class="wrap">
     <NuxtLayout>
       <NuxtPage />
+        <PlayerMiniBar v-if="playerStore.currentSong?.id" />
+
+        <van-popup
+          v-model:show="playerStore.isExpanded"
+          position="bottom"
+          :style="{ height: '100%', width: '100%' }"
+          :duration="0.3"
+        >
+          <PlayerFullScreen />
+        </van-popup>
+
+        <van-popup
+          v-model:show="musicStore.openQueue"
+          position="bottom"
+          :style="{ height: '100%', width: '100%'}"
+          :duration="0.3"
+        >
+          <PlayerQueue />
+        </van-popup>
     </NuxtLayout>
-
-    <!-- <PlayerMiniBar v-if="playerStore.currentSong" /> -->
-     <PlayerMiniBar />
-
-    <van-popup
-      v-model:show="playerStore.isExpanded"
-      position="bottom"
-      :style="{ height: '100%', width: '100%' }"
-      :duration="0.3"
-    >
-      <PlayerFullScreen />
-    </van-popup>
   </div>
 </template>
 <style scoped lang="scss">

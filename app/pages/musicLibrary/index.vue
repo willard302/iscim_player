@@ -1,37 +1,38 @@
 <script setup lang="ts">
-import type { MusicLocal } from '~/types/data.types';
-
 const emit = defineEmits(['remove-all', 'handle-play'])
 
+const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
-const { loadMusicSet } = usePlaylist();
+const player = usePlayer();
+const { loadMusicSet, addMusic } = usePlaylist();
 
-const activeMainTab = ref('');
-const activeBuildCategory = ref(0);
-const musicListsSelected = ref<MusicLocal[]>([]);
+const activeMainTab = ref(0);
+const activeSystemMusicTab = ref(0);
+const activeCustomMusicTab = ref(0);
 const acitveLoadSetTab = ref(0);
+const showMusicOption = ref(false);
+const currentMusic = ref("");
 
 const handleCheck = (item: any) => {
-  const index = musicListsSelected.value.findIndex(s => s.id === item.id);
-  const isSelected = index > -1 ;
-
-  if (isSelected) {
-    musicListsSelected.value.splice(index, 1);
-    item.checked = false;
-    item.sort_order = 0;
-  } else {
-    musicListsSelected.value.push(item);
-    item.checked = true;
-  };
-
-  musicListsSelected.value.forEach((selecteditem, idx) => {
-    selecteditem.sort_order = idx + 1;
-  });
+  
+  player.togglePlay();
+  addMusic(item);
+  player.playIndex(0);
 };
 
 const handleLoadSet = (item: any) => {
   loadMusicSet(item);
 };
+
+const openMusicOption = (item: any) => {
+  showMusicOption.value = true;
+  currentMusic.value = item.name
+}
+
+watch(
+  () => activeMainTab.value,
+  (val) => console.log(val)
+)
 
 onMounted(() => {
   if(!musicStore.isPro) return;
@@ -48,7 +49,7 @@ onMounted(() => {
     type="card"
   >
     <van-tab name="Menu.system_music" :title="$t('Menu.system_music')">
-      <van-tabs v-model:active="activeBuildCategory" type="card" class="inner-tabs">
+      <van-tabs v-model:active="activeSystemMusicTab" type="card" class="inner-tabs">
         <van-tab
           v-for="(m, mIdx) in musicStore.subMusic"
           :key="mIdx"
@@ -62,14 +63,20 @@ onMounted(() => {
                 :title="i.name"
                 clickable
                 @click="handleCheck(i)"
-              />
+                :icon="playerStore.currentSong?.name === i.name ? 'play' : ''"
+                :class="[{current: playerStore.currentSong?.name === i.name}]"
+              >
+                <template #right-icon>
+                  <van-icon name="ellipsis" size="20" @click.stop="openMusicOption(i)" />
+                </template>
+              </van-cell>
             </van-cell-group>
           </div>
         </van-tab>
       </van-tabs>
     </van-tab>
     <van-tab name="Menu.custom_music" :title="$t('Menu.custom_music')">
-      <van-tabs v-model:active="activeBuildCategory" type="card" class="inner-tabs">
+      <van-tabs v-model:active="activeCustomMusicTab" type="card" class="inner-tabs">
         <van-tab
           v-for="(m, mIdx) in musicStore.subMusicUpdated"
           :key="mIdx"
@@ -83,12 +90,34 @@ onMounted(() => {
                 :title="i.name"
                 clickable
                 @click="handleCheck(i)"
-              />
+                :icon="playerStore.currentSong?.name === i.name ? 'play' : ''"
+                :class="[{current: playerStore.currentSong?.name === i.name}]"
+              >
+                <template #right-icon>
+                  <van-icon name="ellipsis" size="20" @click.stop="openMusicOption(i)" />
+                </template>
+              </van-cell>
             </van-cell-group>
           </div>
         </van-tab>
       </van-tabs>
     </van-tab>
+
+    <van-popup
+      v-model:show="showMusicOption"
+      position="bottom"
+      :duration="0.3"
+    >
+      <van-cell :title="currentMusic" >
+        <template #right-icon>
+          <van-icon name="info-o" size="24" />
+        </template>
+      </van-cell>
+      <van-cell title="播放下一首" icon="play-circle-o" />
+      <van-cell title="加入播放清單" icon="plus" />
+      <van-cell title="從佇列中移除" icon="minus" />
+      <van-cell title="從本機中移除" icon="delete-o" />
+    </van-popup>
 
     <van-tab
       name="Menu.load_set"
@@ -113,7 +142,11 @@ onMounted(() => {
                   :title="i.name"
                   clickable
                   @click="handleLoadSet(i)"
-                />
+                >
+                  <template #right-icon>
+                    <van-icon name="bars" />
+                  </template>
+                </van-cell>
               </van-cell-group>
             </div>
           </van-tab>
@@ -129,6 +162,7 @@ onMounted(() => {
 .scrollable-list {
   overflow-y: auto;
   padding-bottom: 10px;
+  height: 60vh;
 }
 
 .van-cell-group--inset {
@@ -139,6 +173,11 @@ onMounted(() => {
 .van-cell--clickable {
   --van-cell-background: transparent;
   align-items: center;
+
+  &.current {
+    color: $color14;
+    font-weight: bold;
+  }
 }
 
 </style>
