@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     }
   },
   compatibilityDate: '2025-07-15',
-  components: true,
   css: [
     '~/assets/scss/main.scss',
     '~/assets/scss/_vant.scss'
