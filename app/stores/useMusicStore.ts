@@ -14,7 +14,6 @@ export const useMusicStore = defineStore("music", () => {
     openQueue: false,
     name: "Hints.select_music",
     queue: [],
-    item: null,
     subMusic: [],
     subMusicUpdated: [],
     subSet: [],

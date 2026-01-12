@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         'house', 'user', 'pen', 'caret-right', 'check', 'ellipsis-vertical', 'music', 
         'compact-disc', 'square-plus', 'backward', 'pause', 'play', 'forward', 'repeat',
         'volume-high', 'volume-off', 'bars', 'xmark', 'trash', 'arrow-left', 'floppy-disk',
-        'eye', 'eye-slash'
+        'eye', 'eye-slash', 'list'
       ],
       regular: ['user', 'face-smile']
     }

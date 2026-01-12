@@ -4,12 +4,11 @@ const emit = defineEmits(['remove-all', 'handle-play'])
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const player = usePlayer();
-const { loadMusicSet, addMusic } = usePlaylist();
+const { addMusic } = usePlaylist();
 
 const activeMainTab = ref(0);
 const activeSystemMusicTab = ref(0);
 const activeCustomMusicTab = ref(0);
-const acitveLoadSetTab = ref(0);
 const showMusicOption = ref(false);
 const currentMusic = ref("");
 
@@ -20,19 +19,10 @@ const handleCheck = (item: any) => {
   player.playIndex(0);
 };
 
-const handleLoadSet = (item: any) => {
-  loadMusicSet(item);
-};
-
 const openMusicOption = (item: any) => {
   showMusicOption.value = true;
   currentMusic.value = item.name
 }
-
-watch(
-  () => activeMainTab.value,
-  (val) => console.log(val)
-)
 
 onMounted(() => {
   if(!musicStore.isPro) return;
@@ -119,40 +109,6 @@ onMounted(() => {
       <van-cell title="從本機中移除" icon="delete-o" />
     </van-popup>
 
-    <van-tab
-      name="Menu.load_set"
-      :title="$t('Menu.load_set')"
-    >
-      <div class="tab-content-wrapper">
-        <van-tabs
-          v-model:active="acitveLoadSetTab"
-          type="card"
-          class="inner-tabs"
-        >
-          <van-tab
-            v-for="(m, mIdx) in musicStore.subSet"
-            :key="mIdx"
-            :title="$t(m.name)"
-          >
-            <div class="scrollable-list">
-              <van-cell-group inset>
-                <van-cell
-                  v-for="(i, iIdx) in m.menu"
-                  :key="iIdx"
-                  :title="i.name"
-                  clickable
-                  @click="handleLoadSet(i)"
-                >
-                  <template #right-icon>
-                    <van-icon name="bars" />
-                  </template>
-                </van-cell>
-              </van-cell-group>
-            </div>
-          </van-tab>
-        </van-tabs>
-      </div>
-    </van-tab>
   </van-tabs>
 </template>
 
@@ -167,7 +123,6 @@ onMounted(() => {
 
 .van-cell-group--inset {
   --van-cell-group-background: transparent;
-  margin: 0;
 }
 
 .van-cell--clickable {

@@ -44,7 +44,6 @@ export type MusicStoreState = {
   openQueue: boolean
   name: string
   queue: any[]
-  item: null
   subMusic: SubMusic[]
   subMusicUpdated: SubMusic[]
   subSet: SubSet[]
