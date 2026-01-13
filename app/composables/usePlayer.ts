@@ -46,7 +46,7 @@ export const usePlayer = () => {
 
       if (audio.duration) {
         musicStore.slidePercent = (cur / audio.duration) * 100;
-      }
+      };
     };
     audio.onloadedmetadata = () => {
       const dur = audio.duration;
@@ -136,18 +136,29 @@ export const usePlayer = () => {
   const playIndex = (i: number) => {
     if (setSourceByIndex(i)) {
       playMusic();
-      console.log("playIndex")
     }
   };
   const next = () => {
-    if (!musicStore.queue.length) return;
+    if (musicStore.queue.length <= 1) return showFailToast("no more any song");
+    togglePlay();
     const ni = (playerStore.index + 1) % musicStore.queue.length;
     playIndex(ni);
   };
   const prev = () => {
-    if (!musicStore.queue.length) return;
+    if (musicStore.queue.length <= 1) return showFailToast("no more any song");
+    togglePlay();
     const pi = (playerStore.index - 1 + musicStore.queue.length) % musicStore.queue.length;
     playIndex(pi);
+  };
+  const onDragStart = () => {
+    musicStore.isDragging = true;
+  };
+  const onSeeking = (value: number) => {
+    const audio = getAudio();
+    if (audio && audio.duration) {
+      const time = (value / 100) * audio.duration;
+      playerStore.currentTime = formatTime(time);
+    }
   };
   const onSeekEnd = (value: number) => {
     const audio = getAudio();
@@ -155,17 +166,11 @@ export const usePlayer = () => {
 
     const time = (value / 100) * audio.duration;
     audio.currentTime = time;
+
     musicStore.isDragging = false;
     if (!playerStore.isPlaying) playMusic();
   };
-  const onSeeking = (value: number) => {
-    musicStore.isDragging = true;
-    const audio = getAudio();
-    if (audio && audio.duration) {
-      const time = (value / 100) * audio.duration;
-      playerStore.currentTime = formatTime(time);
-    }
-  };
+  
   const setVolume = (v: number) => {
     const audio = getAudio();
     const volume = Math.max(0, Math.min(100,v));
@@ -193,6 +198,7 @@ export const usePlayer = () => {
     playIndex,
     next,
     prev,
+    onDragStart,
     onSeekEnd,
     onSeeking,
     setVolume,

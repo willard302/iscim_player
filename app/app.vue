@@ -6,27 +6,27 @@ import vantTW from 'vant/es/locale/lang/zh-TW';
 const mainStore = useMainStore();
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
+const route = useRoute();
 
 const player = usePlayer();
 const { setLocale } = useI18n();
 
 const showPlayerMiniBar = computed(() => {
-  return (playerStore.currentSong?.id!!)
+  const hashCurrentSong = !!playerStore.currentSong?.id;
+
+  const isNotExpanded = !playerStore.isExpanded;
+
+  const isAllowedByRoute = (route.meta.showMiniBar ?? true);
+
+  return hashCurrentSong && isNotExpanded && isAllowedByRoute;
 });
 
 watch(
   () => mainStore.locale,
   (newLocale) => {
-    switch(newLocale) {
-      case 'tw':
-        setLocale('tw');
-        Locale.use('zh-TW', vantTW);
-        break;
-      default:
-        setLocale('en');
-        Locale.use('en-US', vantUS);
-        break;
-    }
+    const isTw = newLocale === 'tw';
+    setLocale(isTw ? 'tw' : 'en');
+    Locale.use(isTw ? 'zh-TW' : 'en-US', isTw ? vantTW : vantUS);
   },
   {immediate: true}
 );
@@ -43,7 +43,7 @@ onMounted(() => {
   <div :class="['wrap', {playing: showPlayerMiniBar}]">
     <NuxtLayout>
       <NuxtPage />
-        <PlayerMiniBar v-if="showPlayerMiniBar" />
+        <PlayerMiniBar v-show="showPlayerMiniBar" />
 
         <van-popup
           v-model:show="playerStore.isExpanded"

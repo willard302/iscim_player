@@ -2,8 +2,9 @@ import type { MusicStoreState } from "~/types/data.types";
 import { usePlayerStore } from "./usePlayerStore";
 import type { MusicRow, SetInsert } from "~/types/supabase";
 
-
 export const useMusicStore = defineStore("music", () => {
+
+  const {t} = useI18n();
 
   const { getMusics, getSets } = useDataBase();
   
@@ -48,6 +49,8 @@ export const useMusicStore = defineStore("music", () => {
     let nextMode = modeList[(modeIdx + 1) % modeList.length];
     if (!nextMode) return; 
     playerStore.loop = nextMode;
+
+    showToast(t(`Music.${nextMode}`))
   };
 
   const composeMusic = (musicList: MusicRow[], musicClass: string) => {

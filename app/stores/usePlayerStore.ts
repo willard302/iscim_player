@@ -23,10 +23,6 @@ export const usePlayerStore = defineStore("player", () => {
     Object.assign(state, defaultState());
   };
 
-  const toggleExpand = () => {
-    state.isExpanded = !state.isExpanded;
-  };
-
   const setExpand = (status: boolean) => {
     state.isExpanded = status
   };
@@ -34,7 +30,6 @@ export const usePlayerStore = defineStore("player", () => {
   return {
     ...toRefs(state),
     resetPlayer,
-    toggleExpand,
     setExpand
   }
 },

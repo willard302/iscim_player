@@ -6,9 +6,7 @@ const musicStore = useMusicStore();
 const route = useRoute();
 
 const title = computed(() => route.meta.title ? route.meta.title : "iscim_music");
-const isMainPage = computed(() => route.meta.showTabbar);
 const isMusicList = computed(() => route.meta.title === 'music_list');
-const openSubNav = computed(() => menuStore.isAdvancedMenu);
 
 const onClickLeft = () => {
   if (isMusicList && menuStore.openMenu !== '') {
@@ -46,7 +44,7 @@ const onClickRight = () => {
       <NuxtLink v-else class="title">{{ $t(title) }}</NuxtLink>
     </template>
     <template #right>
-      <van-icon name="setting" size="20" />
+      <van-icon name="setting-o" size="20" />
     </template>
   </van-nav-bar>
 </template>

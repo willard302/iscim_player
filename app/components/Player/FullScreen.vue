@@ -2,6 +2,7 @@
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const player = usePlayer();
+const {throttle} = useCommon();
 
 const closePlayer = () => {
   playerStore.setExpand(false);
@@ -13,7 +14,14 @@ const loopIcon = computed(() => {
     case 'repeatAll': return 'exchange';
     default: return 'revoke';
   }
-})
+});
+
+const throttleToggle = throttle(player.togglePlay, 1000);
+const throttleNext = throttle(player.next, 1000);
+const throttlePrev = throttle(player.prev, 1000);
+
+const onClickIcon = () => showToast('點擊圖標')
+onMounted(() => musicStore.isDragging = false);
 </script>
 
 <template>
@@ -41,6 +49,10 @@ const loopIcon = computed(() => {
         <h2>{{ playerStore.currentSong?.name || '無曲目'}}</h2>
         <p>{{ playerStore.currentSong?.created_by || 'Unknown' }}</p>
       </div>
+      <van-action-bar>
+        <van-action-bar-icon icon="like-o" text="最愛" @click="onClickIcon" />
+        <van-action-bar-icon icon="bookmark-o" text="收藏" @click="onClickIcon" />
+      </van-action-bar>
     </div>
 
     <div class="player-controls-area">
@@ -51,6 +63,7 @@ const loopIcon = computed(() => {
           bar-height="4px"
           button-size="12px"
           active-color="#1989fa"
+          @drag-start="player.onDragStart"
           @update:model-value="player.onSeeking"
           @change="player.onSeekEnd"
           class="slider"
@@ -67,15 +80,19 @@ const loopIcon = computed(() => {
         <van-icon 
           name="arrow-left"
           size="32"
-          @click="player.prev"
+          @click="throttlePrev"
         />
-        <div class="play-btn" @click="player.togglePlay">
+        <div class="play-btn" @click="throttleToggle">
           <van-icon 
             :name="playerStore.isPlaying ? 'pause' : 'play'"
             size="40" color="#ffffff"
           />
         </div>
-        <van-icon name="arrow" size="32" @click="player.next" />
+        <van-icon 
+          name="arrow" 
+          size="32" 
+          @click="throttleNext" 
+        />
         <van-icon 
           name="bars" 
           size="24" color="#666666" 
@@ -116,7 +133,6 @@ const loopIcon = computed(() => {
       animation: rotate 20s linear infinite;
     }
   }
-
   .song-info {
     text-align: center;
 
@@ -129,6 +145,12 @@ const loopIcon = computed(() => {
       margin: 0;
       color: #888888;
     }
+  }
+  .van-action-bar {
+    position: unset;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
   }
 }
 .player-controls-area {

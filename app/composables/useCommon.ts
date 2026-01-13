@@ -2,38 +2,60 @@ import type { FieldItem } from "~/types/data.types";
 
 export const useCommon = () => {
 
-  const formatTime = (seconds: number) => {
-    if (!seconds || !isFinite(seconds)) return "00:00";
+  const throttle = <T extends (...args: any[]) => any>(fn: T, delay: number = 1000) => {
+    let timer: ReturnType<typeof setTimeout> | null;
+
+    return (...args: Parameters<T>) => {
+      if (timer) return;
+
+      fn(...args);
+
+      timer = setTimeout(() => {timer = null}, delay);
+    }
+  };
+
+  const formatTime = (seconds: number | undefined | null): string => {
+
+    if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds < 0) return "00:00";
+
     const min = Math.floor(seconds / 60);
     const sec = Math.floor(seconds % 60);
+
     return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
   };
 
-  const dateToString = (timestamp: number, withTime: boolean) => {
-    const date = new Date(timestamp);
+  const dateToString = (val: number | string | Date, withTime: boolean = false) => {
+    const date = new Date(val);
+
+    if (isNaN(date.getTime())) return '';
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const finalDate = `${year}-${month}-${day}`;
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const datePart = `${year}-${month}-${day}`;
     
-    if(!withTime) return finalDate;
+    if(!withTime) return datePart;
 
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${finalDate}T${hours}:${minutes}:${seconds}`;
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    return `${datePart}T${hours}:${minutes}:${seconds}`;
   };
 
   const showPassword = (fields: FieldItem[], name: string) => {
-    const password = fields.find(item => item.name === name);
-    if (!password) return;
-    password.type = password?.type === 'password' ? 'text' : 'password';
+    const field = fields.find(item => item.name === name);
+    if (field && (field.type === 'password' || field.type === 'text')) {
+      field.type = field?.type === 'password' ? 'text' : 'password';
+    }
   };
 
   return {
     formatTime,
     dateToString,
-    showPassword
+    showPassword,
+    throttle
   }
 }

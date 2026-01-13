@@ -2,11 +2,8 @@
 definePageMeta({
   layout: "sub-page",
   title: "preferences",
-  pageTransition: {
-    name: 'slide-left',
-    mode: 'out-in'
-  },
-  showHeaderArrow: true
+  showHeaderArrow: true,
+  showMiniBar: false
 });
 
 const mainStore = useMainStore();
