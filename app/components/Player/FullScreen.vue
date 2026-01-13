@@ -109,6 +109,7 @@ onMounted(() => musicStore.isDragging = false);
   background-color: var(--van-background-2);
   display: flex;
   flex-direction: column;
+  padding-top: env(safe-area-inset-top);
 }
 .player-content {
   flex: 1;

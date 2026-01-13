@@ -143,6 +143,7 @@ const openMusicOption = (item: any) => {
 @use "sass:color";
 
 .queue-container {
+  padding-top: env(safe-area-inset-top);
   height: 100%;
   display: flex;
   flex-direction: column;

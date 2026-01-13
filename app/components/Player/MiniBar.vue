@@ -35,7 +35,12 @@ const player = usePlayer();
   left: 0;
   right: 0;
   height: 50px;
-  background: rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(to right top,
+    #ffc4ee,
+    #ead1fc,
+    #dadcff,
+    #d5e5fb,
+    #dceaf3);
   backdrop-filter: blur(10px);
   border-top: 1px solid #eee;
   padding: 0 16px;
