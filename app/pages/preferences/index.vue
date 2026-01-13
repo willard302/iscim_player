@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ChakraType } from '~/types/data.types';
-
 definePageMeta({
   layout: "sub-page",
   title: "preferences",
@@ -8,10 +6,7 @@ definePageMeta({
     name: 'slide-left',
     mode: 'out-in'
   },
-  showHeader: true,
-  showTabbar: true,
-  showHeaderArrow: true,
-  pageOrder: 4
+  showHeaderArrow: true
 });
 
 const mainStore = useMainStore();

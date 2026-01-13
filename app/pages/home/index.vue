@@ -1,13 +1,8 @@
 <script setup lang="ts">
-definePageMeta({
-  title: "home",
-  showHeader: true,
-  showTabbar: true,
-  pageOrder: 1
-});
+definePageMeta({pageOrder: 1});
 import DisclaimerNotice from '~/components/DisclaimerNotice.vue';
 const router = useRouter();
-const {target} = useSwipeChange(() => router.push('/music'), () => router.push('/userCenter'))
+const {target} = useSwipeChange(() => router.push('/musicLibrary'), () => router.push('/playList'))
 </script>
 
 <template>

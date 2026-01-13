@@ -1,16 +1,26 @@
 <script setup lang="ts">
+definePageMeta({pageOrder: 2});
 const emit = defineEmits(['remove-all', 'handle-play'])
 
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const player = usePlayer();
+const router = useRouter();
 const { addMusic } = usePlaylist();
+
+const {target} = useSwipeChange(() => router.push('/playList'), () => router.push('/home'));
 
 const activeMainTab = ref(0);
 const activeSystemMusicTab = ref(0);
 const activeCustomMusicTab = ref(0);
 const showMusicOption = ref(false);
 const currentMusic = ref("");
+
+const actionOptions = reactive([
+  {title: '加入播放清單', id: 'next', icon: 'plus', action: player.next },
+  {title: '從佇列中移除', id: 'removeFromPlayerList', icon: 'minus', action: player.next },
+  {title: '從本機中移除', id: 'removeFromLocalDevice', icon: 'delete-o', action: player.next }
+]);
 
 const handleCheck = (item: any) => {
   
@@ -22,7 +32,7 @@ const handleCheck = (item: any) => {
 const openMusicOption = (item: any) => {
   showMusicOption.value = true;
   currentMusic.value = item.name
-}
+};
 
 onMounted(() => {
   if(!musicStore.isPro) return;
@@ -33,6 +43,7 @@ onMounted(() => {
 
 <template>
   <van-tabs
+    ref="target"
     class="custom-tab"
     v-model:active="activeMainTab"
     sticky
@@ -103,10 +114,13 @@ onMounted(() => {
           <van-icon name="info-o" size="24" />
         </template>
       </van-cell>
-      <van-cell title="播放下一首" icon="play-circle-o" />
-      <van-cell title="加入播放清單" icon="plus" />
-      <van-cell title="從佇列中移除" icon="minus" />
-      <van-cell title="從本機中移除" icon="delete-o" />
+      <van-cell 
+        v-for="item in actionOptions"
+        :key="item.id"
+        :title="item.title"
+        :icon="item.icon"
+        @click="item.action"
+      />
     </van-popup>
 
   </van-tabs>
@@ -114,6 +128,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @use 'sass:color';
+@import url("~/assets/scss/_transitions.scss");
 
 .scrollable-list {
   overflow-y: auto;

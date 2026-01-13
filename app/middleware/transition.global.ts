@@ -1,21 +1,25 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  const toOrder = Number(to.meta.pageOrder) ?? 0;
-  const fromOrder = Number(from.meta.pageOrder) ?? 0;
+  const toOrder = to.meta.pageOrder;
+  const fromOrder = from.meta.pageOrder;
 
-  if (to.path === from.path) return;
-  if (!to.meta.pageOrder) return;
+  if (to.path === from.path || typeof toOrder !== 'number') return;
 
-  const direction = (toOrder > fromOrder) ? 'slide-left' : 'slide-right';
+  const fromOrderVal = typeof fromOrder === 'number' ? fromOrder : 0;
 
-  const applyTransition = (route: typeof to) => {
+  const isLoopBack = fromOrderVal === 1 && toOrder === 3;
+  const isLoopForward = fromOrderVal === 3 && toOrder ===1;
+  const isNaturalForward = toOrder > fromOrderVal;
+
+  const direction = (isLoopForward || (isNaturalForward && !isLoopBack))
+    ? 'slide-left'
+    : 'slide-right';
+
+  [to, from].forEach((route) => {
     if (route.meta.pageTransition === false) return;
 
     route.meta.pageTransition = {
-      ...(((typeof route.meta.pageTransition) === 'object') ? route.meta.pageTransition : {}),
+      ...(typeof route.meta.pageTransition === 'object' ? route.meta.pageTransition : {}),
       name: direction
-    };
-  };
-
-  applyTransition(to);
-  applyTransition(from);
+    }
+  });
 })

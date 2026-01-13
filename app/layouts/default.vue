@@ -1,24 +1,19 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
 const route = useRoute();
-const showHeader = computed(() => route.meta.showHeader ?? true);
-const showTabbar = computed(() => route.meta.showTabbar ?? true);
 </script>
 
 <template>
   <div class="layout">
-    <LayoutHeader v-if="showHeader" class="safe-area-top" />
+    <LayoutHeader class="safe-area-top" />
     <main :class="musicStore.isPro ? 'theme-1' : 'theme-2'">
       <slot />
     </main>
-    <LayoutTabbar v-if="showTabbar" class="safr-area-bottom" />
+    <LayoutTabbar class="safr-area-bottom" />
   </div>
 </template>
 
 <style scoped lang="scss">
-  * {
-    --van-nav-bar-z-index: 9999;
-  }
   .layout {
     position: relative;
     display: flex;

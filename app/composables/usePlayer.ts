@@ -11,6 +11,7 @@ export const usePlayer = () => {
   const playerStore = usePlayerStore();
 
   const updateMediaSession = () => {
+    if (!import.meta.client) return console.log("not client");
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
 
     const song = musicStore.queue[playerStore.index];
@@ -37,7 +38,7 @@ export const usePlayer = () => {
     audio.onerror = null;
 
     audio.ontimeupdate = () => {
-      if (musicStore.isDragging) return // 如果正在拖曳進度條，暫不更新進度;
+      if (musicStore.isDragging) return; // 如果正在拖曳進度條，暫不更新進度;
 
       const cur = audio.currentTime;
       playerStore.currentSec = cur;
@@ -79,9 +80,11 @@ export const usePlayer = () => {
     audio.onerror = (e) => {
       console.error("Audio Playback Error", e);
       playerStore.isPlaying = false;
+
+      const { destroyAudio } = useAudioManager();
+      destroyAudio();
     };
   };
-
   const setSourceByIndex = (i: number) => {
 
     if (i < 0 || i >= musicStore.queue.length) return false;
@@ -104,7 +107,6 @@ export const usePlayer = () => {
     updateMediaSession();
     return true;
   };
-
   const playMusic = async() => {
     const audio = getAudio();
     if (!audio) return;
@@ -117,41 +119,36 @@ export const usePlayer = () => {
       await audio.play();
       playerStore.isPlaying = true;
       updateMediaSession();
-    } catch (error) {
+    } catch (error: any) {
       console.warn("Play error: ", error);
       playerStore.isPlaying = false;
     };
   };
-
   const pauseMusic = () => {
     const audio = getAudio();
     if (!audio) return;
     audio.pause();
     playerStore.isPlaying = false;
   };
-
   const togglePlay = () => {
     playerStore.isPlaying ? pauseMusic() : playMusic();
   };
-
   const playIndex = (i: number) => {
     if (setSourceByIndex(i)) {
       playMusic();
+      console.log("playIndex")
     }
   };
-
   const next = () => {
     if (!musicStore.queue.length) return;
     const ni = (playerStore.index + 1) % musicStore.queue.length;
     playIndex(ni);
   };
-
   const prev = () => {
     if (!musicStore.queue.length) return;
     const pi = (playerStore.index - 1 + musicStore.queue.length) % musicStore.queue.length;
     playIndex(pi);
   };
-
   const onSeekEnd = (value: number) => {
     const audio = getAudio();
     if (!audio || !isFinite(audio.duration)) return;
@@ -160,8 +157,7 @@ export const usePlayer = () => {
     audio.currentTime = time;
     musicStore.isDragging = false;
     if (!playerStore.isPlaying) playMusic();
-  }
-
+  };
   const onSeeking = (value: number) => {
     musicStore.isDragging = true;
     const audio = getAudio();
@@ -170,7 +166,6 @@ export const usePlayer = () => {
       playerStore.currentTime = formatTime(time);
     }
   };
-
   const setVolume = (v: number) => {
     const audio = getAudio();
     const volume = Math.max(0, Math.min(100,v));
@@ -182,7 +177,6 @@ export const usePlayer = () => {
       audio.volume = playerStore.volume_on ?  (volume / 100) : 0;
     };
   };
-
   const openVolume = () => {
     playerStore.volume_on = !playerStore.volume_on;
     if (playerStore.volume_on && playerStore.volume === 0) {

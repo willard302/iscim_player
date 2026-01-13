@@ -36,7 +36,7 @@ onMounted(() => {
 
   if (playerStore.src) {
     player.setSourceByIndex(playerStore.index);
-  }
+  };
 });
 </script>
 <template>
