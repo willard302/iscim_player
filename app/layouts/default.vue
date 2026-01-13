@@ -5,11 +5,11 @@ const route = useRoute();
 
 <template>
   <div class="layout">
-    <LayoutHeader class="safe-area-top" />
+    <LayoutHeader />
     <main :class="musicStore.isPro ? 'theme-1' : 'theme-2'">
       <slot />
     </main>
-    <LayoutTabbar class="safr-area-bottom" />
+    <LayoutTabbar />
   </div>
 </template>
 
