@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
-const route = useRoute();
+const playerStore = usePlayerStore();
 </script>
 
 <template>
@@ -14,17 +14,11 @@ const route = useRoute();
 </template>
 
 <style scoped lang="scss">
-  .layout {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  main {
-    margin: 46px auto 50px;
-  }
-  .playing main {
-    margin: 46px auto 100px;
-  }
+.layout {
+  position: relative;
+  @include flex-center(column);
+}
+main {
+  margin: var(--header-h) auto var(--tabbar-h);
+}
 </style>

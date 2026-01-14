@@ -24,8 +24,8 @@ import type { PolicyPart } from '~/types/data.types';
 
 <style scoped>
 * {
-  --van-divider-text-color: $color9;
-  --van-divider-border-color: $color9;
+  --van-divider-text-color: $black;
+  --van-divider-border-color: $black;
   --van-divider-font-size: 1rem;
 }
 .van-button {

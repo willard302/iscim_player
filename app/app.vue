@@ -40,7 +40,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div :class="['wrap', {playing: showPlayerMiniBar}]">
+  <div :class="['wrap', {showQueue: musicStore.openQueue}]">
     <NuxtLayout>
       <NuxtPage />
         <PlayerMiniBar v-show="showPlayerMiniBar" />
@@ -70,12 +70,12 @@ onMounted(() => {
 
 .wrap {
   position: relative;
-  background-color: $color1;
+  background-color: $white;
 
   @include PadWidth {
-    max-width: 576px;
+    max-width: $layout-max-width;
     margin: 10px auto;
-    box-shadow: 2px 2px 3px color.scale($color8, $lightness: 12%);
+    box-shadow: 2px 2px 3px color.scale($gray-900, $lightness: 12%);
     border-radius: 10px;
   }
 }

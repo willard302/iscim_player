@@ -112,11 +112,8 @@ onMounted(() => musicStore.isDragging = false);
   padding-top: env(safe-area-inset-top);
 }
 .player-content {
+  @include flex-center(column);
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 20px;
 
   .cover-wrapper {
@@ -139,7 +136,7 @@ onMounted(() => musicStore.isDragging = false);
 
     h2 {
       margin: 0 0 8px;
-      font-size: 20px;
+      font-size: $font-size-base;
     }
 
     p {
@@ -162,7 +159,12 @@ onMounted(() => musicStore.isDragging = false);
     align-items: center;
     margin-bottom: 30px;
     gap: 10px;
-    .time-text { font-size: 12px; color: #999; width: 40px; text-align: center;}
+    .time-text { 
+      font-size: $font-size-mini; 
+      color: #999; 
+      width: 40px; 
+      text-align: center;
+    }
     .slider { flex: 1; }
   }
 

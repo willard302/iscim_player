@@ -2,6 +2,7 @@
 definePageMeta({pageOrder: 3});
 const musicStore = useMusicStore();
 const router = useRouter();
+const player = usePlayer();
 const { loadMusicSet } = usePlaylist();
 
 const {target} = useSwipeChange(() => router.push('/home'), () => router.push('/musicLibrary'));
@@ -9,6 +10,12 @@ const {target} = useSwipeChange(() => router.push('/home'), () => router.push('/
 const acitveLoadSetTab = ref(0);
 const showSetOption = ref(false);
 const currentSet = ref("");
+
+const actionOptions = reactive([
+  {title: '播放', id: 'removeFromPlayerList', icon: 'play-circle-o', action: player.next },
+  {title: '重新命名', id: 'removeFromPlayerList', icon: 'edit', action: player.next },
+  {title: '刪除', id: 'removeCurrentSet', icon: 'delete-o', action: player.next }
+]);
 
 const handleLoadSet = (item: any) => {
   musicStore.resetMusic();
@@ -62,10 +69,17 @@ const openSetOption = (item: any) => {
           <van-icon name="info-o" size="24" />
         </template>
       </van-cell>
-      <van-cell title="播放下一首" icon="play-circle-o" />
+      <van-cell 
+        v-for="item in actionOptions"
+        :key="item.id"
+        :title="item.title"
+        :icon="item.icon"
+        @click="item.action"
+      />
+      <!-- <van-cell title="播放下一首" icon="play-circle-o" />
       <van-cell title="加入播放清單" icon="plus" />
       <van-cell title="從佇列中移除" icon="minus" />
-      <van-cell title="從本機中移除" icon="delete-o" />
+      <van-cell title="從本機中移除" icon="delete-o" /> -->
     </van-popup>
   </div>
 </template>

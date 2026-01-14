@@ -145,7 +145,7 @@ onMounted(() => {
   align-items: center;
 
   &.current {
-    color: $color14;
+    color: $pink-main;
     font-weight: bold;
   }
 }

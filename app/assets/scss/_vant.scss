@@ -14,22 +14,22 @@
     background: transparent;
   }
   .van-tab--card {
-    color: $color-font;
+    color: $color-text-primary;
     line-height: 1;
     font-weight: 500;
     font-feature-settings: "palt" 1;
     text-align: center;
-    border: 1px solid color.adjust($color9, $alpha: -0.85);
-    box-shadow: 2px 2px 3px color.scale($color8, $lightness: 12%);
+    border: 1px solid color.adjust($black, $alpha: -0.85);
+    box-shadow: 2px 2px 3px color.scale($gray-900, $lightness: 12%);
     cursor: pointer;
     transition: 0.2s;
 
     &:hover,
     &:focus,
     &.van-tab--active {
-      color: color.scale($color13, $lightness: -20%);
+      color: color.scale($pink-main, $lightness: -20%);
       box-shadow: unset;
-      border: 2px solid $color13;
+      border: 2px solid $pink-main;
       background: transparent;
     }
   }
@@ -53,17 +53,17 @@
 .custom-button {
   .van-button {
     width: 100%;
-    color: $color-font;
-    border: 1px solid color.adjust($color9, $alpha: -0.85);
-    box-shadow: 2px 2px 3px color.scale($color8, $lightness: 12%);
+    color: $color-text-primary;
+    border: 1px solid color.adjust($black, $alpha: -0.85);
+    box-shadow: 2px 2px 3px color.scale($gray-900, $lightness: 12%);
     background: transparent;
 
     &:hover,
     &:focus,
     &.van-tab--active {
-      color: color.scale($color13, $lightness: -20%);
+      color: color.scale($pink-main, $lightness: -20%);
       box-shadow: unset;
-      border: 2px solid $color13;
+      border: 2px solid $pink-main;
     }
   }
 }

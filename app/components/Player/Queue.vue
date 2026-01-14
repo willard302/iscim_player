@@ -179,7 +179,7 @@ const openMusicOption = (item: any) => {
   }
 
   .playing {
-    background-color: $color-hover;
+    background-color: $color-primary;
   }
 }
 

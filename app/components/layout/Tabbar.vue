@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const musicStore = useMusicStore();
 const home = { label: 'home', path: '/home', icon: ['fas', 'house'] };
 const musicLibrary = { label: 'musicLibrary', path: '/musicLibrary', icon: ['fas', 'music'] };
 const playList = { label: 'playList', path: '/playList', icon: ['fas', 'list'] }
@@ -27,10 +28,10 @@ const handleToTab = () => {
 
 <style scoped lang="scss">
 .van-tabbar {
-  max-width: 600px;
+  max-width: $layout-max-width;
   position: absolute;
 }
 svg {
-  font-size: 1.4rem;
+  font-size: $font-size-sm;
 }
 </style>

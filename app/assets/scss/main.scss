@@ -1,8 +1,16 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scrollbar-width: thin;
+}
+
 :root {
   --sat: env(safe-area-inset-top, 0px);
   --sar: env(safe-area-inset-right, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
+  --bg-color-1: #{$color-bg-body};
 }
 
 html {
@@ -18,8 +26,18 @@ html, body {
   font-family: 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   user-select: none;
+
+  background-color: var(--bg-color-1);
+  color: $color-text-primary;
+}
+
+html {
+  @include PadWidth {
+    @include flex-center;
+    background-color: #f7f8fa;
+
+  }
 }
 
 #__nuxt {
@@ -30,18 +48,10 @@ html, body {
   -webkit-overflow-scrolling: touch; 
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  scrollbar-width: thin;
-}
-
 body {
   -ms-overflow-style: none;
   scrollbar-width: none;
   overscroll-behavior-y: none;
-
   background-color: var(--bg-color-1, #ffffff);
   padding-top: var(--sat);
   padding-bottom: var(--sab);
@@ -60,15 +70,14 @@ body {
 
 main {
   position: relative;
-  height: $height_content_1;
-  height: $height_content_2;
+  height: calc(100dvh - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
+
   width: 100%;
   overflow-y: auto;
 }
 
-.playing main {
-  height: calc($height_content_1 - 50px);
-  height: calc($height_content_2 - 50px);
+.showQueue main {
+  --tabbar-h: 0px;
 }
 
 .theme-1 {

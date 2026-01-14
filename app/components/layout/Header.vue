@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import logo from "/iscim_logo.png";
 
-const menuStore = useMenuStore();
 const musicStore = useMusicStore();
 const route = useRoute();
 
@@ -9,11 +8,7 @@ const title = computed(() => route.meta.title ? route.meta.title : "iscim_music"
 const isMusicList = computed(() => route.meta.title === 'music_list');
 
 const onClickLeft = () => {
-  if (isMusicList && menuStore.openMenu !== '') {
-    menuStore.backToMenu();
-  } else {
-    navigateTo('/home')
-  }
+  navigateTo('/home')
 };
 
 const onClickRight = () => {
@@ -49,16 +44,16 @@ const onClickRight = () => {
   </van-nav-bar>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .van-nav-bar {
-    max-width: 600px;
+    max-width: $layout-max-width;
     position: absolute;
   }
   :deep(.van-dropdown-menu__bar) {
     box-shadow: unset;
   }
   .audio__list__heading {
-    font-size: 16px;
+    font-size: $font-size-base;
   }
   .van-image {
     width: 60px;

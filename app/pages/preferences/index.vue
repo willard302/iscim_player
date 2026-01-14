@@ -106,17 +106,6 @@ const onConfirm = (res: any) => {
 }
 
 .profile__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  --van-cell-background: transparent;
-
-  --van-divider-text-color: $color5;
-  --van-divider-font-size: 1.2rem;
+  @include flex-center(column);
 }
-
-// .profile__body {
-//   box-shadow: 0 0 9px #ddd;
-// }
 </style>

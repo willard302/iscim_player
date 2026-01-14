@@ -8,7 +8,7 @@ const player = usePlayer();
   <van-row
     align="center" 
     justify="space-between"
-    :class="['mini-player', {showQueue: musicStore.openQueue}]" 
+    class="mini-player"
   >
     <van-col span="20" class="info" @click="playerStore.setExpand(true)">
       <span>{{ playerStore.currentSong?.name || '未播放' }}</span>
@@ -30,11 +30,13 @@ const player = usePlayer();
 
 <style scoped lang="scss">
 .mini-player {
-  position: fixed;
-  bottom: calc(50px + env(safe-area-inset-bottom)); /* 關鍵：要在 TabBar 上方 */
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: var(--minibar-h);
+  width: 100%;
+  max-width: $layout-max-width;
   background-image: linear-gradient(to right top,
     #ffc4ee,
     #ead1fc,
@@ -45,13 +47,13 @@ const player = usePlayer();
   border-top: 1px solid #eee;
   padding: 0 16px;
   z-index: 99; /* 確保蓋在內容上，但不要擋住 Popup */
-  color: $color1;
+  color: $white;
   transition: bottom 0.3s ease;
+}
 
-  &.showQueue {
-    bottom: 0;
-    z-index: 9999;
-  }
+.showQueue .mini-player {
+  bottom: 0px;
+  z-index: 9999;
 }
 
 .controls {
