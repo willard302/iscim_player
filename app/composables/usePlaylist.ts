@@ -99,12 +99,9 @@ export const usePlaylist = () => {
     if (idx > -1) musicStore.subSet.splice(idx, 1);
   };
 
-  const removeMusic = (music:any, musicSelected: any) => {
-    if (music.sort_order > musicSelected.order) {
-      music.sort_order--;
-    } else if (music.sort_order === musicSelected.order) {
-      music.sort_order = null;
-    };
+  const removeMusic = (music:any) => {
+  
+    console.log(music)
   };
 
   const addChakra = (item: ChakraType) => {

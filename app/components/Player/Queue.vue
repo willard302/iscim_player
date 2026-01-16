@@ -83,7 +83,7 @@ const openMusicOption = (item: any) => {
         <van-icon name="arrow-down" size="24" color="#333"/>
       </template>
       <template #title>
-        <span class="nav-title">播放佇列</span>
+        <span class="nav-title">{{ $t('player_queue') }}</span>
       </template>
     </van-nav-bar>
 
@@ -130,10 +130,9 @@ const openMusicOption = (item: any) => {
             <van-icon name="info-o" size="24" />
           </template>
         </van-cell>
-        <van-cell title="播放下一首" icon="play-circle-o" />
-        <van-cell title="加入播放清單" icon="plus" />
+        <van-cell :title="$t('Music.next')" icon="play-circle-o" />
+        <van-cell :title="$t('add_to_play_list')" icon="plus" />
         <van-cell title="從佇列中移除" icon="minus" @click="removeList" />
-        <van-cell title="從本機中移除" icon="delete-o" />
       </van-popup>
     </div>
   </div>

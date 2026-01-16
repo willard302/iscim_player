@@ -7,6 +7,8 @@ export default {
   chakra_detection: "Chakra Detection",
   clean_all: "Clean All",
   confirm: "Confirm",
+  created_at: "Created at",
+  created_by: "Created by",
   edit: "Edit",
   email: "Email",
   enhance: "Enhance",
@@ -32,6 +34,7 @@ export default {
   preferences: "Preferences",
   profile: "Profile",
   register: "Register",
+  remove_from_queue: "Remove from queue",
   setting: "Setting",
   submit: "Submit",
   user_data: "User Data",
@@ -118,6 +121,11 @@ export default {
     we_have_send_verification_email: "We have send verification email"
   },
   Music: {
+    id: "ID",
+    intro: "Profile",
+    src: "Source",
+    name: "Title",
+    category: "Category",
     fast: "Fast",
     fast_charge: "Fast Charge",
     full_charge: "Full Charge",

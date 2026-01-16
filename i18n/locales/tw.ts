@@ -7,6 +7,8 @@ export default {
   chakra_detection: "脈輪檢測",
   clean_all: "清除全部",
   confirm: "確認",
+  created_at: "創建時間",
+  created_by: "創建人",
   edit: "編輯",
   email: "電子信箱",
   enhance: "脈輪增強",
@@ -32,6 +34,7 @@ export default {
   preferences: "偏好設定",
   profile: "個人資料",
   register: "註冊",
+  remove_from_queue: "從佇列中移除",
   setting: "設定",
   submit: "送出",
   user_data: "會員資料",
@@ -118,6 +121,11 @@ export default {
     we_have_send_verification_email: "我們已經寄出認證信"
   },
   Music: {
+    id: "歌曲ID",
+    intro: "歌曲簡介",
+    src: "歌曲來源",
+    name: "歌曲名稱",
+    category: "歌曲分類",
     fast: "快速版",
     fast_charge: "快速充電",
     full_charge: "完整充電",

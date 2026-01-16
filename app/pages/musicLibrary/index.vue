@@ -1,39 +1,80 @@
 <script setup lang="ts">
 definePageMeta({pageOrder: 2});
+
+import type { FieldItem, MusicLocal } from '~/types/data.types';
+
 const emit = defineEmits(['remove-all', 'handle-play'])
 
+const player = usePlayer();
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
-const player = usePlayer();
+const { addMusic, removeMusic } = usePlaylist();
 const router = useRouter();
-const { addMusic } = usePlaylist();
-
 const {target} = useSwipeChange(() => router.push('/playList'), () => router.push('/home'));
 
 const activeMainTab = ref(0);
 const activeSystemMusicTab = ref(0);
 const activeCustomMusicTab = ref(0);
-const showMusicOption = ref(false);
-const currentMusic = ref("");
+
+const showMusicOptions = ref(false);
+const showMusicInfo = ref(false);
+const currentMusic = ref<MusicLocal>();
+
+const fieldItems = ref<FieldItem[]>([]);
+
+const handleAction = (actionType: string) => {
+  if (!currentMusic.value) return;
+
+  if (actionType === 'next') {
+    player.next();
+  } else if (actionType === 'removeFromPlayerList') {
+    removeMusic(currentMusic.value);
+  };
+
+  showMusicOptions.value = false;
+};
 
 const actionOptions = reactive([
-  {title: '加入播放清單', id: 'next', icon: 'plus', action: player.next },
-  {title: '從佇列中移除', id: 'removeFromPlayerList', icon: 'minus', action: player.next },
-  {title: '從本機中移除', id: 'removeFromLocalDevice', icon: 'delete-o', action: player.next }
+  {title: 'add_to_play_list', id: 'next', icon: 'plus'},
+  {title: 'remove_from_queue', id: 'removeFromPlayerList', icon: 'delete-o'}
 ]);
 
 const handleCheck = (item: any) => {
-  
   player.togglePlay();
   addMusic(item);
   player.playIndex(0);
 };
+const openMusicOptions = (item: any) => {
+  showMusicOptions.value = true;
+  currentMusic.value = item;
+};
+const openMusicInfo = () => {
+  const music = currentMusic.value;
+  if (!music) return;
 
-const openMusicOption = (item: any) => {
-  showMusicOption.value = true;
-  currentMusic.value = item.name
+  fieldItems.value = [];
+  fieldItems.value = transferToFields(music);
+  
+  showMusicInfo.value = true;
+  showMusicOptions.value = false;
 };
 
+const transferToFields = (event: MusicLocal): FieldItem[] => {
+
+  return Object.entries(event).map(([key, value]) => {
+    let label = `Music.${key}`;
+    if (['created_at', 'created_by'].includes(key)) {
+      label = key;
+    };
+
+    return {
+      label: label,
+      value: String(value),
+      name: key,
+      type: 'text'
+    }
+  });
+};
 onMounted(() => {
   if(!musicStore.isPro) return;
   musicStore.initMusicData();
@@ -68,7 +109,7 @@ onMounted(() => {
                 :class="[{current: playerStore.currentSong?.name === i.name}]"
               >
                 <template #right-icon>
-                  <van-icon name="ellipsis" size="20" @click.stop="openMusicOption(i)" />
+                  <van-icon name="ellipsis" size="20" @click.stop="openMusicOptions(i)" />
                 </template>
               </van-cell>
             </van-cell-group>
@@ -95,7 +136,7 @@ onMounted(() => {
                 :class="[{current: playerStore.currentSong?.name === i.name}]"
               >
                 <template #right-icon>
-                  <van-icon name="ellipsis" size="20" @click.stop="openMusicOption(i)" />
+                  <van-icon name="ellipsis" size="20" @click.stop="openMusicOptions(i)" />
                 </template>
               </van-cell>
             </van-cell-group>
@@ -105,21 +146,33 @@ onMounted(() => {
     </van-tab>
 
     <van-popup
-      v-model:show="showMusicOption"
+      v-model:show="showMusicOptions"
       position="bottom"
       :duration="0.3"
     >
-      <van-cell :title="currentMusic" >
+      <van-cell :title="currentMusic?.name" >
         <template #right-icon>
-          <van-icon name="info-o" size="24" />
+          <van-icon name="info-o" size="24" @click="openMusicInfo" />
         </template>
       </van-cell>
       <van-cell 
         v-for="item in actionOptions"
         :key="item.id"
-        :title="item.title"
+        :title="$t(item.title)"
         :icon="item.icon"
-        @click="item.action"
+        @click="handleAction(item.id)"
+      />
+    </van-popup>
+
+    <van-popup
+      v-model:show="showMusicInfo"
+      position="bottom"
+      :duration="0.3"
+      destroy-on-close    
+    >
+      <van-cell title="詳細資料" size="large" align="center" />
+      <FieldForm 
+        :field-items="fieldItems"
       />
     </van-popup>
 

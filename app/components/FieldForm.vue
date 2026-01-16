@@ -91,14 +91,17 @@ const handleShowPassword = (type: string) => {
           :label="$t(field.label)"
           :label-width="labelWidth"
           :placeholder="field.placeholder ? $t(field.placeholder) : ''"
-          :right-icon="field.type === 'password' ? 'eye-o' : 'closed-eye'"
           :rules="[{
             required: field.required,
             message: field.message ? $t(field.message) : ''
           }]"
           :autocomplete="field.autocomplete"
           @click-right-icon="field.name.includes('password') ? handleShowPassword(field.name) : null"
-        />
+        >
+          <template v-if="field.name.includes('password')" #right-icon>
+            <van-icon :name="field.type === 'password' ? 'eye-o' : 'closed-eye'" />
+          </template>
+        </van-field>
       </template>
     </van-cell-group>
 
