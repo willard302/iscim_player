@@ -18,7 +18,7 @@ const title = computed(() => (route.meta.title as string) || '詳細內容');
   <div class="subpage-layout">
     <van-nav-bar
       :title="$t(title)"
-      left-text="返回"
+      :left-text="$t('Button.back')"
       left-arrow
       fixed
       placeholder

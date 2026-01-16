@@ -6,7 +6,6 @@ const navItems = [home, musicLibrary, playList];
 
 const handleToTab = () => {
   const menuStore = useMenuStore();
-  menuStore.isMusicList = true;
 };
 
 </script>

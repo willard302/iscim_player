@@ -59,7 +59,6 @@ export const usePlaylist = () => {
         addMusic(song as MusicRow, chakra);
       })
     };
-    menuStore.isMusicList = true;
   };
 
   const saveSet = async() => {
@@ -110,8 +109,6 @@ export const usePlaylist = () => {
 
   const addChakra = (item: ChakraType) => {
     musicStore.chakra = item;
-    menuStore.openMenu = "";
-    menuStore.toggleAdvanceMenu();
   };
 
   return {

@@ -76,10 +76,6 @@ const openSetOption = (item: any) => {
         :icon="item.icon"
         @click="item.action"
       />
-      <!-- <van-cell title="播放下一首" icon="play-circle-o" />
-      <van-cell title="加入播放清單" icon="plus" />
-      <van-cell title="從佇列中移除" icon="minus" />
-      <van-cell title="從本機中移除" icon="delete-o" /> -->
     </van-popup>
   </div>
 </template>

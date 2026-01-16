@@ -1,6 +1,6 @@
 export default {
+  add_to_play_list: "加入播放清單",
   advanced_mode: "專業",
-  music_list: "播放清單",
   and: "和",
   basic_mode: "一般",
   cancel: "取消",
@@ -90,7 +90,6 @@ export default {
     tw: '中文'
   },
   Menu: {
-    back: "返回",
     build_new_set: "建立清單",
     custom_music: "個人單曲",
     five_elements_music: "五行音樂",
@@ -126,6 +125,7 @@ export default {
     medium: "正常版",
     menu_mode: "點歌模式",
     music_mode: "音樂模式",
+    next: "下一首",
     normal: "正常模式",
     player: "音樂播放器",
     pro: "專業",

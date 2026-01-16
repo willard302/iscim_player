@@ -33,9 +33,6 @@ export type MainStoreState = {
 }
 
 export type MenuStoreState = {
-  openMenu: string
-  isMusicList: boolean
-  isAdvancedMenu: boolean
   step: number
 }
 

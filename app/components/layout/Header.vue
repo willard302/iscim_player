@@ -5,7 +5,6 @@ const musicStore = useMusicStore();
 const route = useRoute();
 
 const title = computed(() => route.meta.title ? route.meta.title : "iscim_music");
-const isMusicList = computed(() => route.meta.title === 'music_list');
 
 const onClickLeft = () => {
   navigateTo('/home')
@@ -19,24 +18,15 @@ const onClickRight = () => {
 </script>
 
 <template>
-  <van-nav-bar fixed
+  <van-nav-bar 
+    fixed
+    :title="$t(title)"
     @click-left="onClickLeft"
     @click-right="onClickRight"
   >
     <template #left>
       <van-icon v-if="route.meta.showHeaderArrow" name="arrow-left" />
       <van-image v-else :src="logo" />
-    </template>
-    <template #title>
-      <h3 v-if="isMusicList" class="audio__list__heading">
-        <template v-if="musicStore.isPro">
-          {{ (!musicStore.chakra.name || musicStore.chakra.name === 'Enhance') ? $t("music_list") : $t(musicStore.chakra.name) }}
-        </template>
-        <template v-else>
-          {{ $t("music_list") }}
-        </template>
-      </h3>
-      <NuxtLink v-else class="title">{{ $t(title) }}</NuxtLink>
     </template>
     <template #right>
       <van-icon name="setting-o" size="20" />

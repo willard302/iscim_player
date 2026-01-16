@@ -1,6 +1,6 @@
 export default {
+  add_to_play_list: "Add to play list",
   advanced_mode: "Advanced",
-  music_list: "Album List",
   and: "And",
   basic_mode: "Basic",
   cancel: "Cancel",
@@ -90,7 +90,6 @@ export default {
     tw: 'TW'
   },
   Menu: {
-    back: "Back",
     build_new_set: "Build New Set",
     custom_music: "My Music",
     five_elements_music: "Five Elements Music",
@@ -126,6 +125,7 @@ export default {
     medium: "Medium",
     menu_mode: "Menu Mode",
     music_mode: "Music Mode",
+    next: "Next",
     normal: "Normal",
     player: "Music Player",
     pro: "Pro",
