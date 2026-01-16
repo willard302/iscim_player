@@ -46,7 +46,7 @@ const buttonLists = computed(() => [
 ]);
 
 const routeLists = reactive([
-  { title: 'user_data', path: '/userCenter/profile' },
+  { title: 'user_data', path: '/profile' },
   { title: 'Notice.terms_of_service', path: '/policy/service' },
   { title: 'Notice.privacy_policy', path: '/policy/privacy' }
 ]);
