@@ -1,14 +1,13 @@
 @use 'sass:color';
 
 .custom-tab {
-  --van-tabs-card-height: 60px;
+  --van-tabs-card-height: 48px;
 
   .van-tabs__wrap {
     overflow: visible;
     padding-right: 3px;
   }
   .van-tabs__nav--card {
-    height: 48px;
     border: 0;
     margin: 0;
     background: transparent;

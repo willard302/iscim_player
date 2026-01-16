@@ -33,6 +33,7 @@ watch(
 
 onMounted(() => {
   player.initListeners();
+  console.log(musicStore.queue.length)
 
   if (playerStore.src) {
     player.setSourceByIndex(playerStore.index);
@@ -40,7 +41,11 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div :class="['wrap', {showQueue: musicStore.openQueue}]">
+  <div :class="[
+      'wrap', 
+      {showQueue: musicStore.openQueue},
+      {showMiniBar: musicStore.queue.length > 0}
+    ]">
     <NuxtLayout>
       <NuxtPage />
         <PlayerMiniBar v-show="showPlayerMiniBar" />

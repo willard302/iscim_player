@@ -18,17 +18,6 @@ export default defineNuxtConfig({
     '~/assets/scss/_vant.scss'
   ],
   devtools: { enabled: true },
-  fontawesome: {
-    icons: {
-      solid: [
-        'house', 'user', 'pen', 'caret-right', 'check', 'ellipsis-vertical', 'music', 
-        'compact-disc', 'square-plus', 'backward', 'pause', 'play', 'forward', 'repeat',
-        'volume-high', 'volume-off', 'bars', 'xmark', 'trash', 'arrow-left', 'floppy-disk',
-        'eye', 'eye-slash', 'list'
-      ],
-      regular: ['user', 'face-smile']
-    }
-  },
   i18n: {
     strategy: 'no_prefix',
     defaultLocale: 'tw',
@@ -50,7 +39,6 @@ export default defineNuxtConfig({
     "@vant/nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
-    '@vesp/nuxt-fontawesome',
     '@nuxtjs/supabase',
     '@vueuse/nuxt'
   ],

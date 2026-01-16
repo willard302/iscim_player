@@ -133,7 +133,11 @@ onMounted(() => {
 .scrollable-list {
   overflow-y: auto;
   padding-bottom: 10px;
-  height: 60vh;
+  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
+}
+
+.showMiniBar .scrollable-list {
+  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
 }
 
 .van-cell-group--inset {

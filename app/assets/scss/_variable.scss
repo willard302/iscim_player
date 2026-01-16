@@ -30,6 +30,13 @@ $font-size-base: 1.6rem;
 $font-size-lg: 2rem;
 
 :root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+
+  --bg-color-1: #{$color-bg-body};
+  
   --header-h: 46px;
   --tabbar-h: 50px;
   --minibar-h: 50px;

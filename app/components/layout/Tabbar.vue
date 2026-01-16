@@ -1,8 +1,7 @@
 <script setup lang="ts">
-const musicStore = useMusicStore();
-const home = { label: 'home', path: '/home', icon: ['fas', 'house'] };
-const musicLibrary = { label: 'musicLibrary', path: '/musicLibrary', icon: ['fas', 'music'] };
-const playList = { label: 'playList', path: '/playList', icon: ['fas', 'list'] }
+const home = { label: 'home', path: '/home', icon: 'wap-home-o' };
+const musicLibrary = { label: 'music_library', path: '/musicLibrary', icon: 'music-o' };
+const playList = { label: 'play_list', path: '/playList', icon: 'orders-o' }
 const navItems = [home, musicLibrary, playList];
 
 const handleToTab = () => {
@@ -17,11 +16,11 @@ const handleToTab = () => {
     <van-tabbar-item
       v-for="(navItem, navIdx) in navItems"
       :key="navIdx"
-      :name="navItem.label"
-      :to="navItem.path"
+      :icon="navItem.icon"
+      :to="navItem.path" replace
       @click="handleToTab"
     >
-      <font-awesome :icon="navItem.icon" />
+      {{ $t(navItem.label) }}
     </van-tabbar-item>
   </van-tabbar>
 </template>
@@ -30,8 +29,5 @@ const handleToTab = () => {
 .van-tabbar {
   max-width: $layout-max-width;
   position: absolute;
-}
-svg {
-  font-size: $font-size-sm;
 }
 </style>

@@ -1,6 +1,6 @@
 import { setToastDefaultOptions } from "vant";
 
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin((nuxtApp) => {
   setToastDefaultOptions({duration: 2000});
   setToastDefaultOptions('loading', {forbidClick: true})
 })
