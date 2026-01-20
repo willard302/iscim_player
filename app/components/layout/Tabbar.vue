@@ -3,11 +3,6 @@ const home = { label: 'home', path: '/home', icon: 'wap-home-o' };
 const musicLibrary = { label: 'music_library', path: '/musicLibrary', icon: 'music-o' };
 const playList = { label: 'play_list', path: '/playList', icon: 'orders-o' }
 const navItems = [home, musicLibrary, playList];
-
-const handleToTab = () => {
-  const menuStore = useMenuStore();
-};
-
 </script>
 
 <template>
@@ -17,7 +12,6 @@ const handleToTab = () => {
       :key="navIdx"
       :icon="navItem.icon"
       :to="navItem.path" replace
-      @click="handleToTab"
     >
       {{ $t(navItem.label) }}
     </van-tabbar-item>

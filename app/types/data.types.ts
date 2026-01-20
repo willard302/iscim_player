@@ -39,6 +39,7 @@ export type MenuStoreState = {
 export type MusicStoreState = {
   isPro: boolean
   openQueue: boolean
+  openQueueEditor: boolean
   name: string
   queue: any[]
   subMusic: SubMusic[]

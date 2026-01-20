@@ -1,6 +1,7 @@
 export default {
   add_to_play_list: "Add to play list",
   advanced_mode: "Advanced",
+  already_selected: "Already selected",
   and: "And",
   basic_mode: "Basic",
   cancel: "Cancel",
@@ -36,6 +37,7 @@ export default {
   register: "Register",
   remove_from_queue: "Remove from queue",
   setting: "Setting",
+  song: "Song",
   submit: "Submit",
   user_data: "User Data",
   user_center: "User Center",

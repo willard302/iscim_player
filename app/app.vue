@@ -43,7 +43,7 @@ onMounted(() => {
 <template>
   <div :class="[
       'wrap', 
-      {showQueue: musicStore.openQueue},
+      {showQueue: musicStore.openQueue && !musicStore.openQueueEditor},
       {showMiniBar: musicStore.queue.length > 0}
     ]">
     <NuxtLayout>
@@ -66,6 +66,14 @@ onMounted(() => {
           :duration="0.3"
         >
           <PlayerQueue />
+        </van-popup>
+        <van-popup
+          v-model:show="musicStore.openQueueEditor"
+          position="bottom"
+          :style="{ height: '100%', width: '100%'}"
+          :duration="0.3"
+        >
+          <PlayerQueueEditor />
         </van-popup>
     </NuxtLayout>
   </div>

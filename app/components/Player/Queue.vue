@@ -61,14 +61,14 @@ const initPlayer = () => {
   playerStore.resetPlayer();
 };
 
-const closeQueue = () => {
-  musicStore.setPlayerQueue(false);
-};
-
 const openMusicOption = (item: any) => {
   showMusicOption.value = true;
   currentMusic.value = item.name
-}
+};
+
+const openQueueEditor = () => {
+  musicStore.setPlayerQueueEditor(true)
+};
 
 </script>
 
@@ -77,7 +77,7 @@ const openMusicOption = (item: any) => {
     <van-nav-bar
       :border="false"
       class="player-nav"
-      @click-left="closeQueue"
+      @click-left="musicStore.setPlayerQueue(false)"
     >
       <template #left>
         <van-icon name="arrow-down" size="24" color="#333"/>
@@ -95,7 +95,7 @@ const openMusicOption = (item: any) => {
       >
         <van-col span="12"></van-col>
         <van-col span="12" align="right">
-          <van-button icon="orders-o" size="small" />
+          <van-button icon="orders-o" size="small" @click="openQueueEditor" />
           <van-button icon="delete-o" size="small" @click="removeAll" />
         </van-col>
       </van-row>

@@ -1,6 +1,7 @@
 export default {
   add_to_play_list: "加入播放清單",
   advanced_mode: "專業",
+  already_selected: "已經選擇",
   and: "和",
   basic_mode: "一般",
   cancel: "取消",
@@ -36,6 +37,7 @@ export default {
   register: "註冊",
   remove_from_queue: "從佇列中移除",
   setting: "設定",
+  song: "首",
   submit: "送出",
   user_data: "會員資料",
   user_center: "會員中心",
