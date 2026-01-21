@@ -32,7 +32,7 @@ const onEdit = (val:boolean) => {
 };
 </script>
 <template>
-  <div class="page__container">
+  <div>
     <DataForm
       :editable="isEditable"
       @editable="onEdit"

@@ -31,7 +31,7 @@ const openSetOption = (item: any) => {
 </script>
 
 <template>
-  <div ref="target">
+  <div class="page__container" ref="target">
     <van-tabs
       v-model:active="acitveLoadSetTab"
       type="card"

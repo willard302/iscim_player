@@ -45,11 +45,9 @@ const {target} = useSwipeChange(() => router.push('/musicLibrary'), () => router
 }
 
 .page__container {
+  padding: 10px 20px;
   width: 100%;
   height: calc(100dvh - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
   overflow-x: hidden; /* 禁止水平捲軸 */
-  
-  /* 關鍵：告訴瀏覽器「水平滑動」由 JS 接管，不要觸發原生上一頁或捲動 */
-  touch-action: pan-y;
 }
 </style>

@@ -91,7 +91,7 @@ main {
 }
 
 .page__container {
-  padding: 10px 20px;
+  touch-action: pan-y;
 
   &.h-full {
     height: 100%;
