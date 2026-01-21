@@ -33,7 +33,6 @@ watch(
 
 onMounted(() => {
   player.initListeners();
-  console.log(musicStore.queue.length)
 
   if (playerStore.src) {
     player.setSourceByIndex(playerStore.index);
@@ -86,7 +85,7 @@ onMounted(() => {
   background-color: $white;
 
   @include PadWidth {
-    max-width: $layout-max-width;
+    max-width: var(--layout-max-width);
     margin: 10px auto;
     box-shadow: 2px 2px 3px color.scale($gray-900, $lightness: 12%);
     border-radius: 10px;

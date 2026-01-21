@@ -20,7 +20,7 @@ const navItems = [home, musicLibrary, playList];
 
 <style scoped lang="scss">
 .van-tabbar {
-  max-width: $layout-max-width;
+  max-width: var(--layout-max-width);
   position: absolute;
 }
 </style>

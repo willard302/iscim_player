@@ -25,7 +25,7 @@ onMounted(() => musicStore.isDragging = false);
 </script>
 
 <template>
-  <div class="player-fullscreen">
+  <div class="player-fullscreen fullscreen">
     <van-nav-bar
       :border="false"
       class="player-nav"
@@ -103,13 +103,20 @@ onMounted(() => musicStore.isDragging = false);
   </div>
 </template>
 
+<style lang="scss">
+.fullscreen {
+  height: 100%;
+  max-width: var(--layout-max-width);
+  padding-top: env(safe-area-inset-top);
+  margin: auto;
+}
+</style>
+
 <style scoped lang="scss">
 .player-fullscreen {
-  height: 100%;
   background-color: var(--van-background-2);
   display: flex;
   flex-direction: column;
-  padding-top: env(safe-area-inset-top);
 }
 .player-content {
   @include flex-center(column);

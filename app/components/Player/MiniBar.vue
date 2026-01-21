@@ -20,9 +20,9 @@ const player = usePlayer();
         @click.lazy="player.togglePlay()"
       />
       <van-icon 
-        name="bars"
+        name="expand"
         size="24"
-        @click.lazy="musicStore.setPlayerQueue(true)"
+        @click.lazy="playerStore.setExpand(true)"
       />
     </van-col>
   </van-row>
@@ -36,7 +36,7 @@ const player = usePlayer();
   right: 0;
   height: var(--minibar-h);
   width: 100%;
-  max-width: $layout-max-width;
+  max-width: var(--layout-max-width);
   background-image: linear-gradient(to right top,
     #ffc4ee,
     #ead1fc,

@@ -2,6 +2,7 @@
 const player = usePlayer();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
+const {throttle} = useCommon();
 
 const showMusicOption = ref(false);
 const currentMusic = ref("");
@@ -18,6 +19,7 @@ const specified = (index: number) => {
     player.playIndex(index);
   }
 };
+const throttleSpecified = throttle(specified, 600);
 const removeList = (index: number) => {
   // 特殊情况：最后一个歌曲
   if (musicStore.queue.length <= 1) {
@@ -46,20 +48,6 @@ const removeList = (index: number) => {
   };
   player.playMusic();
 };
-const removeAll = () => {
-  if (musicStore.queue.length <= 0) return showFailToast("列表已清空");
-    showConfirmDialog({
-    title: "警告",
-    message: "確定要移除全部？"
-  }).then(() => {
-    player.pauseMusic();
-    initPlayer();
-  }).catch(() => console.log("cancel"))
-};
-const initPlayer = () => {
-  musicStore.resetMusic();
-  playerStore.resetPlayer();
-};
 
 const openMusicOption = (item: any) => {
   showMusicOption.value = true;
@@ -73,7 +61,7 @@ const openQueueEditor = () => {
 </script>
 
 <template>
-  <div class="queue-fullscreen">
+  <div class="queue-fullscreen fullscreen">
     <van-nav-bar
       :border="false"
       class="player-nav"
@@ -95,15 +83,11 @@ const openQueueEditor = () => {
       >
         <van-col span="12"></van-col>
         <van-col span="12" align="right">
-          <van-button icon="orders-o" size="small" @click="openQueueEditor" />
-          <van-button icon="delete-o" size="small" @click="removeAll" />
+          <van-button icon="records-o" size="small" @click="openQueueEditor" />
         </van-col>
       </van-row>
 
-      <!-- 音乐列表主体 -->
-      <van-list 
-        class="queue-content"
-      >
+      <van-list class="queue-content">
         <van-cell 
           v-for="(list, idx) in musicStore.queue" 
           :key="idx" 
@@ -113,7 +97,7 @@ const openQueueEditor = () => {
           :title="list.name"
           :value="(list.chakra as number)"
           icon="music-o"
-          @click="specified(idx)"
+          @click="throttleSpecified(idx)"
         >
           <template #right-icon>
             <van-icon name="weapp-nav" @click="openMusicOption(list)" />
@@ -140,11 +124,6 @@ const openQueueEditor = () => {
 
 <style scoped lang="scss">
 @use "sass:color";
-
-.queue-fullscreen {
-  height: 100%;
-  padding-top: env(safe-area-inset-top);
-}
 
 .queue-container {
   height: 100%;

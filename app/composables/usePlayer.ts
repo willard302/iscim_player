@@ -55,7 +55,11 @@ export const usePlayer = () => {
       audio.volume = playerStore.volume_on ? (playerStore.volume / 100) : 0;
 
       if (playerStore.isPlaying) {
-        audio.play().catch(e => console.warn("Auto-play blocked:", e));
+        audio.play().catch((e) => {
+          if (e.name === 'AbortError') return;
+          
+          console.warn("Auto-play blocked:", e)
+        });
       };
       updateMediaSession();
     };
@@ -120,6 +124,7 @@ export const usePlayer = () => {
       playerStore.isPlaying = true;
       updateMediaSession();
     } catch (error: any) {
+      if (error.name === 'AbortError') return;
       console.warn("Play error: ", error);
       playerStore.isPlaying = false;
     };

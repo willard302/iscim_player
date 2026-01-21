@@ -36,7 +36,7 @@ const onClickRight = () => {
 
 <style scoped lang="scss">
   .van-nav-bar {
-    max-width: $layout-max-width;
+    max-width: var(--layout-max-width);
     position: absolute;
   }
   :deep(.van-dropdown-menu__bar) {

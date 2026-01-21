@@ -1,5 +1,12 @@
 @use 'sass:color';
 
+* {
+  --van-button-default-background: 0;
+  --van-button-default-border-color: 0;
+  --van-button-icon-size: 24px;
+  --van-background-2: #f7f8fa;
+}
+
 .custom-tab {
   --van-tabs-card-height: 48px;
 

@@ -2,6 +2,7 @@
 definePageMeta({pageOrder: 2});
 
 import type { FieldItem, MusicLocal } from '~/types/data.types';
+const {throttle} = useCommon();
 
 const emit = defineEmits(['remove-all', 'handle-play'])
 
@@ -40,10 +41,11 @@ const actionOptions = reactive([
 ]);
 
 const handleCheck = (item: any) => {
-  player.togglePlay();
   addMusic(item);
   player.playIndex(0);
 };
+const throttleHandleCheck = throttle(handleCheck, 400);
+
 const openMusicOptions = (item: any) => {
   showMusicOptions.value = true;
   currentMusic.value = item;
@@ -92,6 +94,14 @@ onMounted(() => {
   >
     <van-tab name="Menu.system_music" :title="$t('Menu.system_music')">
       <van-tabs v-model:active="activeSystemMusicTab" type="card" class="inner-tabs">
+        <van-row justify="space-between">
+          <van-col>
+            <van-button icon="music-o">{{ playerStore.loop }}</van-button>
+          </van-col>
+          <van-col>
+            <van-button icon="bars" @click.lazy="musicStore.setPlayerQueue(true)" />
+          </van-col>
+        </van-row>
         <van-tab
           v-for="(m, mIdx) in musicStore.subMusic"
           :key="mIdx"
@@ -104,7 +114,7 @@ onMounted(() => {
                 :key="iIdx"
                 :title="i.name"
                 clickable
-                @click="handleCheck(i)"
+                @click="throttleHandleCheck(i)"
                 :icon="playerStore.currentSong?.name === i.name ? 'play' : ''"
                 :class="[{current: playerStore.currentSong?.name === i.name}]"
               >
@@ -131,7 +141,7 @@ onMounted(() => {
                 :key="iIdx"
                 :title="i.name"
                 clickable
-                @click="handleCheck(i)"
+                @click="throttleHandleCheck(i)"
                 :icon="playerStore.currentSong?.name === i.name ? 'play' : ''"
                 :class="[{current: playerStore.currentSong?.name === i.name}]"
               >
@@ -187,6 +197,10 @@ onMounted(() => {
   overflow-y: auto;
   padding-bottom: 10px;
   height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
+
+  .van-row {
+    padding: 0 10px;
+  }
 }
 
 .showMiniBar .scrollable-list {
