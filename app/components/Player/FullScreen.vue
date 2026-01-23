@@ -26,18 +26,11 @@ onMounted(() => musicStore.isDragging = false);
 
 <template>
   <div class="player-fullscreen fullscreen">
-    <van-nav-bar
-      :border="false"
-      class="player-nav"
+    <SubPageHeader
+      title="正在播放"
+      left-icon="arrow-down"
       @click-left="closePlayer"
-    >
-      <template #left>
-        <van-icon name="arrow-down" size="24" color="#333"/>
-      </template>
-      <template #title>
-        <span class="nav-title">正在播放</span>
-      </template>
-    </van-nav-bar>
+    />
 
     <div class="player-content">
       <div class="cover-wrapper">

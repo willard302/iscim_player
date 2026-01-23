@@ -58,22 +58,19 @@ const openQueueEditor = () => {
   musicStore.setPlayerQueueEditor(true)
 };
 
+const closeQueue = () => {
+  musicStore.setPlayerQueue(false)
+};
+
 </script>
 
 <template>
   <div class="queue-fullscreen fullscreen">
-    <van-nav-bar
-      :border="false"
-      class="player-nav"
-      @click-left="musicStore.setPlayerQueue(false)"
-    >
-      <template #left>
-        <van-icon name="arrow-down" size="24" color="#333"/>
-      </template>
-      <template #title>
-        <span class="nav-title">{{ $t('player_queue') }}</span>
-      </template>
-    </van-nav-bar>
+    <SubPageHeader 
+      :title="$t('player_queue')"
+      left-icon="arrow-down"
+      @click-left="closeQueue"
+    />
 
     <div class="queue-container">
       <van-row 

@@ -75,14 +75,10 @@ const handleAddInto = () => {
 
 <template>
   <div class="queue-editor-fullscreen fullscreen">
-    <van-nav-bar
-      :border="false"
-      class="player-nav"
+    <SubPageHeader
+      left-icon="arrow-down"
       @click-left="closeQueueEditor"
     >
-      <template #left>
-        <van-icon name="arrow-left" size="24" color="#333"/>
-      </template>
       <template #title>
         <span class="nav-title">
           {{ $t('already_selected') + currentCount + $t('song') }}
@@ -91,7 +87,8 @@ const handleAddInto = () => {
       <template #right>
         <van-checkbox v-model="isAllChecked" />
       </template>
-    </van-nav-bar>
+    </SubPageHeader>
+    
 
     <van-checkbox-group class="queue-container" v-model="checked">
       <van-cell-group class="queue-content" inset>
