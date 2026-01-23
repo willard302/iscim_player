@@ -7,7 +7,10 @@ export const useMainStore = defineStore('main', () => {
     isAuthenticated: false,
     locale: "tw",
     userInfo: {},
-    currentTab: 0
+    currentTab: 0,
+    openPreferences: false,
+    openPolicyPrivacy: false,
+    openPolicyService: false
   });
 
   const initAuth = () => {
@@ -27,6 +30,18 @@ export const useMainStore = defineStore('main', () => {
     state.currentTab = index;
   };
 
+  const setPreferences = (value: boolean) => {
+    state.openPreferences = value;
+  };
+
+  const setPolicyPrivacy = (value: boolean) => {
+    state.openPolicyPrivacy = value;
+  };
+
+  const setPolicyService = (value: boolean) => {
+    state.openPolicyService = value;
+  };
+
   const toogleLocale = () => {
     state.locale = state.locale === 'tw' ? 'en' : 'tw'
   };
@@ -37,6 +52,9 @@ export const useMainStore = defineStore('main', () => {
     setAuthenticiated,
     setUser,
     setCurrentTab,
+    setPreferences,
+    setPolicyPrivacy,
+    setPolicyService,
     toogleLocale
   }
 },
