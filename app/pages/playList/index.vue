@@ -1,11 +1,7 @@
 <script setup lang="ts">
-definePageMeta({pageOrder: 3});
 const musicStore = useMusicStore();
-const router = useRouter();
 const player = usePlayer();
 const { loadMusicSet } = usePlaylist();
-
-const {target} = useSwipeChange(() => router.push('/home'), () => router.push('/musicLibrary'));
 
 const acitveLoadSetTab = ref(0);
 const showSetOption = ref(false);
@@ -31,7 +27,7 @@ const openSetOption = (item: any) => {
 </script>
 
 <template>
-  <div class="page__container" ref="target">
+  <div class="page__container">
     <van-tabs
       v-model:active="acitveLoadSetTab"
       type="card"
@@ -81,14 +77,12 @@ const openSetOption = (item: any) => {
 </template>
 
 <style scoped lang="scss">
-@import url("~/assets/scss/_transitions.scss");
+.van-cell-group--inset {
+  --van-cell-group-background: transparent;
+}
 
-  .van-cell-group--inset {
-    --van-cell-group-background: transparent;
-  }
-
-  .van-cell--clickable {
-    --van-cell-background: transparent;
-    align-items: center;
-  }
+.van-cell--clickable {
+  --van-cell-background: transparent;
+  align-items: center;
+}
 </style>

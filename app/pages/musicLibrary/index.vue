@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({pageOrder: 2});
-
 import type { FieldItem, MusicLocal } from '~/types/data.types';
 const {throttle} = useCommon();
 
@@ -10,8 +8,6 @@ const player = usePlayer();
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const { addMusic, removeMusic } = usePlaylist();
-const router = useRouter();
-const {target} = useSwipeChange(() => router.push('/playList'), () => router.push('/home'));
 
 const activeMainTab = ref(0);
 const activeSystemMusicTab = ref(0);
@@ -85,7 +81,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="page__container" ref="target">
+  <div class="page__container">
     <van-tabs
       class="custom-tab"
       v-model:active="activeMainTab"
@@ -192,7 +188,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @use 'sass:color';
-@import url("~/assets/scss/_transitions.scss");
 
 .scrollable-list {
   overflow-y: auto;

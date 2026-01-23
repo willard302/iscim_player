@@ -1,17 +1,22 @@
 <script setup lang="ts">
-const home = { label: 'home', path: '/home', icon: 'wap-home-o' };
-const musicLibrary = { label: 'music_library', path: '/musicLibrary', icon: 'music-o' };
-const playList = { label: 'play_list', path: '/playList', icon: 'orders-o' }
+const home = { label: 'introduce', icon: 'description-o' };
+const musicLibrary = { label: 'music_library', icon: 'music-o' };
+const playList = { label: 'play_list', icon: 'orders-o' }
 const navItems = [home, musicLibrary, playList];
+
+const mainStore = useMainStore();
+const onChange = (page: number) => {
+  mainStore.setCurrentTab(page)
+};
 </script>
 
 <template>
-  <van-tabbar route :border="false">
+  <van-tabbar v-model="mainStore.currentTab" :border="false" @change="onChange">
     <van-tabbar-item
       v-for="(navItem, navIdx) in navItems"
       :key="navIdx"
       :icon="navItem.icon"
-      :to="navItem.path" replace
+      :name="navIdx"
     >
       {{ $t(navItem.label) }}
     </van-tabbar-item>

@@ -30,6 +30,7 @@ export type MainStoreState = {
   isAuthenticated: boolean,
   locale: string,
   userInfo: UserInsert | UserUpdate
+  currentTab: number
 }
 
 export type MenuStoreState = {

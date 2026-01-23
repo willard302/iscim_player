@@ -91,14 +91,11 @@ main {
 }
 
 .page__container {
+  height: calc(100dvh - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
   touch-action: pan-y;
 
   &.h-full {
     height: 100%;
-  }
-
-  @media (min-height: 700px) {
-    padding: 30px;
   }
 }
 

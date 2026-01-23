@@ -6,7 +6,8 @@ export const useMainStore = defineStore('main', () => {
   const state = reactive<MainStoreState>({
     isAuthenticated: false,
     locale: "tw",
-    userInfo: {}
+    userInfo: {},
+    currentTab: 0
   });
 
   const initAuth = () => {
@@ -22,6 +23,10 @@ export const useMainStore = defineStore('main', () => {
     state.userInfo = {...value}
   };
 
+  const setCurrentTab = (index: number) => {
+    state.currentTab = index;
+  };
+
   const toogleLocale = () => {
     state.locale = state.locale === 'tw' ? 'en' : 'tw'
   };
@@ -31,6 +36,7 @@ export const useMainStore = defineStore('main', () => {
     initAuth,
     setAuthenticiated,
     setUser,
+    setCurrentTab,
     toogleLocale
   }
 },

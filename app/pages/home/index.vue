@@ -1,53 +1,85 @@
 <script setup lang="ts">
-definePageMeta({pageOrder: 1});
-import DisclaimerNotice from '~/components/DisclaimerNotice.vue';
-const router = useRouter();
-const {target} = useSwipeChange(() => router.push('/musicLibrary'), () => router.push('/playList'))
+import PlayListSelect from "~/pages/playList/index.vue";
+import IntroduceView from "~/pages/introduce/index.vue";
+import MusicLibraryView from "~/pages/musicLibrary/index.vue";
+import type { SwipeInstance } from "vant";
+
+const mainStore = useMainStore();
+const swipeRef = ref<SwipeInstance | null>(null);
+
+const onChange = (index: number) => {
+  mainStore.setCurrentTab(index);
+};
+
+watch(
+  () => mainStore.currentTab,
+  (val) => swipeRef.value?.swipeTo(val)
+);
+
 </script>
 
 <template>
-  <div class="page__container" ref="target">
-    <van-space class="home__container" direction="vertical" :size="60">
-      <div class="article__container">
-        <p>{{ $t('introduce_article') }}</p>
-      </div>
-      <div class="notice__container">
-        <van-notice-bar
-          class="thanks"
-          background="transparent"
-          wrapable
-        >
-          <div>{{$t("Introduce.thanks")}}</div>
-          <div>{{$t("Introduce.artist")}}</div>
-          <div>{{$t("Introduce.composition")}}</div>
-        </van-notice-bar>
-        <disclaimer-notice />
-      </div>
-    </van-space>
+  <div class="main__container">
+    <van-swipe
+      ref="swipeRef"
+      class="full-height-swipe"
+      :loop="true"
+      :show-indicators="false"
+      touchable
+      stop-propagation
+      @change="onChange"
+    >
+      <van-swipe-item>
+        <div class="page__wrapper">
+          <keep-alive>
+            <IntroduceView />
+          </keep-alive>
+        </div>
+      </van-swipe-item>
+      <van-swipe-item>
+        <div class="page__wrapper">
+          <keep-alive>
+            <MusicLibraryView />
+          </keep-alive>
+        </div>
+      </van-swipe-item>
+      <van-swipe-item>
+        <div class="page__wrapper">
+          <keep-alive>
+            <PlayListSelect />
+          </keep-alive>
+        </div>
+      </van-swipe-item>
+
+    </van-swipe>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import url("~/assets/scss/_transitions.scss");
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
 
-.home__container {
+.full-height-swipe {
+  height: 100%; /* 讓 Swipe 撐滿父容器 */
+}
+
+/* 確保每一個 Slide 也是滿版 */
+:deep(.van-swipe-item) {
   height: 100%;
-  justify-content: space-between;
-}
-
-.article__container {
-  line-height: 24px;
-
-  @include PadHeight {
-    line-height: 36px;
-    font-size: 18px;
-  }
-}
-
-.page__container {
-  padding: 10px 20px;
   width: 100%;
-  height: calc(100dvh - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
-  overflow-x: hidden; /* 禁止水平捲軸 */
+}
+
+/* 關鍵修正：
+  內層容器處理垂直捲動 (overflow-y: auto)。
+  這樣做可以避免 Vant 搶走垂直滑動的事件。
+*/
+.page-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* iOS 滑動慣性 */
 }
 </style>
