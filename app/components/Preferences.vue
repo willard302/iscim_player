@@ -1,11 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: "sub-page",
-  title: "preferences",
-  showHeaderArrow: true,
-  showMiniBar: false
-});
-
 const mainStore = useMainStore();
 const musicStore = useMusicStore();
 const router = useRouter();
@@ -45,10 +38,10 @@ const buttonLists = computed(() => [
   },
 ]);
 
-const routeLists = reactive([
-  { title: 'user_data', path: '/profile' },
-  { title: 'Notice.terms_of_service', path: '/policy/service' },
-  { title: 'Notice.privacy_policy', path: '/policy/privacy' }
+const lists = reactive([
+  { title: 'user_data', id: 'profile' },
+  { title: 'terms_of_service', id: 'service' },
+  { title: 'privacy_policy', id: 'privacy' }
 ]);
 
 const onConfirm = (res: any) => {
@@ -58,39 +51,63 @@ const onConfirm = (res: any) => {
   musicStore.chakra.num = subChakra.value.find(s => s.text === musicStore.chakra.name)?.idx;
 };
 
+const closePreferences = () => {
+  mainStore.setPreferences(false)
+};
+
+const openPreferencesPage = (value: string) => {
+  switch (value) {
+    case "privacy":
+      mainStore.setPolicyPrivacy(true);
+      break;
+    case "service":
+      mainStore.setPolicyService(true);
+      break;
+    default:
+      console.log(value);
+      break;
+  }
+};
+
 </script>
 
 <template>
-  <div class="profile__container">
-    <van-cell-group class="profile__body" inset>
-
-      <van-cell
-        v-for="(b, bIdx) in buttonLists"
-        :key="bIdx"
-        :title="$t(b.title)"
-        center
-      >
-        <template #value>
-          <van-button size="small" @click="b.action">{{ b.label }}</van-button>
-        </template>
-      </van-cell>
-      <van-cell 
-        v-for="(item, idx) in routeLists" 
-        :key="idx" 
-        is-link 
-        :title="$t(item.title)"
-        @click="router.push(item.path)"
-      />
-    </van-cell-group>
-
-    <van-popup v-model:show="showPickerChakras" destroy-on-close round position="bottom">
-      <van-picker
-        :model-value="pickerValue"
-        :columns="subChakra"
-        @cancel="showPickerChakras = false"
-        @confirm="onConfirm"
-      />
-    </van-popup>
+  <div class="full-screen">
+    <SubPageHeader 
+      :title="$t('preferences')"
+      left-icon="arrow-down"
+      @click-left="closePreferences"
+    />
+    <div class="profile__container custom-button">
+      <van-cell-group class="profile__body" inset>
+        <van-cell
+          v-for="(b, bIdx) in buttonLists"
+          :key="bIdx"
+          :title="$t(b.title)"
+          center
+        >
+          <template #value>
+            <van-button size="small" @click="b.action">{{ b.label }}</van-button>
+          </template>
+        </van-cell>
+        <van-cell 
+          v-for="(item, idx) in lists" 
+          :key="idx" 
+          is-link 
+          :title="$t(item.title)"
+          @click="openPreferencesPage(item.id)"
+        />
+      </van-cell-group>
+  
+      <van-popup v-model:show="showPickerChakras" destroy-on-close round position="bottom">
+        <van-picker
+          :model-value="pickerValue"
+          :columns="subChakra"
+          @cancel="showPickerChakras = false"
+          @confirm="onConfirm"
+        />
+      </van-popup>
+    </div>
   </div>
 </template>
 
