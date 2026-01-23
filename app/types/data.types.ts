@@ -31,6 +31,9 @@ export type MainStoreState = {
   locale: string,
   userInfo: UserInsert | UserUpdate
   currentTab: number
+  openPreferences: boolean
+  openPolicyPrivacy: boolean
+  openPolicyService: boolean
 }
 
 export type MenuStoreState = {
