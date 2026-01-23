@@ -74,6 +74,30 @@ onMounted(() => {
         >
           <PlayerQueueEditor />
         </van-popup>
+        <van-popup
+          v-model:show="mainStore.openPreferences"
+          position="bottom"
+          :style="{ height: '100%', width: '100%'}"
+          :duration="0.3"
+        >
+          <Preferences />
+        </van-popup>
+        <van-popup
+          v-model:show="mainStore.openPolicyPrivacy"
+          position="bottom"
+          :style="{ height: '100%', width: '100%'}"
+          :duration="0.3"
+        >
+          <PolicyPrivacy />
+        </van-popup>
+        <van-popup
+          v-model:show="mainStore.openPolicyService"
+          position="bottom"
+          :style="{ height: '100%', width: '100%'}"
+          :duration="0.3"
+        >
+          <PolicyService />
+        </van-popup>
     </NuxtLayout>
   </div>
 </template>
