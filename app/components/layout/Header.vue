@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import logo from "/iscim_logo.png";
-
-const musicStore = useMusicStore();
 const route = useRoute();
-
 const title = computed(() => route.meta.title ? route.meta.title : "iscim_music");
 
 const onClickLeft = () => {
@@ -11,8 +8,8 @@ const onClickLeft = () => {
 };
 
 const onClickRight = () => {
-  const router = useRouter();
-  router.push('/preferences')
+  const mainStore = useMainStore();
+  mainStore.setPreferences(true);
 };
 
 </script>
