@@ -33,12 +33,14 @@ export default {
   play_list: "Play List",
   player_queue: "Player Queue",
   preferences: "Preferences",
+  privacy_policy: "Privacy Policy",
   profile: "Profile",
   register: "Register",
   remove_from_queue: "Remove from queue",
   setting: "Setting",
   song: "Song",
   submit: "Submit",
+  terms_of_service: "Terms of service",
   user_data: "User Data",
   user_center: "User Center",
   username: "Username",
@@ -150,10 +152,6 @@ export default {
     weekday_review: "Weekday review",
     working: "Working",
   },
-  Notice: {
-    privacy_policy: "Privacy Policy",
-    terms_of_service: "Terms of service"
-  },
   Policy: {
     contact: "Contact us",
     contact_content: "If You have any questions about this Privacy Policy, please contact us at iscim666{'@'}gmail.com. Last updated on: November 15, 2022."
@@ -192,7 +190,6 @@ export default {
   Service: {
     iscim_terms_and_conditions :"ISCIM Terms and Conditions",
     terms_of_service_content: "The 【members】 referred to in this terms of service are those who have completed their registration for the membership of ISCIM Computing Center (hereinafter referred to as this site) and passed the verification in accordance with the procedures specified by this site. 【You】 means the member of ISCIM or the user of this Service, whichever applicable.",
-    terms_of_service: "Terms of Service",
     terms_of_service_list_1: "When you use the services of this website, it indicates that you have read, understood and agreed to abide by all the terms and conditions of this Service and the provisions of relevant laws.",
     terms_of_service_list_2: "This site has the right to review membership qualification and the right to cancel the membership of existing members.",
     terms_of_service_list_3: "This site has the right to amend or change the terms and conditions of this Service at any time. The amended terms and conditions of this Service will be announced on this site.",

@@ -33,12 +33,14 @@ export default {
   play_list: "播放清單",
   player_queue: "播放佇列",
   preferences: "偏好設定",
+  privacy_policy: "隱私條款",
   profile: "個人資料",
   register: "註冊",
   remove_from_queue: "從佇列中移除",
   setting: "設定",
   song: "首",
   submit: "送出",
+  terms_of_service: "服務條款",
   user_data: "會員資料",
   user_center: "會員中心",
   username: "帳號",
@@ -150,10 +152,6 @@ export default {
     weekday_review: "平日複習",
     working: "工作中",
   },
-  Notice: {
-    privacy_policy: "隱私條款",
-    terms_of_service: "服務條款"
-  },
   Policy: {
     contact: "聯絡我們",
     contact_content: "如果您對於隱私政策有任何問題，請將您的問題寄至iscim666{'@'}gmail.com。最後更新日期為西元2023年11月8日"
@@ -193,7 +191,6 @@ export default {
   Service: {
     iscim_terms_and_conditions :"iSCIM 服務約定條款",
     terms_of_service_content: "本會員服務條款所稱之「會員」，為依照本站所定之加入會員程序加入完成並通過認證者。所稱之「您」指 iSCIM 會員或本服務的使用者。",
-    terms_of_service: "會員服務條款",
     terms_of_service_list_1: "當您使用本站服務時，即表示您同意及遵守本服務條款的規定事項及相關法律之規定。",
     terms_of_service_list_2: "本站保留有審核加入會員資格之權利，另外已加入會員者，本站亦保留有解除其會員資格之權利。",
     terms_of_service_list_3: "本會員服務條款之修訂，適用於所有會員，當本站修訂本服務條款時，將於本站上公告。",
