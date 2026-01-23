@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FieldItem, MusicLocal } from '~/types/data.types';
-const {throttle} = useCommon();
 
+const {throttle} = useCommon();
 const emit = defineEmits(['remove-all', 'handle-play'])
 
 const player = usePlayer();
@@ -9,32 +9,61 @@ const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const { addMusic, removeMusic } = usePlaylist();
 
-const activeMainTab = ref(0);
-const activeSystemMusicTab = ref(0);
-const activeCustomMusicTab = ref(0);
+type ActionType = 'next' | 'removeFromPlayerList';
 
-const showMusicOptions = ref(false);
-const showMusicInfo = ref(false);
-const currentMusic = ref<MusicLocal>();
-
-const fieldItems = ref<FieldItem[]>([]);
-
-const handleAction = (actionType: string) => {
-  if (!currentMusic.value) return;
-
-  if (actionType === 'next') {
-    player.next();
-  } else if (actionType === 'removeFromPlayerList') {
-    removeMusic(currentMusic.value);
-  };
-
-  showMusicOptions.value = false;
+interface ActionOption {
+  title: string
+  id: ActionType
+  icon: string
 };
 
-const actionOptions = reactive([
+const activeTab = ref(0);
+const subTabActive = reactive<Record<string, number>>({
+  system: 0,
+  custom: 0
+});
+
+const uiState = reactive({
+  showOptions: false,
+  showInfo: false
+});
+
+const currentMusic = ref<MusicLocal>();
+const fieldItems = ref<FieldItem[]>([]);
+
+const musicTabs = computed(() => [
+  {
+    key: 'system',
+    name: 'Menu.system_music',
+    data: musicStore.subMusic
+  },
+  {
+    key: 'custom',
+    name: 'Menu.custom_music',
+    data: musicStore.subMusicUpdated
+  }
+]);
+
+const actionOptions: ActionOption[] = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
   {title: 'remove_from_queue', id: 'removeFromPlayerList', icon: 'delete-o'}
-]);
+];
+
+const actionHandlers: Record<ActionType, (music: MusicLocal) => void> = {
+  next: () => player.next(),
+  removeFromPlayerList: (music) => removeMusic(music)
+};
+
+const handleAction = (actionType: ActionType) => {
+  if (!currentMusic.value) return;
+
+  const handler = actionHandlers[actionType];
+  if (handler) {
+    handler(currentMusic.value)
+  };
+
+  uiState.showOptions = false;
+};
 
 const handleCheck = (item: any) => {
   addMusic(item);
@@ -43,36 +72,31 @@ const handleCheck = (item: any) => {
 const throttleHandleCheck = throttle(handleCheck, 400);
 
 const openMusicOptions = (item: any) => {
-  showMusicOptions.value = true;
+  uiState.showOptions = true;
   currentMusic.value = item;
 };
 const openMusicInfo = () => {
   const music = currentMusic.value;
   if (!music) return;
 
-  fieldItems.value = [];
-  fieldItems.value = transferToFields(music);
-  
-  showMusicInfo.value = true;
-  showMusicOptions.value = false;
+  fieldItems.value = transferToFields(music);  
+  uiState.showInfo = true;
+  uiState.showOptions = false;
 };
 
-const transferToFields = (event: MusicLocal): FieldItem[] => {
+const transferToFields = (music: MusicLocal): FieldItem[] => {
+  const specializeKeys = new Set(['created_at', 'created_by']);
 
-  return Object.entries(event).map(([key, value]) => {
-    let label = `Music.${key}`;
-    if (['created_at', 'created_by'].includes(key)) {
-      label = key;
-    };
-
-    return {
-      label: label,
-      value: String(value),
-      name: key,
-      type: 'text'
-    }
-  });
+  return Object.entries(music).map(([key, value]) => ({
+    label: specializeKeys.has(key) ? key : `Music.${key}`,
+    value: String(value ?? ''),
+    name: key,
+    type: 'text'
+  }));
 };
+
+const isCurrentSong = (name: string) => playerStore.currentSong?.name === name;
+
 onMounted(() => {
   if(!musicStore.isPro) return;
   musicStore.initMusicData();
@@ -83,66 +107,56 @@ onMounted(() => {
 <template>
   <div class="page__container">
     <van-tabs
+      v-model:active="activeTab"
       class="custom-tab"
-      v-model:active="activeMainTab"
       sticky
       type="card"
     >
-      <van-tab name="Menu.system_music" :title="$t('Menu.system_music')">
-        <van-tabs v-model:active="activeSystemMusicTab" type="card" class="inner-tabs">
-          <van-row justify="space-between">
-            <van-col>
-              <van-button icon="music-o">{{ playerStore.loop }}</van-button>
-            </van-col>
-            <van-col>
-              <van-button icon="bars" @click.lazy="musicStore.setPlayerQueue(true)" />
-            </van-col>
-          </van-row>
+      <van-tab
+        v-for="tab in musicTabs"
+        :key="tab.key"
+        :name="tab.name"
+        :title="$t(tab.name)"
+      >
+        <van-tabs
+          v-model:active="subTabActive[tab.key]"
+          type="card"
+          class="inner-tabs"
+        >
+          <div class="tab-controls">
+            <van-row justify="space-between" class="control-bar">
+              <van-col>
+                <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
+              </van-col>
+              <van-col>
+                <van-button icon="bars" @click.lazy="musicStore.setPlayerQueue(true)" />
+              </van-col>
+            </van-row>
+          </div>
           <van-tab
-            v-for="(m, mIdx) in musicStore.subMusic"
-            :key="mIdx"
-            :title="$t(m.name)"
+            v-for="(subMusic, subIdx) in tab.data"
+            :key="subIdx"
+            :title="$t(subMusic.name)"
           >
             <div class="scrollable-list">
               <van-cell-group inset>
                 <van-cell
-                  v-for="(i, iIdx) in m.menu"
-                  :key="iIdx"
-                  :title="i.name"
+                  v-for="(item, itemIdx) in subMusic.menu"
+                  :key="itemIdx"
+                  :title="item.name"
+                  :label="item.intro ?? ''"
                   clickable
-                  @click="throttleHandleCheck(i)"
-                  :icon="playerStore.currentSong?.name === i.name ? 'play' : ''"
-                  :class="[{current: playerStore.currentSong?.name === i.name}]"
+                  @click="throttleHandleCheck(item)"
+                  :icon="isCurrentSong(item.name) ? 'play' : ''"
+                  :class="{current: isCurrentSong(item.name)}"
                 >
                   <template #right-icon>
-                    <van-icon name="ellipsis" size="20" @click.stop="openMusicOptions(i)" />
-                  </template>
-                </van-cell>
-              </van-cell-group>
-            </div>
-          </van-tab>
-        </van-tabs>
-      </van-tab>
-      <van-tab name="Menu.custom_music" :title="$t('Menu.custom_music')">
-        <van-tabs v-model:active="activeCustomMusicTab" type="card" class="inner-tabs">
-          <van-tab
-            v-for="(m, mIdx) in musicStore.subMusicUpdated"
-            :key="mIdx"
-            :title="$t(m.name)"
-          >
-            <div class="scrollable-list">
-              <van-cell-group inset>
-                <van-cell
-                  v-for="(i, iIdx) in m.menu"
-                  :key="iIdx"
-                  :title="i.name"
-                  clickable
-                  @click="throttleHandleCheck(i)"
-                  :icon="playerStore.currentSong?.name === i.name ? 'play' : ''"
-                  :class="[{current: playerStore.currentSong?.name === i.name}]"
-                >
-                  <template #right-icon>
-                    <van-icon name="ellipsis" size="20" @click.stop="openMusicOptions(i)" />
+                    <van-icon 
+                      name="ellipsis"
+                      size="20"
+                      class="padding-icon"
+                      @click.stop="openMusicOptions(item)"
+                    />
                   </template>
                 </van-cell>
               </van-cell-group>
@@ -152,34 +166,40 @@ onMounted(() => {
       </van-tab>
   
       <van-popup
-        v-model:show="showMusicOptions"
+        v-model:show="uiState.showOptions"
         position="bottom"
         :duration="0.3"
+        round
       >
-        <van-cell :title="currentMusic?.name" >
+        <van-cell :title="currentMusic?.name"  class="popup-header">
           <template #right-icon>
             <van-icon name="info-o" size="24" @click="openMusicInfo" />
           </template>
         </van-cell>
         <van-cell 
-          v-for="item in actionOptions"
-          :key="item.id"
-          :title="$t(item.title)"
-          :icon="item.icon"
-          @click="handleAction(item.id)"
+          v-for="action in actionOptions"
+          :key="action.id"
+          :title="$t(action.title)"
+          :icon="action.icon"
+          clickable
+          @click="handleAction(action.id)"
         />
       </van-popup>
   
       <van-popup
-        v-model:show="showMusicInfo"
+        v-model:show="uiState.showInfo"
         position="bottom"
         :duration="0.3"
-        destroy-on-close    
+        destroy-on-close
+        round
       >
-        <van-cell title="詳細資料" size="large" align="center" />
-        <FieldForm 
-          :field-items="fieldItems"
+        <van-cell 
+          title="詳細資料" 
+          size="large" 
+          align="center" 
+          class="popup-title"
         />
+        <FieldForm :field-items="fieldItems"/>
       </van-popup>
   
     </van-tabs>
@@ -189,10 +209,31 @@ onMounted(() => {
 <style lang="scss" scoped>
 @use 'sass:color';
 
+* {
+  --control-bar-height: 44px;
+}
+
+.tab-controls {
+  padding: 0px 10px;
+
+  :deep(.van-icon-fire-o) {
+    color: red;
+  }
+}
+
+.control-bar {
+  height: var(--control-bar-height);
+}
+
+.current {
+  color: var(--van-primary-color);
+  font-weight: bold;
+}
+
 .scrollable-list {
   overflow-y: auto;
   padding-bottom: 10px;
-  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
+  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-height) - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
 
   .van-row {
     padding: 0 10px;
@@ -200,7 +241,7 @@ onMounted(() => {
 }
 
 .showMiniBar .scrollable-list {
-  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
+  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-height) - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
 }
 
 .van-cell-group--inset {

@@ -16,6 +16,10 @@ watch(
   (val) => swipeRef.value?.swipeTo(val)
 );
 
+onMounted(() => {
+  mainStore.setCurrentTab(0);
+});
+
 </script>
 
 <template>
