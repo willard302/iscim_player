@@ -68,12 +68,13 @@ const openQueueEditor = () => {
       :title="$t('player_queue')"
       left-icon="arrow-down"
       @click-left="musicStore.setPlayerQueue(false)"
-    />
+    >
+      <template #right>
+        <van-button class="edit-btn" icon="records-o" size="small" @click="openQueueEditor" />
+      </template>
+    </SubPageHeader>
 
     <div class="queue-container">
-      <div class="queue-header">
-        <van-button class="edit-btn" icon="records-o" size="small" @click="openQueueEditor" />
-      </div>
 
       <div class="queue-list-wrapper">
         <van-list>
@@ -122,22 +123,6 @@ const openQueueEditor = () => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-.queue-header {
-  background: rgba(0, 0, 0, 0.05);
-  height: 40px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 16px;
-  flex-shrink: 0;
-
-  .edit-btn {
-    background: transparent;
-    border: none;
-    font-size: 12px;
-  }
 }
 
 .queue-list-wrapper {

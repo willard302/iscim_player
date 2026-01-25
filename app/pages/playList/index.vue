@@ -8,9 +8,9 @@ const showSetOption = ref(false);
 const currentSet = ref("");
 
 const actionOptions = reactive([
-  {title: '播放', id: 'removeFromPlayerList', icon: 'play-circle-o', action: player.next },
-  {title: '重新命名', id: 'removeFromPlayerList', icon: 'edit', action: player.next },
-  {title: '刪除', id: 'removeCurrentSet', icon: 'delete-o', action: player.next }
+  {title: 'play', id: 'removeFromPlayerList', icon: 'play-circle-o', action: player.next },
+  {title: 'rename', id: 'removeFromPlayerList', icon: 'edit', action: player.next },
+  {title: 'delete', id: 'removeCurrentSet', icon: 'delete-o', action: player.next }
 ]);
 
 const handleLoadSet = (item: any) => {
@@ -68,7 +68,7 @@ const openSetOption = (item: any) => {
       <van-cell 
         v-for="item in actionOptions"
         :key="item.id"
-        :title="item.title"
+        :title="$t(item.title)"
         :icon="item.icon"
         @click="item.action"
       />
@@ -77,6 +77,10 @@ const openSetOption = (item: any) => {
 </template>
 
 <style scoped lang="scss">
+:deep(.van-popup) {
+  position: absolute;
+}
+
 .van-cell-group--inset {
   --van-cell-group-background: transparent;
 }

@@ -56,7 +56,7 @@ const handleClickLeft = () => {
     }
     
     :deep(.van-nav-bar__right) {
-      right: 18px;
+      right: 16px;
     }
   }
 

@@ -6,19 +6,16 @@ import vantTW from 'vant/es/locale/lang/zh-TW';
 const mainStore = useMainStore();
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
-const route = useRoute();
 
 const player = usePlayer();
 const { setLocale } = useI18n();
 
 const showPlayerMiniBar = computed(() => {
-  const hashCurrentSong = !!playerStore.currentSong?.id;
+  const hashCurrentSong = musicStore.queue.length !== 0;
 
   const isNotExpanded = !playerStore.isExpanded;
 
-  const isAllowedByRoute = (route.meta.showMiniBar ?? true);
-
-  return hashCurrentSong && isNotExpanded && isAllowedByRoute;
+  return hashCurrentSong && isNotExpanded;
 });
 
 watch(

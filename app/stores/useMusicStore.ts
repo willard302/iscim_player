@@ -3,9 +3,6 @@ import { usePlayerStore } from "./usePlayerStore";
 import type { MusicRow, SetInsert } from "~/types/supabase";
 
 export const useMusicStore = defineStore("music", () => {
-
-  const {t} = useI18n();
-
   const { getMusics, getSets } = useDataBase();
   
   const playerStore = usePlayerStore();
@@ -49,6 +46,8 @@ export const useMusicStore = defineStore("music", () => {
   };
 
   const setLoop = () => {
+    const {t} = useI18n();
+
     const modeList = ["normal", "repeatOne", "repeatAll"] as const;
     let modeIdx = modeList.indexOf(playerStore.loop);
     let nextMode = modeList[(modeIdx + 1) % modeList.length];
@@ -84,12 +83,12 @@ export const useMusicStore = defineStore("music", () => {
 
   const handleToggleType = () => {
     state.isPro = !state.isPro
+    state.isDataLoaded = false;
+    initMusicData();
   };
 
   const initMusicData = async() => {
-
-    if (state.isDataLoaded) return;
-    if (state.isLoading) return;
+    if (state.isDataLoaded || state.isLoading) return;
 
     state.isLoading = true;
     showLoadingToast("Loading...");
@@ -166,5 +165,7 @@ export const useMusicStore = defineStore("music", () => {
   };
 },
 {
-  persist: true
+  persist: {
+    pick: ['isPro', 'chakra']
+  }
 })

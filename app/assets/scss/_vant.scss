@@ -83,5 +83,6 @@
 }
 
 .showMiniBar .sub-options.van-popup--bottom {
-  bottom: var(--minibar-h)
+  bottom: var(--minibar-h);
+  position: absolute;
 }

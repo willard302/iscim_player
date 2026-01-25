@@ -20,9 +20,9 @@ const player = usePlayer();
         @click.lazy="player.togglePlay()"
       />
       <van-icon 
-        name="expand"
+        name="bars"
         size="24"
-        @click.lazy="playerStore.setExpand(true)"
+        @click.lazy="musicStore.setPlayerQueue(true)"
       />
     </van-col>
   </van-row>

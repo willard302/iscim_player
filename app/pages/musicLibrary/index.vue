@@ -95,7 +95,12 @@ const transferToFields = (music: MusicLocal): FieldItem[] => {
   }));
 };
 
-const isCurrentSong = (name: string) => playerStore.currentSong?.name === name;
+const isCurrentSong = (name: string) => {
+  const noMusic = musicStore.queue.length === 0;
+  const someMusicPlaying = playerStore.currentSong?.name === name;
+  if (noMusic) return false;
+  if (someMusicPlaying) return true;
+}
 
 onMounted(() => {
   if(!musicStore.isPro) return;
@@ -128,9 +133,6 @@ onMounted(() => {
               <van-col>
                 <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
               </van-col>
-              <van-col>
-                <van-button icon="bars" @click.lazy="musicStore.setPlayerQueue(true)" />
-              </van-col>
             </van-row>
           </div>
           <van-tab
@@ -144,12 +146,20 @@ onMounted(() => {
                   v-for="(item, itemIdx) in subMusic.menu"
                   :key="itemIdx"
                   :title="item.name"
-                  :label="item.intro ?? ''"
                   clickable
                   @click="throttleHandleCheck(item)"
                   :icon="isCurrentSong(item.name) ? 'play' : ''"
-                  :class="{current: isCurrentSong(item.name)}"
+                  :class="[{current: isCurrentSong(item.name)}, 'ellipsis']"
                 >
+                  <template #label>
+                    <van-text-ellipsis
+                      rows="2"
+                      :content="String(item.intro)"
+                      expand-text="show"
+                      collapse-text="hide"
+                    />
+
+                  </template>
                   <template #right-icon>
                     <van-icon 
                       name="ellipsis"
@@ -194,7 +204,7 @@ onMounted(() => {
         round
       >
         <van-cell 
-          title="詳細資料" 
+          :title="$t('details')" 
           size="large" 
           align="center" 
           class="popup-title"
@@ -211,6 +221,10 @@ onMounted(() => {
 
 * {
   --control-bar-height: 44px;
+}
+
+:deep(.van-popup) {
+  position: absolute;
 }
 
 .tab-controls {
@@ -235,8 +249,8 @@ onMounted(() => {
   padding-bottom: 10px;
   height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-height) - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
 
-  .van-row {
-    padding: 0 10px;
+  .van-cell-group--inset {
+    --van-cell-group-inset-padding: 0;
   }
 }
 
@@ -250,7 +264,7 @@ onMounted(() => {
 
 .van-cell--clickable {
   --van-cell-background: transparent;
-  align-items: center;
+  align-items: start;
 
   &.current {
     color: $pink-main;

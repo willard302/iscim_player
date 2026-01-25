@@ -54,7 +54,6 @@ onMounted(() => {
           </keep-alive>
         </div>
       </van-swipe-item>
-
     </van-swipe>
   </div>
 </template>
