@@ -103,3 +103,10 @@ main {
   min-height: 100vh;
   padding: 10px 20px;
 }
+
+.fullscreen {
+  height: 100%;
+  max-width: var(--layout-max-width);
+  padding-top: env(safe-area-inset-top);
+  margin: auto;
+}

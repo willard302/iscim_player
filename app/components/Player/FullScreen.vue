@@ -20,7 +20,8 @@ const throttleToggle = throttle(player.togglePlay, 1000);
 const throttleNext = throttle(player.next, 1000);
 const throttlePrev = throttle(player.prev, 1000);
 
-const onClickIcon = () => showToast('點擊圖標')
+const onClickIcon = () => showToast('點擊圖標');
+
 onMounted(() => musicStore.isDragging = false);
 </script>
 
@@ -39,12 +40,12 @@ onMounted(() => musicStore.isDragging = false);
         </div>
       </div>
       <div class="song-info">
-        <h2>{{ playerStore.currentSong?.name || '無曲目'}}</h2>
+        <h2 class="text-ellipsis">{{ playerStore.currentSong?.name || '無曲目'}}</h2>
         <p>{{ playerStore.currentSong?.created_by || 'Unknown' }}</p>
       </div>
       <van-action-bar>
-        <van-action-bar-icon icon="like-o" text="最愛" @click="onClickIcon" />
-        <van-action-bar-icon icon="bookmark-o" text="收藏" @click="onClickIcon" />
+        <van-action-bar-icon icon="like-o" text="favorite" @click="onClickIcon" />
+        <van-action-bar-icon icon="bookmark-o" text="store" @click="onClickIcon" />
       </van-action-bar>
     </div>
 
@@ -65,16 +66,9 @@ onMounted(() => musicStore.isDragging = false);
       </div>
 
       <div class="buttons-wrapper">
-        <van-icon 
-          :name="loopIcon" 
-          size="24" color="#666666"
-          @click="musicStore.setLoop"
-        />
-        <van-icon 
-          name="arrow-left"
-          size="32"
-          @click="throttlePrev"
-        />
+        <van-icon :name="loopIcon" size="24" color="#666666" @click="musicStore.setLoop" />
+        <van-icon name="arrow-left" size="32" @click="throttlePrev" />
+
         <div class="play-btn" @click="throttleToggle">
           <van-icon 
             :name="playerStore.isPlaying ? 'pause' : 'play'"
@@ -96,15 +90,6 @@ onMounted(() => musicStore.isDragging = false);
   </div>
 </template>
 
-<style lang="scss">
-.fullscreen {
-  height: 100%;
-  max-width: var(--layout-max-width);
-  padding-top: env(safe-area-inset-top);
-  margin: auto;
-}
-</style>
-
 <style scoped lang="scss">
 .player-fullscreen {
   background-color: var(--van-background-2);
@@ -115,6 +100,7 @@ onMounted(() => musicStore.isDragging = false);
   @include flex-center(column);
   flex: 1;
   padding: 20px;
+  overflow: hidden;
 
   .cover-wrapper {
     width: 260px;

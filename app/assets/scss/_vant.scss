@@ -81,3 +81,7 @@
   --van-notice-bar-line-height: 20px;
   margin-top: 10px;
 }
+
+.showMiniBar .sub-options.van-popup--bottom {
+  bottom: var(--minibar-h)
+}

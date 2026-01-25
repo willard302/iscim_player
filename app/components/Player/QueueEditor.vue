@@ -1,11 +1,4 @@
 <script setup lang="ts">
-interface QueueItem {
-  id: string | number
-  name: string
-  chakra?: number
-  [key: string]: any
-};
-
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
 
@@ -13,20 +6,15 @@ const checked = ref<number[]>([]);
 const showSets = ref(false);
 
 const isAllChecked = computed({
-  get: () => {
-    return musicStore.queue.length > 0 && checked.value.length === musicStore.queue.length;
-  },
+  get: () => musicStore.queue.length > 0 && checked.value.length === musicStore.queue.length,
   set: (val: boolean) => {
-    if (val) {
-      checked.value = musicStore.queue.map((_, index) => index);
-    } else {
-      checked.value = [];
-    }
+    checked.value = val ? musicStore.queue.map((_, index) => index) : [];
   }
 });
-const currentCount = computed(() => checked.value.length);
 
-const toggle = (index: number) => {
+const selectedCount = computed(() => checked.value.length);
+
+const toggleSelection = (index: number) => {
   const existingIndex = checked.value.indexOf(index);
   if (existingIndex !== -1) {
     checked.value.splice(existingIndex, 1)
@@ -46,14 +34,12 @@ const handleDelete = () => {
   const sortedIndices = [...checked.value].sort((a, b) => b - a);
 
   let currentPlayerIndex = playerStore.index;
-  let isCurrentPlayingRemoved = false;
   
   sortedIndices.forEach(index => {
     musicStore.queue.splice(index, 1);
+
     if (index < currentPlayerIndex) {
       currentPlayerIndex--;
-    } else if (index === currentPlayerIndex) {
-      isCurrentPlayingRemoved = true;
     };
   });
 
@@ -81,7 +67,7 @@ const handleAddInto = () => {
     >
       <template #title>
         <span class="nav-title">
-          {{ $t('already_selected') + currentCount + $t('song') }}
+          {{ $t('already_selected') + selectedCount + $t('song') }}
         </span>
       </template>
       <template #right>
@@ -90,32 +76,33 @@ const handleAddInto = () => {
     </SubPageHeader>
     
 
-    <van-checkbox-group class="queue-container" v-model="checked">
-      <van-cell-group class="queue-content" inset>
-        <van-cell 
-          v-for="(list, idx) in musicStore.queue" 
-          :key="idx" 
-          center clickable
-          :id="list.id"
-          :title="list.name"
-          :value="(list.chakra as number)"
-          icon="music-o"
-          @click="toggle(idx)"
-        >
-            <template #right-icon>
-              <van-checkbox :name="idx" @click.stop />
-            </template>
-        </van-cell>
-      </van-cell-group>
-    </van-checkbox-group>
+    <div class="queue-container">
+      <van-checkbox-group v-model="checked">
+        <van-cell-group class="queue-content" inset>
+          <van-cell 
+            v-for="(list, idx) in musicStore.queue" 
+            :key="list.id || idx" 
+            center clickable
+            :title="list.name"
+            :value="list.chakra"
+            icon="music-o"
+            @click="toggleSelection(idx)"
+          >
+              <template #right-icon>
+                <van-checkbox :name="idx" @click.stop />
+              </template>
+          </van-cell>
+        </van-cell-group>
+      </van-checkbox-group>
+    </div>
 
     <van-action-bar>
       <van-action-bar-icon 
-        icon="delete-o" text="刪除" 
+        icon="delete-o" text="delete" 
         @click="handleDelete" 
       />
       <van-action-bar-icon 
-        icon="add-o" text="新增" 
+        icon="add-o" text="add" 
         @click="handleAddInto" 
       />
     </van-action-bar>
@@ -142,10 +129,6 @@ const handleAddInto = () => {
 <style scoped lang="scss">
 @use "sass:color";
 
-:deep(.van-nav-bar__right) {
-  right: 18px;
-}
-
 .van-action-bar-icon {
   flex: 1;
 }
@@ -159,7 +142,7 @@ const handleAddInto = () => {
 .queue-container {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 60px;
+  padding-bottom: calc(50px + env(safe-area-inset-bottom))
 }
 
 .queue-content {
