@@ -85,7 +85,7 @@ const formatIndex = (index: number) => {
 <template>
   <div>
     <SubPageHeader 
-      title="set-ing"
+      :title="musicStore.currentSet.name"
       left-icon="arrow-down"
       @click-left="musicStore.setPlayerSet(false)"
     />
