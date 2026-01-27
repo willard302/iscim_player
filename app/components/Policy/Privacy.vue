@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'sub-page',
-  title: 'Notice.privacy_policy'
-})
 import type { PolicyPart } from '~/types/data.types';
 
 const title = "Privacy.welcome";
