@@ -1,11 +1,11 @@
 import type { MusicStoreState } from "~/types/data.types";
-import { usePlayerStore } from "./usePlayerStore";
 import type { MusicRow, SetInsert } from "~/types/supabase";
 
 export const useMusicStore = defineStore("music", () => {
   const { getMusics, getSets } = useDataBase();
   
   const playerStore = usePlayerStore();
+  const {t} = useI18n();
 
   const state = reactive<MusicStoreState>({
     isPro: true,
@@ -46,12 +46,10 @@ export const useMusicStore = defineStore("music", () => {
   };
 
   const setLoop = () => {
-    const {t} = useI18n();
-
     const modeList = ["normal", "repeatOne", "repeatAll"] as const;
     let modeIdx = modeList.indexOf(playerStore.loop);
     let nextMode = modeList[(modeIdx + 1) % modeList.length];
-    if (!nextMode) return; 
+    if (!nextMode) return;
     playerStore.loop = nextMode;
 
     showToast(t(`Music.${nextMode}`))

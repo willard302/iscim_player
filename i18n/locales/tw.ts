@@ -45,6 +45,7 @@ export default {
   song: "首",
   submit: "送出",
   terms_of_service: "服務條款",
+  unplayed: "未播放",
   user_data: "會員資料",
   user_center: "會員中心",
   username: "帳號",

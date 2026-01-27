@@ -17,17 +17,17 @@ const hasQueue = computed(() => musicStore.queue.length > 0);
 const showPlayerMiniBar = computed(() => hasQueue.value && !playerStore.isExpanded);
 
 type PopupItem = 
-  | {store: typeof playerStore; model: keyof typeof playerStore; component: any}
-  | {store: typeof musicStore; model: keyof typeof musicStore; component: any}
-  | {store: typeof mainStore; model: keyof typeof mainStore; component: any};
+  | {store: typeof playerStore; model: keyof typeof playerStore; component: any, full?: boolean}
+  | {store: typeof musicStore; model: keyof typeof musicStore; component: any, full?: boolean}
+  | {store: typeof mainStore; model: keyof typeof mainStore; component: any, full?: boolean};
 
 const popups: PopupItem[] = [
-  { store: playerStore, model: 'isExpanded', component: markRaw(PlayerFullScreen) },
-  { store: musicStore, model: 'openQueue', component: markRaw(PlayerQueue) },
-  { store: musicStore, model: 'openQueueEditor', component: markRaw(PlayerQueueEditor) },
-  { store: mainStore, model: 'openPreferences', component: markRaw(Preferences) },
-  { store: mainStore, model: 'openPolicyPrivacy', component: markRaw(PolicyPrivacy) },
-  { store: mainStore, model: 'openPolicyService', component: markRaw(PolicyService) },
+  { store: playerStore, model: 'isExpanded', component: markRaw(PlayerFullScreen), full: true },
+  { store: musicStore, model: 'openQueue', component: markRaw(PlayerQueue), full: false },
+  { store: musicStore, model: 'openQueueEditor', component: markRaw(PlayerQueueEditor), full: true },
+  { store: mainStore, model: 'openPreferences', component: markRaw(Preferences), full: true },
+  { store: mainStore, model: 'openPolicyPrivacy', component: markRaw(PolicyPrivacy), full: true },
+  { store: mainStore, model: 'openPolicyService', component: markRaw(PolicyService), full: true },
 ];
 
 initLocale();
@@ -56,7 +56,7 @@ onMounted(() => {
           :key="popup.model"
           v-model:show="(popup.store as any)[popup.model]"
           position="bottom"
-          class="full-screen-popup"
+          :class="[{'full-screen-popup': popup.full}, popup.model]"
           :duration="0.3"
         >
           <component :is="popup.component" />
@@ -82,5 +82,11 @@ onMounted(() => {
 .full-screen-popup {
   height: 100%;
   width: 100%;
+}
+
+.openQueue.van-popup--bottom {
+  height: 50vh;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 </style>

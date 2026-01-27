@@ -45,6 +45,7 @@ export default {
   song: "Song",
   submit: "Submit",
   terms_of_service: "Terms of service",
+  unplayed: "Unplayed",
   user_data: "User Data",
   user_center: "User Center",
   username: "Username",

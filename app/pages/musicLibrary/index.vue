@@ -68,6 +68,7 @@ const handleAction = (actionType: ActionType) => {
 const handleCheck = (item: any) => {
   addMusic(item);
   player.playIndex(0);
+  playerStore.setExpand(true);
 };
 const throttleHandleCheck = throttle(handleCheck, 400);
 

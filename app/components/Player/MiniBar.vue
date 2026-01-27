@@ -11,7 +11,7 @@ const player = usePlayer();
     class="mini-player"
   >
     <van-col span="20" class="info" @click="playerStore.setExpand(true)">
-      <span>{{ playerStore.currentSong?.name || '未播放' }}</span>
+      <span>{{ playerStore.currentSong?.name || $t('unplayed') }}</span>
     </van-col>
     <van-col span="4" class="controls" @click.stop>
       <van-icon 
@@ -20,9 +20,9 @@ const player = usePlayer();
         @click.lazy="player.togglePlay()"
       />
       <van-icon 
-        name="bars"
+        name="arrow-double-right"
         size="24"
-        @click.lazy="musicStore.setPlayerQueue(true)"
+        @click.lazy="player.next()"
       />
     </van-col>
   </van-row>

@@ -13,7 +13,7 @@ const loopIcon = computed(() => {
     case 'repeatOne': return 'replay';
     case 'repeatAll': return 'exchange';
     default: return 'revoke';
-  }
+  };
 });
 
 const throttleToggle = throttle(player.togglePlay, 1000);
@@ -66,7 +66,7 @@ onMounted(() => musicStore.isDragging = false);
       </div>
 
       <div class="buttons-wrapper">
-        <van-icon :name="loopIcon" size="24" color="#666666" @click="musicStore.setLoop" />
+        <van-icon :name="loopIcon" size="24" color="#666666" @click="musicStore.setLoop()" />
         <van-icon name="arrow-left" size="32" @click="throttlePrev" />
 
         <div class="play-btn" @click="throttleToggle">
