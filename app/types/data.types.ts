@@ -1,5 +1,5 @@
 import type { ButtonNativeType, FieldType } from "vant";
-import type { MusicRow, SetInsert, UserInsert, UserUpdate } from "./supabase";
+import type { MusicRow, SetInsert, SetUpdate, UserInsert, UserUpdate } from "./supabase";
 
 export type ButtonItem = {
   text: string
@@ -36,12 +36,7 @@ export type MainStoreState = {
   openPolicyService: boolean
 }
 
-export type MenuStoreState = {
-  step: number
-}
-
 export type MusicStoreState = {
-  isPro: boolean
   openQueue: boolean
   openQueueEditor: boolean
   name: string
@@ -49,8 +44,8 @@ export type MusicStoreState = {
   subMusic: SubMusic[]
   subMusicUpdated: SubMusic[]
   subSet: SubSet[]
-  chakra: ChakraType
   newSet: SetInsert
+  currentSet: SetUpdate
   slidePercent: number
   diskRotation: number
   isDragging: boolean

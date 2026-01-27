@@ -9,7 +9,7 @@ const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const { addMusic, removeMusic } = usePlaylist();
 
-type ActionType = 'next' | 'removeFromPlayerList';
+type ActionType = 'next' | 'removeFromQueue';
 
 interface ActionOption {
   title: string
@@ -46,12 +46,12 @@ const musicTabs = computed(() => [
 
 const actionOptions: ActionOption[] = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
-  {title: 'remove_from_queue', id: 'removeFromPlayerList', icon: 'delete-o'}
+  {title: 'remove_from_queue', id: 'removeFromQueue', icon: 'delete-o'}
 ];
 
 const actionHandlers: Record<ActionType, (music: MusicLocal) => void> = {
   next: () => player.next(),
-  removeFromPlayerList: (music) => removeMusic(music)
+  removeFromQueue: (music) => removeMusic(music)
 };
 
 const handleAction = (actionType: ActionType) => {
@@ -159,7 +159,6 @@ onMounted(() => {
                       expand-text="show"
                       collapse-text="hide"
                     />
-
                   </template>
                   <template #right-icon>
                     <van-icon 

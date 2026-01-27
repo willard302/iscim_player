@@ -33,6 +33,16 @@ const openSetOption = (item: any) => {
       type="card"
       class="custom-tab"
     >
+      <div class="tab-controls">
+        <van-row justify="space-between" class="control-bar">
+          <van-col>
+            <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
+          </van-col>
+          <van-col>
+            <van-button icon="add-square" />
+          </van-col>
+        </van-row>
+      </div>
       <van-tab
         v-for="(m, mIdx) in musicStore.subSet"
         :key="mIdx"
@@ -49,6 +59,13 @@ const openSetOption = (item: any) => {
             >
               <template #right-icon>
                 <van-icon name="ellipsis" size="20" @click.stop="openSetOption(i)" />
+              </template>
+              <template #label>
+                <van-text-ellipsis
+                  :content="String(i.intro)"
+                  expand-text="show"
+                  collapse-text="hide"
+                />
               </template>
             </van-cell>
           </van-cell-group>
@@ -79,6 +96,14 @@ const openSetOption = (item: any) => {
 <style scoped lang="scss">
 :deep(.van-popup) {
   position: absolute;
+}
+
+.tab-controls {
+  padding: 0px 10px;
+
+  :deep(.van-icon-fire-o) {
+    color: red;
+  }
 }
 
 .van-cell-group--inset {

@@ -48,7 +48,7 @@ export type Database = {
         Row: {
           category: string
           chakras: number[] | null
-          content: Json | null
+          content: any | null
           created_at: string
           created_by: string
           id: string
@@ -60,7 +60,7 @@ export type Database = {
         Insert: {
           category: string
           chakras?: number[] | null
-          content?: Json | null
+          content?: any | null
           created_at?: string
           created_by?: string
           id?: string
@@ -72,7 +72,7 @@ export type Database = {
         Update: {
           category?: string
           chakras?: number[] | null
-          content?: Json | null
+          content?: any | null
           created_at?: string
           created_by?: string
           id?: string

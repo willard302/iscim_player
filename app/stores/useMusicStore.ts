@@ -1,4 +1,4 @@
-import type { MusicStoreState } from "~/types/data.types";
+import type { ChakraType, MusicStoreState } from "~/types/data.types";
 import type { MusicRow, SetInsert } from "~/types/supabase";
 
 export const useMusicStore = defineStore("music", () => {
@@ -7,8 +7,15 @@ export const useMusicStore = defineStore("music", () => {
   const playerStore = usePlayerStore();
   const {t} = useI18n();
 
-  const state = reactive<MusicStoreState>({
-    isPro: true,
+  const isPro = ref(true);
+  const chakra = reactive<ChakraType>({
+    name: "Chakra.overall",
+    num: 0,
+    idx: 0,
+    lists: []
+  });
+
+  const state = reactive<Omit<MusicStoreState, 'isPro' | 'chakra'>>({
     openQueue: false,
     openQueueEditor: false,
     name: "Hints.select_music",
@@ -16,12 +23,6 @@ export const useMusicStore = defineStore("music", () => {
     subMusic: [],
     subMusicUpdated: [],
     subSet: [],
-    chakra: {
-      name: "Chakra.overall",
-      num: 0,
-      idx: 0,
-      lists: []
-    },
     newSet: {
       name: "",
       intro: "",
@@ -30,6 +31,7 @@ export const useMusicStore = defineStore("music", () => {
       chakras: [],
       content: ""
     } as SetInsert,
+    currentSet: {},
     slidePercent: 0,
     diskRotation: 0,
     isDragging: false,
@@ -80,7 +82,7 @@ export const useMusicStore = defineStore("music", () => {
   };
 
   const handleToggleType = () => {
-    state.isPro = !state.isPro
+    isPro.value = !isPro.value
     state.isDataLoaded = false;
     initMusicData();
   };
@@ -93,11 +95,11 @@ export const useMusicStore = defineStore("music", () => {
 
     try {
       const p_music_default = getMusics('default');
-      const p_set_numbers = getSets({category: 'numbers', is_pro: state.isPro});
-      const p_set_five_elements = getSets({category: 'five_elements', is_pro: state.isPro});
+      const p_set_numbers = getSets({category: 'numbers', is_pro: isPro.value});
+      const p_set_five_elements = getSets({category: 'five_elements', is_pro: isPro.value});
 
       let p_music_custom, p_set_custom;
-      if (state.isPro) {
+      if (isPro.value) {
         p_music_custom = getMusics('custom');
         p_set_custom = getSets({category: 'custom', is_pro: true});
       }
@@ -118,7 +120,7 @@ export const useMusicStore = defineStore("music", () => {
         {name: "Set.five_elements", id: "five_elements", menu: set_five_elements}
       ];
       
-      if (state.isPro) {
+      if (isPro.value) {
         const [music_custom, set_custom] = await Promise.all([
           p_music_custom, p_set_custom
         ]);
@@ -152,6 +154,8 @@ export const useMusicStore = defineStore("music", () => {
 
   return {
     ...toRefs(state),
+    isPro,
+    chakra,
     setLoop,
     setPlayerQueue,
     setPlayerQueueEditor,

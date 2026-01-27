@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const home = { label: 'introduce', icon: 'description-o' };
+const introduce = { label: 'introduce', icon: 'description-o' };
 const musicLibrary = { label: 'music_library', icon: 'music-o' };
 const playList = { label: 'play_list', icon: 'orders-o' }
-const navItems = [home, musicLibrary, playList];
+const navItems = [introduce, musicLibrary, playList];
 
 const mainStore = useMainStore();
 const onChange = (page: number) => {
