@@ -2,6 +2,7 @@
 import PlayerFullScreen from '~/components/Player/FullScreen.vue';
 import PlayerQueue from '~/components/Player/Queue.vue';
 import PlayerQueueEditor from '~/components/Player/QueueEditor.vue';
+import PlayerSet from '~/components/Player/Set.vue';
 import Preferences from '~/components/Preferences.vue';
 import PolicyPrivacy from '~/components/Policy/Privacy.vue';
 import PolicyService from '~/components/Policy/Service.vue';
@@ -25,6 +26,7 @@ const popups: PopupItem[] = [
   { store: playerStore, model: 'isExpanded', component: markRaw(PlayerFullScreen), full: true },
   { store: musicStore, model: 'openQueue', component: markRaw(PlayerQueue), full: false },
   { store: musicStore, model: 'openQueueEditor', component: markRaw(PlayerQueueEditor), full: true },
+  { store: musicStore, model: 'openSet', component: markRaw(PlayerSet), full: true},
   { store: mainStore, model: 'openPreferences', component: markRaw(Preferences), full: true },
   { store: mainStore, model: 'openPolicyPrivacy', component: markRaw(PolicyPrivacy), full: true },
   { store: mainStore, model: 'openPolicyService', component: markRaw(PolicyService), full: true },

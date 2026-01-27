@@ -40,6 +40,7 @@ export default {
   profile: "Profile",
   register: "Register",
   remove_from_queue: "Remove from queue",
+  remove_from_set: "Remove from set",
   rename: "rename",
   setting: "Setting",
   song: "Song",

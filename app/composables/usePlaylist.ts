@@ -1,11 +1,10 @@
 import type { ChakraType } from "~/types/data.types";
-import type { MusicInsert, MusicRow, SetInsert, SetRow } from "~/types/supabase";
+import type { MusicRow, SetInsert, SetRow } from "~/types/supabase";
 
 export const usePlaylist = () => {
   
   const playerStore = usePlayerStore()
   const musicStore = useMusicStore();
-  const menuStore = useMenuStore();
   const mainStore = useMainStore();
   const player = usePlayer();
 

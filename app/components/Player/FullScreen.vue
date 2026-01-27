@@ -43,10 +43,6 @@ onMounted(() => musicStore.isDragging = false);
         <h2 class="text-ellipsis">{{ playerStore.currentSong?.name || '無曲目'}}</h2>
         <p>{{ playerStore.currentSong?.created_by || 'Unknown' }}</p>
       </div>
-      <van-action-bar>
-        <van-action-bar-icon icon="like-o" text="favorite" @click="onClickIcon" />
-        <van-action-bar-icon icon="bookmark-o" text="store" @click="onClickIcon" />
-      </van-action-bar>
     </div>
 
     <div class="player-controls-area">
@@ -129,12 +125,6 @@ onMounted(() => musicStore.isDragging = false);
       margin: 0;
       color: #888888;
     }
-  }
-  .van-action-bar {
-    position: unset;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
   }
 }
 .player-controls-area {

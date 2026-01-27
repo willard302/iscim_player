@@ -40,6 +40,7 @@ export default {
   profile: "個人資料",
   register: "註冊",
   remove_from_queue: "從佇列中移除",
+  remove_from_set: "從清單中移除",
   rename: "重新命名",
   setting: "設定",
   song: "首",

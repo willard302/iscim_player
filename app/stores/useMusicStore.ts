@@ -18,6 +18,7 @@ export const useMusicStore = defineStore("music", () => {
   const state = reactive<Omit<MusicStoreState, 'isPro' | 'chakra'>>({
     openQueue: false,
     openQueueEditor: false,
+    openSet: false,
     name: "Hints.select_music",
     queue: [],
     subMusic: [],
@@ -38,6 +39,10 @@ export const useMusicStore = defineStore("music", () => {
     isLoading: false,
     isDataLoaded: false
   });
+
+  const setPlayerSet = (value: boolean) => {
+    state.openSet = value;
+  };
 
   const setPlayerQueue = (value: boolean) => {
     state.openQueue = value;
@@ -159,6 +164,7 @@ export const useMusicStore = defineStore("music", () => {
     setLoop,
     setPlayerQueue,
     setPlayerQueueEditor,
+    setPlayerSet,
     composeMusic,
     resetMusic,
     initNewSet,

@@ -1,27 +1,24 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
 const player = usePlayer();
-const { loadMusicSet } = usePlaylist();
 
 const acitveLoadSetTab = ref(0);
 const showSetOption = ref(false);
-const currentSet = ref("");
 
 const actionOptions = reactive([
-  {title: 'play', id: 'removeFromPlayerList', icon: 'play-circle-o', action: player.next },
-  {title: 'rename', id: 'removeFromPlayerList', icon: 'edit', action: player.next },
+  {title: 'play', id: 'playCurrentSet', icon: 'play-circle-o', action: player.next },
+  {title: 'rename', id: 'renameCurrentSet', icon: 'edit', action: player.next },
   {title: 'delete', id: 'removeCurrentSet', icon: 'delete-o', action: player.next }
 ]);
 
-const handleLoadSet = (item: any) => {
-  musicStore.resetMusic();
-  loadMusicSet(item);
-  musicStore.setPlayerQueue(true);
+const openCurrentSet = (item: any) => {
+  musicStore.currentSet = item;
+  musicStore.setPlayerSet(true);
 };
 
 const openSetOption = (item: any) => {
+  musicStore.currentSet = item;
   showSetOption.value = true;
-  currentSet.value = item.name
 };
 
 </script>
@@ -51,21 +48,21 @@ const openSetOption = (item: any) => {
         <div class="scrollable-list">
           <van-cell-group inset>
             <van-cell
-              v-for="(i, iIdx) in m.menu"
-              :key="iIdx"
-              :title="i.name"
+              v-for="(item, index) in m.menu"
+              :key="index"
+              :title="item.name"
               clickable
-              @click="handleLoadSet(i)"
+              @click="openCurrentSet(item)"
             >
-              <template #right-icon>
-                <van-icon name="ellipsis" size="20" @click.stop="openSetOption(i)" />
-              </template>
               <template #label>
                 <van-text-ellipsis
-                  :content="String(i.intro)"
+                  :content="String(item.intro)"
                   expand-text="show"
                   collapse-text="hide"
                 />
+              </template>
+              <template #right-icon>
+                <van-icon name="ellipsis" size="20" @click.stop="openSetOption(item)" />
               </template>
             </van-cell>
           </van-cell-group>
@@ -77,14 +74,14 @@ const openSetOption = (item: any) => {
       position="bottom"
       :duration="0.3"
     >
-      <van-cell :title="currentSet" >
+      <van-cell :title="musicStore.currentSet.name" >
         <template #right-icon>
           <van-icon name="info-o" size="24" />
         </template>
       </van-cell>
       <van-cell 
-        v-for="item in actionOptions"
-        :key="item.id"
+        v-for="(item, index) in actionOptions"
+        :key="index"
         :title="$t(item.title)"
         :icon="item.icon"
         @click="item.action"
