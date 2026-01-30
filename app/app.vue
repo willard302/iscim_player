@@ -46,7 +46,7 @@ onMounted(() => {
     class="wrap"
     :class="[
       {showQueue: musicStore.openQueue && !musicStore.openQueueEditor},
-      {showMiniBar: musicStore.queue.length > 0}
+      {showMiniBar: musicStore.queue.length > 0 && !playerStore.isExpanded}
     ]"
   >
     <NuxtLayout>
