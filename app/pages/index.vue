@@ -59,11 +59,10 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.main-container {
+.main__container {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  background-color: #f5f5f5;
 }
 
 .full-height-swipe {
