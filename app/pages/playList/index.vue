@@ -111,4 +111,8 @@ const openSetOption = (item: any) => {
   --van-cell-background: transparent;
   align-items: center;
 }
+
+.van-cell--clickable:active {
+  background-color: transparent;
+}
 </style>

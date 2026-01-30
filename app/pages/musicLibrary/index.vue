@@ -272,4 +272,8 @@ onMounted(() => {
   }
 }
 
+.van-cell--clickable:active {
+  background-color: transparent;
+}
+
 </style>
