@@ -155,6 +155,21 @@ const formatIndex = (index: number) => {
         @click="handleAction(action.id)"
       />
     </van-popup>
+    <van-popup
+      v-model:show="uiState.showInfo"
+      position="bottom"
+      :duration="0.3"
+      destroy-on-close
+      round
+    >
+      <van-cell 
+        :title="$t('details')" 
+        size="large" 
+        align="center" 
+        class="popup-title"
+      />
+      <FieldForm :field-items="fieldItems"/>
+    </van-popup>
   </div>
 
 </template>

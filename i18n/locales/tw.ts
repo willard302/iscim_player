@@ -132,10 +132,12 @@ export default {
   },
   Music: {
     id: "歌曲ID",
+    index: "歌曲編號",
     intro: "歌曲簡介",
     src: "歌曲來源",
     name: "歌曲名稱",
     category: "歌曲分類",
+    chakra: "增強脈輪",
     fast: "快速版",
     fast_charge: "快速充電",
     full_charge: "完整充電",

@@ -132,10 +132,12 @@ export default {
   },
   Music: {
     id: "ID",
+    index: "Index",
     intro: "Profile",
     src: "Source",
     name: "Title",
     category: "Category",
+    chakra: "Chakra",
     fast: "Fast",
     fast_charge: "Fast Charge",
     full_charge: "Full Charge",
