@@ -52,7 +52,7 @@ export type Database = {
           created_at: string
           created_by: string
           id: string
-          intro: string | null
+          intro: string
           is_pro: boolean | null
           mode: string | null
           name: string
@@ -64,7 +64,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           id?: string
-          intro?: string | null
+          intro?: string
           is_pro?: boolean | null
           mode?: string | null
           name: string
@@ -76,7 +76,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           id?: string
-          intro?: string | null
+          intro?: string
           is_pro?: boolean | null
           mode?: string | null
           name?: string

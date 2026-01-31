@@ -8,7 +8,6 @@ export const useAppLocale = () => {
     const config = LOCALE_CONFIG[lang as LocaleKey] || LOCALE_CONFIG.tw;
     setLocale(config.i18n);
     Locale.use(config.vantName, config.vantPackage);
-    console.log(`[Locale] switched to: ${config.vantName}`);
   };
 
   const initLocale = () => {

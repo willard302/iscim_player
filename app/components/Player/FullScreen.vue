@@ -20,8 +20,6 @@ const throttleToggle = throttle(player.togglePlay, 1000);
 const throttleNext = throttle(player.next, 1000);
 const throttlePrev = throttle(player.prev, 1000);
 
-const onClickIcon = () => showToast('點擊圖標');
-
 onMounted(() => musicStore.isDragging = false);
 </script>
 

@@ -5,7 +5,6 @@ export const useMusicStore = defineStore("music", () => {
   const { getMusics, getSets } = useDataBase();
   
   const playerStore = usePlayerStore();
-  const {t} = useI18n();
 
   const isPro = ref(true);
   const chakra = reactive<ChakraType>({
@@ -59,7 +58,7 @@ export const useMusicStore = defineStore("music", () => {
     if (!nextMode) return;
     playerStore.loop = nextMode;
 
-    showToast(t(`Music.${nextMode}`))
+    showToast((`Music.${nextMode}`))
   };
 
   const composeMusic = (musicList: MusicRow[], musicClass: string) => {
