@@ -1,4 +1,5 @@
 export default {
+  add_some_music: "Add some music",
   add_to_play_list: "Add to play list",
   advanced_mode: "Advanced",
   already_selected: "Already selected",
@@ -87,6 +88,7 @@ export default {
     enter_location: "Please enter your location",
     enter_grade: "Please enter your student year",
     enter_inviter: "Please enter your inviter",
+    input_set_name: "Please input a name for the set",
     select_gender: "Please select your gender",
     select_country: "Please select your country",
     select_city: "Please select your city",
@@ -121,7 +123,6 @@ export default {
     login_successfully: "Login successfully",
     password_is_different: "Password is different",
     please_check: "Please check your email at",
-    please_enter_a_name_for_the_set: "Please enter a name for the set.",
     please_select_a_music_at_least: "Please select a music at least.",
     register_successfully: "Register successfully",
     save_successfully: "save_successfully",
@@ -268,6 +269,7 @@ export default {
   },
   Toast: {
     loading: "Loading...",
-    removed_successfully: "Removed successfully"
+    removed_successfully: "Removed successfully",
+    delete_failed: "Delete failed"
   }
 }

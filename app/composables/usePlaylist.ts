@@ -1,5 +1,5 @@
-import type { ChakraType } from "~/types/data.types";
-import type { MusicInsert, MusicRow, SetInsert, SetRow } from "~/types/supabase";
+import type { ChakraType, MusicLocal } from "~/types/data.types";
+import type { MusicInsert, MusicRow, MusicUpdate, SetInsert, SetRow } from "~/types/supabase";
 
 export const usePlaylist = () => {
   
@@ -7,12 +7,11 @@ export const usePlaylist = () => {
   const musicStore = useMusicStore();
   const mainStore = useMainStore();
   const player = usePlayer();
-  const {removeSetFromDb} = useDataBase();
+  const {removeSetFromDb, updateSetToDb} = useDataBase();
   const {t} = useI18n();
 
   const addToLists = (item: any) => {
     musicStore.queue.unshift(item);
-
     // 若尚未有歌曲 → 播第一首
     if (playerStore.index === -1) {
       player?.setSourceByIndex(0);
@@ -20,7 +19,6 @@ export const usePlaylist = () => {
   };
 
   const addMusic = (song:MusicRow, chakra?: number) => {
-
     if (!song || !song.src) {
       console.warn("Invalid song data:", song);
       return;
@@ -33,16 +31,17 @@ export const usePlaylist = () => {
       created_by: mainStore.userInfo.name || 'System'
     };
 
-    // 添加到播放列表
     addToLists(list);
 
-    // 如果是第一首歌，立即加载
-    if (musicStore.name === "Hints.select_music") {
-      musicStore.name = list.name;
-    };
+    if (musicStore.name !== "Hints.select_music") return;
+    musicStore.name = list.name;
   };
 
   const loadMusicSet = (musicList: SetInsert) => {
+    const content = Array.isArray(musicList.content) ? musicList.content : [];
+
+    if (content.length === 0) return;
+
     const sourceChakraList = (musicList.chakras && musicList.chakras.length > 0 && !musicList.chakras.includes(99))
       ? musicList.chakras : [];
       
@@ -54,42 +53,85 @@ export const usePlaylist = () => {
       return c;
     };
 
-    if (Array.isArray(musicList.content)) {
-      musicList.content.forEach((song) => {
-        const chakra = getNextChakra();
-        addMusic(song as MusicRow, chakra);
-      })
-    };
+    content.forEach((song) => {
+      const chakra = getNextChakra();
+      addMusic(song as MusicRow, chakra);
+    })
   };
 
   const saveSet = async() => {
-    const {insertSet} = useDataBase();
+    if (!musicStore.newSet.name) return showFailToast(t("Hints.input_set_name"));
 
-    musicStore.newSet.category = 'custom';
-    musicStore.newSet.created_by = mainStore.userInfo.name;
-    musicStore.newSet.is_pro = true;
-    musicStore.newSet.content = JSON.stringify([]);
+    const payload = {
+      ...musicStore.newSet,
+      category: 'custom',
+      created_by: mainStore.userInfo.name || 'System',
+      is_pro: true,
+      chakras: musicStore.newSet.chakras ?? [],
+      content: typeof musicStore.newSet.content === 'string'
+        ? musicStore.newSet.content
+        : JSON.stringify(musicStore.newSet.content ?? [])
+    };
 
+    try {
+      const {insertSet} = useDataBase();
+      const newSet = await insertSet(payload);
 
-    const result = await insertSet(musicStore.newSet);
-    console.log(result)
-    musicStore.currentSet = musicStore.newSet;
-    musicStore.setPlayerSet(true);
-    // musicStore.initNewSet();
+      if (!newSet) return;
+      musicStore.currentSet = newSet;
+
+      const sets_custom = musicStore.subSet.find(g => g.id === 'custom');
+      if (sets_custom) sets_custom.menu.push(newSet);
+      musicStore.setPlayerSet(true);
+    } catch (error) {
+      showFailToast(t("Save failed"))
+    }
   };
 
   const removeSet = async(setId: string) => {
-    const sets_custom = musicStore.subSet.find(item => item.id === 'custom');
-    const idx = sets_custom?.menu.findIndex(s => s.id === setId);
-    if (!idx || idx === -1) return;
-    sets_custom?.menu.splice(idx, 1);
-    const res = await removeSetFromDb(setId);
-    if (res === 204) showSuccessToast(t(`Toast.removed_successfully`))
+    try {
+      const res = await removeSetFromDb(setId);
+      if (res !== 204) return;
+      const sets_custom = musicStore.subSet.find(item => item.id === 'custom');
+      if (sets_custom) {
+        const idx = sets_custom?.menu.findIndex(s => s.id === setId);
+        if (idx === -1) sets_custom.menu.splice(idx, 1);
+      }
+      showSuccessToast(t(`Toast.removed_successfully`))
+    } catch (error) {
+      showFailToast(t("Toast.delete_failed"));
+    }   
   };
 
-  const removeMusic = (music:any) => {
-  
-    console.log(music)
+  const removeMusicFromSet = async(musicToRemove: any) => {
+    if (!musicStore.currentSet || !musicStore.currentSet.id) return;
+
+    const currentContent = musicStore.currentSet.content as any[];
+
+    const newContent = currentContent.filter(song => song.src !== musicToRemove.src);
+
+    if (newContent.length === currentContent.length) return;
+
+    musicStore.currentSet.content = newContent;
+
+    try {
+      await updateSetToDb(musicStore.currentSet.id, {
+        content: newContent
+      });
+      showSuccessToast(t('Toast.removed_successfully'));
+    } catch (error) {
+      console.error(error);
+      showFailToast('update failed.')
+    };
+  };
+
+  const removeMusicFromQueue = (music: MusicLocal) => {
+    const currentQueue = musicStore.queue;
+    if (currentQueue.length === 0) return showToast('no more music in queue');
+    const index = currentQueue.findIndex(item => item.src === music.src);
+    if (index === -1) return;
+    currentQueue.splice(index, 1);
+    player.setSourceByIndex(index);
   };
 
   const removeAllFromQueue = () => {
@@ -108,7 +150,8 @@ export const usePlaylist = () => {
     loadMusicSet,
     saveSet,
     removeSet,
-    removeMusic,
+    removeMusicFromSet,
+    removeMusicFromQueue,
     removeAllFromQueue
   }
 }

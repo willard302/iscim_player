@@ -5,7 +5,8 @@ export const useMusicDetail = () => {
   const uiState = reactive({
     showOptions: false,
     showInfo: false,
-    showDialog: false
+    showBuildNewSet: false,
+    showRenameSet: false
   });
 
   const fieldItems = ref<FieldItem[]>([]);

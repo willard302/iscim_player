@@ -1,15 +1,15 @@
 import type { Database } from "~/types/database.types";
-import type { SetInsert, UserInsert, UserUpdate } from "~/types/supabase";
+import type { SetInsert, SetUpdate, UserInsert, UserUpdate } from "~/types/supabase";
 
 export const useDataBase = () => {
 
   const client = useSupabaseClient<Database>();
   
-  const handleError = (error: any, context: string) => {
-    if (error) {
-      console.error(`${context}:${error}`);
-      throw new Error(`${context}:${error.message || error}`)
-    }
+  const handleError = (error: any, context: string, shouldThrow = true) => {
+    if (!error) return;
+    console.error(`[DB Error]${context}: ${error}`);
+    if (!shouldThrow) return;
+    throw new Error(`${context}:${error.message || error}`)
   }
 
   const getUser = async(userId: string) => {
@@ -73,8 +73,9 @@ export const useDataBase = () => {
     if (category) query = query.eq("category", category);
     if (is_pro !== undefined) query = query.eq("is_pro", is_pro);
 
-    const {data, error} = await query;
+    query = query.order("created_at", {ascending: false});
 
+    const {data, error} = await query;
     handleError(error, "Error fetching sets");
     return data as SetInsert[];
   };
@@ -87,7 +88,17 @@ export const useDataBase = () => {
       .single();
 
     handleError(error, `Error inserting set.`);
-    console.log("insert: ", data)
+    return data;
+  };
+  const updateSetToDb = async(setId: string, updateData: SetUpdate) => {
+    const {data, error} = await client
+      .from('music_sets')
+      .update(updateData)
+      .eq('id', setId)
+      .select()
+      .single()
+
+    handleError(error, `Error updating set.`);
     return data;
   };
   const removeSetFromDb = async(setId: string) => {
@@ -99,7 +110,7 @@ export const useDataBase = () => {
 
     handleError(error, `Error deleting memberTracker`)
     return status;
-  }
+  };
 
   return {
     getUser,
@@ -108,6 +119,7 @@ export const useDataBase = () => {
     getMusics,
     getSets,
     insertSet,
+    updateSetToDb,
     removeSetFromDb
   }
 

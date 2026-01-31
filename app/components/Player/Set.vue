@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import player_logo from '~/assets/img/iscim_player_logo.png';
-import type { MusicLocal } from '~/types/data.types';
 
 const musicStore = useMusicStore();
 const player = usePlayer();
-const {removeMusic, loadMusicSet} = usePlaylist();
+const {removeMusicFromSet, loadMusicSet, addToLists} = usePlaylist();
 
 const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
 
@@ -15,26 +14,38 @@ const actionOptions = [
   {title: 'remove_from_set', id: 'removeFromSet', icon: 'delete-o'}
 ];
 
-const actionHandlers: Record<string, (music: MusicLocal) => void> = {
-  next: () => player.next(),
-  add_to_set: () => console.log("add to set"),
-  removeFromSet: (music) => removeMusic(music)
-};
+const hasMusic = computed(() => {
+  const content = musicStore.currentSet?.content;
+  return Array.isArray(content) && content.length > 0;
+});
 
 const handleAction = (actionType: string) => {
+  console.log(actionType)
   if (!currentItem.value) return;
-  const handler = actionHandlers[actionType];
-  if (handler) handler(currentItem.value);
+
+  switch(actionType) {
+    case 'next':
+      addToLists(currentItem.value);
+      showSuccessToast('Add to queue');
+      break;
+    case 'removeFromSet':
+      removeMusicFromSet(currentItem.value);
+      break;
+  };
   uiState.showOptions = false;
 };
 
 const buildNewSet = () => {
   openBuildSetBar.value = true;
-}
+};
 
-const handleLoadSet = (item: any) => {
+const handlePlayMusic = (musicItem: any) => {
   musicStore.resetMusic();
-  loadMusicSet(item);
+  if (musicStore.currentSet) return;
+  loadMusicSet(musicStore.currentSet);
+  const index = musicStore.queue.findIndex((m:any) => m.src === musicItem.src);
+  if (index === -1) return;
+  player.setSourceByIndex(index);
   musicStore.setPlayerQueue(true);
 };
 
@@ -66,12 +77,13 @@ const formatIndex = (index: number) => {
         </van-row>
       </div>
 
-      <div class="set-wrapper">
-        <van-list>
+      <div class="set-wrapper custom-button">
+        <van-button v-if="musicStore.currentSet.content.length === 0">{{ $t('add_some_music') }}</van-button>
+        <van-list v-else>
           <van-cell
             v-for="(item, index) in musicStore.currentSet.content"
             :key="index"
-            @click="handleLoadSet(index)"
+            @click="handlePlayMusic(index)"
           >
             <template #title>
               <span class="index-number">{{ formatIndex(Number(index)) }}</span>

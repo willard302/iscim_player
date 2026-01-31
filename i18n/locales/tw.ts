@@ -1,4 +1,5 @@
 export default {
+  add_some_music: "新增音樂",
   add_to_play_list: "加入播放清單",
   advanced_mode: "專業",
   already_selected: "已經選擇",
@@ -87,6 +88,7 @@ export default {
     enter_location: "請輸入您的地點",
     enter_grade: "請輸入您的年級",
     enter_inviter: "請輸入您的接引人",
+    input_set_name: "請輸入歌單名稱",
     select_gender: "請選擇您的性別",
     select_country: "請選擇您的國家",
     select_city: "請選擇您的城市",
@@ -121,7 +123,6 @@ export default {
     login_successfully: "登入成功",
     password_is_different: "密碼不一樣",
     please_check: "請確認您的信箱為",
-    please_enter_a_name_for_the_set: "請輸入歌單名稱",
     please_select_a_music_at_least: "請至少選擇一首單曲",
     register_successfully: "註冊成功",
     save_successfully: "儲存成功",
@@ -269,6 +270,7 @@ export default {
   },
   Toast: {
     loading: "讀取中...",
-    removed_successfully: "移除成功"
+    removed_successfully: "移除成功",
+    delete_failed: "刪除失敗"
   }
 }

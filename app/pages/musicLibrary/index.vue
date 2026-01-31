@@ -5,7 +5,7 @@ const emit = defineEmits(['handle-play'])
 const player = usePlayer();
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
-const { addMusic, removeMusic } = usePlaylist();
+const { addMusic, removeMusicFromQueue } = usePlaylist();
 const { throttle } = useCommon();
 
 const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
@@ -38,7 +38,7 @@ const actionOptions = [
 
 const actionHandlers: Record<string, (music: MusicLocal) => void> = {
   next: () => player.next(),
-  removeFromQueue: (music) => removeMusic(music)
+  removeFromQueue: (music) => removeMusicFromQueue(music)
 };
 
 const handleAction = (actionId: string) => {
