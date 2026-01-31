@@ -1,21 +1,14 @@
 <script setup lang="ts">
-import type { FieldItem, MusicLocal } from '~/types/data.types';
-
-const {throttle} = useCommon();
-const emit = defineEmits(['remove-all', 'handle-play'])
+import type { MusicLocal } from '~/types/data.types';
+const emit = defineEmits(['handle-play'])
 
 const player = usePlayer();
 const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const { addMusic, removeMusic } = usePlaylist();
+const { throttle } = useCommon();
 
-type ActionType = 'next' | 'removeFromQueue';
-
-interface ActionOption {
-  title: string
-  id: ActionType
-  icon: string
-};
+const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
 
 const activeTab = ref(0);
 const subTabActive = reactive<Record<string, number>>({
@@ -23,13 +16,7 @@ const subTabActive = reactive<Record<string, number>>({
   custom: 0
 });
 
-const uiState = reactive({
-  showOptions: false,
-  showInfo: false
-});
-
 const currentMusic = ref<MusicLocal>();
-const fieldItems = ref<FieldItem[]>([]);
 
 const musicTabs = computed(() => [
   {
@@ -44,24 +31,20 @@ const musicTabs = computed(() => [
   }
 ]);
 
-const actionOptions: ActionOption[] = [
+const actionOptions = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
   {title: 'remove_from_queue', id: 'removeFromQueue', icon: 'delete-o'}
 ];
 
-const actionHandlers: Record<ActionType, (music: MusicLocal) => void> = {
+const actionHandlers: Record<string, (music: MusicLocal) => void> = {
   next: () => player.next(),
   removeFromQueue: (music) => removeMusic(music)
 };
 
-const handleAction = (actionType: ActionType) => {
+const handleAction = (actionId: string) => {
   if (!currentMusic.value) return;
-
-  const handler = actionHandlers[actionType];
-  if (handler) {
-    handler(currentMusic.value)
-  };
-
+  const handler = actionHandlers[actionId];
+  if (handler) handler(currentMusic.value);
   uiState.showOptions = false;
 };
 
@@ -71,30 +54,6 @@ const handleCheck = (item: any) => {
   playerStore.setExpand(true);
 };
 const throttleHandleCheck = throttle(handleCheck, 400);
-
-const openMusicOptions = (item: any) => {
-  uiState.showOptions = true;
-  currentMusic.value = item;
-};
-const openMusicInfo = () => {
-  const music = currentMusic.value;
-  if (!music) return;
-
-  fieldItems.value = transferToFields(music);  
-  uiState.showInfo = true;
-  uiState.showOptions = false;
-};
-
-const transferToFields = (music: MusicLocal): FieldItem[] => {
-  const specializeKeys = new Set(['created_at', 'created_by']);
-
-  return Object.entries(music).map(([key, value]) => ({
-    label: specializeKeys.has(key) ? key : `Music.${key}`,
-    value: String(value ?? ''),
-    name: key,
-    type: 'text'
-  }));
-};
 
 const isCurrentSong = (name: string) => {
   const noMusic = musicStore.queue.length === 0;
@@ -165,7 +124,7 @@ onMounted(() => {
                       name="ellipsis"
                       size="20"
                       class="padding-icon"
-                      @click.stop="openMusicOptions(item)"
+                      @click.stop="openOptions(item)"
                     />
                   </template>
                 </van-cell>
@@ -174,44 +133,20 @@ onMounted(() => {
           </van-tab>
         </van-tabs>
       </van-tab>
-  
-      <van-popup
+
+      <CommonActionMenuPopup 
         v-model:show="uiState.showOptions"
-        position="bottom"
-        :duration="0.3"
-        round
-      >
-        <van-cell :title="currentMusic?.name"  class="popup-header">
-          <template #right-icon>
-            <van-icon name="info-o" size="24" @click="openMusicInfo" />
-          </template>
-        </van-cell>
-        <van-cell 
-          v-for="action in actionOptions"
-          :key="action.id"
-          :title="$t(action.title)"
-          :icon="action.icon"
-          clickable
-          @click="handleAction(action.id)"
-        />
-      </van-popup>
-  
-      <van-popup
+        :title="currentItem?.name"
+        :actions="actionOptions"
+        @select="handleAction"
+        @info="openInfo()"
+      />
+
+      <CommonInfoDetailPopup 
         v-model:show="uiState.showInfo"
-        position="bottom"
-        :duration="0.3"
-        destroy-on-close
-        round
-      >
-        <van-cell 
-          :title="$t('details')" 
-          size="large" 
-          align="center" 
-          class="popup-title"
-        />
-        <FieldForm :field-items="fieldItems"/>
-      </van-popup>
-  
+        :field-items="fieldItems"
+      />
+      
     </van-tabs>
   </div>
 </template>

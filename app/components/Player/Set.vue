@@ -1,80 +1,41 @@
 <script setup lang="ts">
 import player_logo from '~/assets/img/iscim_player_logo.png';
-import type { FieldItem, MusicLocal } from '~/types/data.types';
+import type { MusicLocal } from '~/types/data.types';
 
 const musicStore = useMusicStore();
-
 const player = usePlayer();
-const {removeMusic} = usePlaylist();
+const {removeMusic, loadMusicSet} = usePlaylist();
 
-type ActionType = 'next' | 'removeFromSet';
+const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
 
-interface ActionOption {
-  title: string
-  id: ActionType
-  icon: string
-};
+const openBuildSetBar = ref(false);
 
-const { loadMusicSet } = usePlaylist();
-
-const uiState = reactive({
-  showOptions: false,
-  showInfo: false
-});
-
-const currentMusic = ref<MusicLocal>();
-const fieldItems = ref<FieldItem[]>([]);
-
-const actionOptions: ActionOption[] = [
+const actionOptions = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
   {title: 'remove_from_set', id: 'removeFromSet', icon: 'delete-o'}
 ];
+
+const actionHandlers: Record<string, (music: MusicLocal) => void> = {
+  next: () => player.next(),
+  add_to_set: () => console.log("add to set"),
+  removeFromSet: (music) => removeMusic(music)
+};
+
+const handleAction = (actionType: string) => {
+  if (!currentItem.value) return;
+  const handler = actionHandlers[actionType];
+  if (handler) handler(currentItem.value);
+  uiState.showOptions = false;
+};
+
+const buildNewSet = () => {
+  openBuildSetBar.value = true;
+}
 
 const handleLoadSet = (item: any) => {
   musicStore.resetMusic();
   loadMusicSet(item);
   musicStore.setPlayerQueue(true);
-};
-
-const actionHandlers: Record<ActionType, (music: MusicLocal) => void> = {
-  next: () => player.next(),
-  removeFromSet: (music) => removeMusic(music)
-};
-
-const handleAction = (actionType: ActionType) => {
-  if (!currentMusic.value) return;
-
-  const handler = actionHandlers[actionType];
-  if (handler) {
-    handler(currentMusic.value)
-  };
-
-  uiState.showOptions = false;
-};
-
-const openMusicOptions = (item: any) => {
-  uiState.showOptions = true;
-  currentMusic.value = item;
-};
-
-const openMusicInfo = () => {
-  const music = currentMusic.value;
-  if (!music) return;
-
-  fieldItems.value = transferToFields(music);  
-  uiState.showInfo = true;
-  uiState.showOptions = false;
-};
-
-const transferToFields = (music: MusicLocal): FieldItem[] => {
-  const specializeKeys = new Set(['created_at', 'created_by']);
-
-  return Object.entries(music).map(([key, value]) => ({
-    label: specializeKeys.has(key) ? key : `Music.${key}`,
-    value: String(value ?? ''),
-    name: key,
-    type: 'text'
-  }));
 };
 
 const formatIndex = (index: number) => {
@@ -95,12 +56,12 @@ const formatIndex = (index: number) => {
       </div>
 
       <div class="tab-controls">
-        <van-row justify="space-between" class="control-bar">
+        <van-row class="control-bar">
           <van-col>
-            <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
+            <van-button icon="play" text="播放清單" />
           </van-col>
           <van-col>
-            <van-button icon="add-square" />
+            <van-button icon="add-square" text="建立清單" @click="buildNewSet" />
           </van-col>
         </van-row>
       </div>
@@ -128,48 +89,24 @@ const formatIndex = (index: number) => {
               <van-icon 
                 name="ellipsis" 
                 size="20" 
-                @click.stop="openMusicOptions(item)" 
+                @click.stop="openOptions(item)" 
               />
             </template>
           </van-cell>
         </van-list>
       </div>
     </div>
-    <van-popup
+    <CommonActionMenuPopup 
       v-model:show="uiState.showOptions"
-      position="bottom"
-      :duration="0.3"
-      round
-    >
-      <van-cell :title="currentMusic?.name"  class="popup-header">
-        <template #right-icon>
-          <van-icon name="info-o" size="24" @click="openMusicInfo" />
-        </template>
-      </van-cell>
-      <van-cell 
-        v-for="action in actionOptions"
-        :key="action.id"
-        :title="$t(action.title)"
-        :icon="action.icon"
-        clickable
-        @click="handleAction(action.id)"
-      />
-    </van-popup>
-    <van-popup
+      :title="currentItem?.name"
+      :actions="actionOptions"
+      @select="handleAction"
+      @info="openInfo()"
+    />
+    <CommonInfoDetailPopup 
       v-model:show="uiState.showInfo"
-      position="bottom"
-      :duration="0.3"
-      destroy-on-close
-      round
-    >
-      <van-cell 
-        :title="$t('details')" 
-        size="large" 
-        align="center" 
-        class="popup-title"
-      />
-      <FieldForm :field-items="fieldItems"/>
-    </van-popup>
+      :field-items="fieldItems"
+    />
   </div>
 
 </template>
@@ -185,8 +122,21 @@ const formatIndex = (index: number) => {
   }
 }
 
+.control-bar {
+  justify-content: space-evenly;
+}
+
+.set-wrapper {
+  overflow-y: auto;
+  height: 40vh;
+}
+
 .index-number {
   margin-right: 10px;
   font-variant-numeric: tabular-nums;
+}
+
+.van-popup {
+  overflow-y: hidden;
 }
 </style>

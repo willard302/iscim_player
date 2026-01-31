@@ -4,11 +4,27 @@ import type { MusicLocal } from '~/types/data.types';
 const player = usePlayer();
 const musicStore = useMusicStore();
 const playerStore = usePlayerStore();
+const {removeAllFromQueue} = usePlaylist();
 const {throttle} = useCommon();
 
-const showMusicOption = ref(false);
-const currentMusicName = ref("");
-const currentMusicItem = ref<MusicLocal | null>(null);
+const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
+
+const actionOptions = [
+  {title: 'remove_from_queue', id: 'removeFromQueue', icon: 'delete-o'}
+];
+
+const actionHandlers: Record<string, (music: MusicLocal) => void> = {
+  next: () => player.next(),
+  add_to_set: () => console.log("add to set"),
+  removeFromQueue: () => removeList()
+};
+
+const handleAction = (actionId: string) => {
+  if (!currentItem.value) return;
+  const handler = actionHandlers[actionId];
+  if (handler) handler(currentItem.value);
+  uiState.showOptions = false;
+};
 
 const togglePlayAtIndex = (index: number) => {
   if (playerStore.index === index && playerStore.isPlaying) {
@@ -20,12 +36,10 @@ const togglePlayAtIndex = (index: number) => {
 const throttleSpecified = throttle(togglePlayAtIndex, 600);
 
 const removeList = () => {
-  if (!currentMusicItem.value) return;
-
-  const indexToRemove = musicStore.queue.findIndex(m => m.id === currentMusicItem.value?.id);
+  if (!currentItem.value) return;
+  const indexToRemove = musicStore.queue.findIndex(m => m.id === currentItem.value?.id);
+  
   if (indexToRemove === -1) return;
-
-  showMusicOption.value = false;
 
   const isRemovingCurrent = indexToRemove === playerStore.index;
   const isRemovingBefore = indexToRemove < playerStore.index;
@@ -50,12 +64,6 @@ const removeList = () => {
   };
 };
 
-const openMusicOption = (item: any) => {
-  currentMusicItem.value = item;
-  currentMusicName.value = item.name
-  showMusicOption.value = true;
-};
-
 const openQueueEditor = () => {
   musicStore.setPlayerQueueEditor(true)
 };
@@ -71,6 +79,7 @@ const openQueueEditor = () => {
     >
       <template #right>
         <van-button class="edit-btn" icon="records-o" size="small" @click="openQueueEditor" />
+        <van-button class="edit-btn" icon="delete-o" size="small" @click="removeAllFromQueue()" />
       </template>
     </SubPageHeader>
 
@@ -90,27 +99,24 @@ const openQueueEditor = () => {
             @click="throttleSpecified(idx)"
           >
             <template #right-icon>
-              <van-icon class="more-icon" name="weapp-nav" @click.stop="openMusicOption(list)" />
+              <van-icon class="more-icon" name="weapp-nav" @click.stop="openOptions(list)" />
             </template>
           </van-cell>
         </van-list>
       </div>
 
-      <van-popup
-        class="sub-options"
-        v-model:show="showMusicOption"
-        position="bottom"
-        round
-      >
-        <van-cell class="popup-title" :title="currentMusicName" >
-          <template #right-icon>
-            <van-icon name="info-o" size="24" />
-          </template>
-        </van-cell>
-        <van-cell :title="$t('Music.next')" icon="play-circle-o" clickable />
-        <van-cell :title="$t('add_to_play_list')" icon="plus" clickable />
-        <van-cell :title="$t('remove_from_queue')" icon="minus" @click="removeList" clickable />
-      </van-popup>
+      <CommonActionMenuPopup 
+        v-model:show="uiState.showOptions"
+        :title="currentItem?.name"
+        :actions="actionOptions"
+        @select="handleAction"
+        @info="openInfo()"
+      />
+
+      <CommonInfoDetailPopup
+        v-model:show="uiState.showInfo"
+        :field-items="fieldItems"
+      />
     </div>
   </div>
 </template>
@@ -126,7 +132,6 @@ const openQueueEditor = () => {
 }
 
 .queue-list-wrapper {
-  flex: 1;
   overflow-y: auto;
   padding-bottom: calc(20px + env(safe-area-inset-bottom));
 

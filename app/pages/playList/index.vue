@@ -1,9 +1,11 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
 const player = usePlayer();
+const { saveSet, removeSet } = usePlaylist();
+
+const {uiState, fieldItems, currentItem, openOptions, openInfo} = useMusicDetail();
 
 const acitveLoadSetTab = ref(0);
-const showSetOption = ref(false);
 
 const actionOptions = reactive([
   {title: 'play', id: 'playCurrentSet', icon: 'play-circle-o', action: player.next },
@@ -11,15 +13,27 @@ const actionOptions = reactive([
   {title: 'delete', id: 'removeCurrentSet', icon: 'delete-o', action: player.next }
 ]);
 
+const handleAction = (id: string) => {
+  console.log(id)
+  if (id === 'play') player.next(); 
+  if (id === 'rename') player.next(); // 替換為實際邏輯
+  if (id === 'removeCurrentSet') {
+    removeSet(currentItem.value.id);
+  }
+  uiState.showOptions = false;
+};
+
 const openCurrentSet = (item: any) => {
   musicStore.currentSet = item;
   musicStore.setPlayerSet(true);
 };
 
-const openSetOption = (item: any) => {
-  musicStore.currentSet = item;
-  showSetOption.value = true;
+const buildNewSet = () => {
+  musicStore.initNewSet()
+  uiState.showDialog = true;
 };
+
+const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at'];
 
 </script>
 
@@ -36,7 +50,7 @@ const openSetOption = (item: any) => {
             <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
           </van-col>
           <van-col>
-            <van-button icon="add-square" />
+            <van-button icon="add-square" @click="buildNewSet" />
           </van-col>
         </van-row>
       </div>
@@ -62,31 +76,35 @@ const openSetOption = (item: any) => {
                 />
               </template>
               <template #right-icon>
-                <van-icon name="ellipsis" size="20" @click.stop="openSetOption(item)" />
+                <van-icon name="ellipsis" size="20" @click.stop="openOptions(item)" />
               </template>
             </van-cell>
           </van-cell-group>
         </div>
       </van-tab>
     </van-tabs>
-    <van-popup
-      v-model:show="showSetOption"
-      position="bottom"
-      :duration="0.3"
+
+    <CommonActionMenuPopup 
+      v-model:show="uiState.showOptions"
+      :title="currentItem?.name"
+      :actions="actionOptions"
+      @select="handleAction"
+      @info="openInfo(specificFields)"
+    />
+    <CommonInfoDetailPopup 
+      v-model:show="uiState.showInfo"
+      :field-items="fieldItems"
+    />
+    <van-dialog
+      v-model:show="uiState.showDialog"
+      @confirm="saveSet"
     >
-      <van-cell :title="musicStore.currentSet.name" >
-        <template #right-icon>
-          <van-icon name="info-o" size="24" />
-        </template>
-      </van-cell>
-      <van-cell 
-        v-for="(item, index) in actionOptions"
-        :key="index"
-        :title="$t(item.title)"
-        :icon="item.icon"
-        @click="item.action"
-      />
-    </van-popup>
+      <van-cell-group inset>
+        <van-field v-model="musicStore.newSet.name" label="歌單名稱" placeholder="請輸入歌單名稱" />
+        <van-field v-model="musicStore.newSet.intro" label="歌單簡介" placeholder="請輸入歌單簡介" />
+      </van-cell-group>
+
+    </van-dialog>
   </div>
 </template>
 
