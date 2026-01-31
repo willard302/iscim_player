@@ -118,7 +118,6 @@ export default {
   },
   Message: {
     if_you_have_not_received_the_letter_or_need_to_reverify:"如果您沒有收到認證信件，或是需要再次寄送認證信件",
-    loading: "讀取中",
     login_successfully: "登入成功",
     password_is_different: "密碼不一樣",
     please_check: "請確認您的信箱為",
@@ -267,5 +266,9 @@ export default {
     custom: "客製化清單",
     five_elements: "五行音樂清單",
     numbers: "數字音樂清單"
+  },
+  Toast: {
+    loading: "讀取中...",
+    removed_successfully: "移除成功"
   }
 }

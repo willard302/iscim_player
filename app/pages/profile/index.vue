@@ -16,7 +16,7 @@ const isEditable = ref(false);
 const onSubmit = async (val: Partial<UserRow>) => {
   if (!mainStore.userInfo || !mainStore.userInfo.id) throw new Error("There is no user data or user id.");
 
-  showLoadingToast($t("Message.loading"));
+  showLoadingToast($t("Toast.loading"));
 
   mainStore.setUser(val)
   await updateUser(mainStore.userInfo.id, mainStore.userInfo);

@@ -118,7 +118,6 @@ export default {
   },
   Message: {
     if_you_have_not_received_the_letter_or_need_to_reverify: "If you have not received the letter or need to reverify",
-    loading: "Loading",
     login_successfully: "Login successfully",
     password_is_different: "Password is different",
     please_check: "Please check your email at",
@@ -266,5 +265,9 @@ export default {
     custom: "Custom",
     five_elements: "Five Elements",
     numbers: "Numbers"
+  },
+  Toast: {
+    loading: "Loading...",
+    removed_successfully: "Removed successfully"
   }
 }
