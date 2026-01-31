@@ -35,10 +35,7 @@ const onAfterRead: UploaderAfterRead = async (item) => {
   const user_id = mainStore.userInfo.id;
   const oldUrl = mainStore.userInfo.avatar_url;
 
-  const loading = showLoadingToast({
-    message: "updating...",
-    duration: 0
-  });
+  const loading = showLoadingToast($t("Toast.loading"));
 
   try {
     const uploadResult = await uploadFile(fileItem, "iscim_avatar");
