@@ -65,6 +65,7 @@ export const usePlayer = () => {
     };
     audio.onended = () => {
       const isLast = playerStore.index >= musicStore.queue.length - 1;
+      playerStore.currentTime = '00:00';
       switch(playerStore.loop) {
         case LoopMode.ONE:
           playIndex(playerStore.index);
