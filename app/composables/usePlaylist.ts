@@ -1,5 +1,5 @@
 import type { ChakraType } from "~/types/data.types";
-import type { MusicRow, SetInsert, SetRow } from "~/types/supabase";
+import type { MusicInsert, MusicRow, SetInsert, SetRow } from "~/types/supabase";
 
 export const usePlaylist = () => {
   
@@ -7,6 +7,8 @@ export const usePlaylist = () => {
   const musicStore = useMusicStore();
   const mainStore = useMainStore();
   const player = usePlayer();
+  const {removeSetFromDb} = useDataBase();
+  const {t} = useI18n();
 
   const addToLists = (item: any) => {
     musicStore.queue.unshift(item);
@@ -66,41 +68,33 @@ export const usePlaylist = () => {
     musicStore.newSet.category = 'custom';
     musicStore.newSet.created_by = mainStore.userInfo.name;
     musicStore.newSet.is_pro = true;
-    // let queue: MusicInsert[] = []
-    // musicStore.queue.forEach((e: any) => {
+    musicStore.newSet.content = JSON.stringify([]);
 
-    //   const musicItem: MusicRow = {
-    //     id: e.id,
-    //     name: e.name,
-    //     src: e.src,
-    //     intro: e.intro || null,
-    //     category: e.category || 'custom',
-    //     created_at: e.created_at || new Date().toISOString(),
-    //     created_by: e.created_by || ''
-    //   };
-
-    //   queue.push(musicItem);
-
-    //   if (e.chakra) musicStore.newSet.chakras?.push(e.chakra);
-    // });
-    // musicStore.newSet.content = JSON.stringify(queue);
-
-    console.log(musicStore.newSet)
 
     const result = await insertSet(musicStore.newSet);
     console.log(result)
-
+    musicStore.currentSet = musicStore.newSet;
+    musicStore.setPlayerSet(true);
     // musicStore.initNewSet();
   };
 
-  const removeSet = (item: SetRow) => {
-    const idx = musicStore.subSet.findIndex(s => s.id === item.id);
-    if (idx > -1) musicStore.subSet.splice(idx, 1);
+  const removeSet = async(setId: string) => {
+    const sets_custom = musicStore.subSet.find(item => item.id === 'custom');
+    const idx = sets_custom?.menu.findIndex(s => s.id === setId);
+    if (!idx || idx === -1) return;
+    sets_custom?.menu.splice(idx, 1);
+    const res = await removeSetFromDb(setId);
+    if (res === 204) showSuccessToast(t(`Toast.removed_successfully`))
   };
 
   const removeMusic = (music:any) => {
   
     console.log(music)
+  };
+
+  const removeAllFromQueue = () => {
+    musicStore.resetMusic();
+    playerStore.resetPlayer();
   };
 
   const addChakra = (item: ChakraType) => {
@@ -114,6 +108,7 @@ export const usePlaylist = () => {
     loadMusicSet,
     saveSet,
     removeSet,
-    removeMusic
+    removeMusic,
+    removeAllFromQueue
   }
 }

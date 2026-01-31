@@ -89,6 +89,16 @@ export const useDataBase = () => {
     handleError(error, `Error inserting set.`);
     console.log("insert: ", data)
     return data;
+  };
+  const removeSetFromDb = async(setId: string) => {
+    if (!setId) return;
+    const { error, status } = await client
+      .from("music_sets")
+      .delete()
+      .eq("id", setId)
+
+    handleError(error, `Error deleting memberTracker`)
+    return status;
   }
 
   return {
@@ -97,7 +107,8 @@ export const useDataBase = () => {
     updateUser,
     getMusics,
     getSets,
-    insertSet
+    insertSet,
+    removeSetFromDb
   }
 
 }
