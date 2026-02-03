@@ -8,16 +8,20 @@ const {removeMusicFromSet, loadMusicSet, addToLists} = usePlaylist();
 const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
 
 const openBuildSetBar = ref(false);
+const currentSetContent = ref([]);
 
 const actionOptions = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
   {title: 'remove_from_set', id: 'removeFromSet', icon: 'delete-o'}
 ];
 
-const hasMusic = computed(() => {
-  const content = musicStore.currentSet?.content;
-  return Array.isArray(content) && content.length > 0;
-});
+const hasMusic = computed(() => currentSetContent.value.length > 0);
+
+onMounted(() => {
+  if (!musicStore.currentSet ) return;
+  if (Array.isArray(musicStore.currentSet.content)) return;
+  currentSetContent.value = JSON.parse(musicStore.currentSet.content);
+})
 
 const handleAction = (actionType: string) => {
   console.log(actionType)
@@ -67,7 +71,7 @@ const formatIndex = (index: number) => {
       </div>
 
       <div class="tab-controls">
-        <van-row class="control-bar">
+        <van-row class="control-bar custom-button">
           <van-col>
             <van-button icon="play" text="播放清單" />
           </van-col>
@@ -77,13 +81,15 @@ const formatIndex = (index: number) => {
         </van-row>
       </div>
 
+      <van-divider />
+
       <div class="set-wrapper custom-button">
-        <van-button v-if="musicStore.currentSet.content.length === 0">{{ $t('add_some_music') }}</van-button>
+        <van-button v-if="!hasMusic">{{ $t('add_some_music') }}</van-button>
         <van-list v-else>
           <van-cell
             v-for="(item, index) in musicStore.currentSet.content"
             :key="index"
-            @click="handlePlayMusic(index)"
+            @click="handlePlayMusic(item)"
           >
             <template #title>
               <span class="index-number">{{ formatIndex(Number(index)) }}</span>
@@ -93,8 +99,8 @@ const formatIndex = (index: number) => {
               <van-text-ellipsis
                 :rows="2"
                 :content="String(item.intro)"
-                expand-text="show"
-                collapse-text="hide"
+                expand-text=""
+                collapse-text=""
               />
             </template>
             <template #right-icon>
@@ -141,6 +147,13 @@ const formatIndex = (index: number) => {
 .set-wrapper {
   overflow-y: auto;
   height: 40vh;
+
+  &.custom-button {
+    text-align: center;
+    .van-button {
+      width: 76%;
+    }
+  }
 }
 
 .index-number {
