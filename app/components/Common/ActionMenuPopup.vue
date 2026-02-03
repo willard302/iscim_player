@@ -23,6 +23,7 @@ const close = () => emit('update:show', false);
 <template>
   <van-popup
     :show="show"
+    class="sub-options"
     position="bottom"
     :duration="0.3"
     round

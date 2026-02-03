@@ -113,10 +113,10 @@ onMounted(() => {
                 >
                   <template #label>
                     <van-text-ellipsis
-                      rows="2"
+                      rows="1"
                       :content="String(item.intro)"
-                      expand-text="show"
-                      collapse-text="hide"
+                      expand-text=""
+                      collapse-text=""
                     />
                   </template>
                   <template #right-icon>
