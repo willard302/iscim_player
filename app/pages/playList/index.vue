@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
-const player = usePlayer();
 const { saveSet, removeSet } = usePlaylist();
 const { updateSetToDb } = useDataBase();
 

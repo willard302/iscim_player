@@ -62,7 +62,7 @@ const handleAddInto = () => {
 <template>
   <div class="queue-editor-fullscreen fullscreen">
     <SubPageHeader
-      left-icon="arrow-down"
+      left-icon="arrow-left"
       @click-left="closeQueueEditor"
     >
       <template #title>

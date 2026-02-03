@@ -140,6 +140,14 @@ const openQueueEditor = () => {
     transition: background-color 0.2s;
   }
 
+  :deep(.van-cell__title) {
+    flex: 1 1 70%;
+  }
+
+  :deep(.van-cell__value) {
+    text-align: center;
+  }
+
   .playing {
     color: var(--van-primary-color);
     background-color: var(--van-background-2);

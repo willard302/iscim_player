@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const mainStore = useMainStore();
 const musicStore = useMusicStore();
-const router = useRouter();
 
 const showPickerChakras = ref(false);
 const pickerValue = ref([]);
