@@ -18,6 +18,7 @@ export const useMusicStore = defineStore("music", () => {
     openQueue: false,
     openQueueEditor: false,
     openSet: false,
+    openSetOrderMusic: false,
     name: "Hints.select_music",
     queue: [],
     subMusic: [],
@@ -41,6 +42,10 @@ export const useMusicStore = defineStore("music", () => {
 
   const setPlayerSet = (value: boolean) => {
     state.openSet = value;
+  };
+
+  const setPlayerSetOrderMusic = (value: boolean) => {
+    state.openSetOrderMusic = value;
   };
 
   const setPlayerQueue = (value: boolean) => {
@@ -164,6 +169,7 @@ export const useMusicStore = defineStore("music", () => {
     setPlayerQueue,
     setPlayerQueueEditor,
     setPlayerSet,
+    setPlayerSetOrderMusic,
     composeMusic,
     resetMusic,
     initNewSet,

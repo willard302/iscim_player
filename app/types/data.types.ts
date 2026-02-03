@@ -40,6 +40,7 @@ export type MusicStoreState = {
   openQueue: boolean
   openQueueEditor: boolean
   openSet: boolean
+  openSetOrderMusic: boolean
   name: string
   queue: any[]
   subMusic: SubMusic[]

@@ -56,6 +56,10 @@ const handlePlayMusic = (musicItem: any) => {
 const formatIndex = (index: number) => {
   return String(index + 1).padStart(2, '0');
 };
+
+const handleAddMusic = () => {
+  musicStore.setPlayerSetOrderMusic(true);
+};
 </script>
 
 <template>
@@ -84,7 +88,7 @@ const formatIndex = (index: number) => {
       <van-divider />
 
       <div class="set-wrapper custom-button">
-        <van-button v-if="!hasMusic">{{ $t('add_some_music') }}</van-button>
+        <van-button v-if="!hasMusic" @click="handleAddMusic">{{ $t('add_some_music') }}</van-button>
         <van-list v-else>
           <van-cell
             v-for="(item, index) in musicStore.currentSet.content"
