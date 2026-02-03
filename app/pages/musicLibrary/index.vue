@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { MusicLocal } from '~/types/data.types';
+
 const emit = defineEmits(['handle-play'])
 
 const player = usePlayer();
@@ -7,16 +8,13 @@ const playerStore = usePlayerStore();
 const musicStore = useMusicStore();
 const { addMusic, removeMusicFromQueue } = usePlaylist();
 const { throttle } = useCommon();
+const { uiState, currentItem, fieldItems, openOptions, openInfo } = useMusicDetail();
 
-const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
-
-const activeTab = ref(0);
+const activeTab = ref('system');
 const subTabActive = reactive<Record<string, number>>({
   system: 0,
   custom: 0
 });
-
-const currentMusic = ref<MusicLocal>();
 
 const musicTabs = computed(() => [
   {
@@ -36,31 +34,33 @@ const actionOptions = [
   {title: 'remove_from_queue', id: 'removeFromQueue', icon: 'delete-o'}
 ];
 
-const actionHandlers: Record<string, (music: MusicLocal) => void> = {
-  next: () => player.next(),
-  removeFromQueue: (music) => removeMusicFromQueue(music)
-};
-
 const handleAction = (actionId: string) => {
-  if (!currentMusic.value) return;
-  const handler = actionHandlers[actionId];
-  if (handler) handler(currentMusic.value);
+  const targetMusic = currentItem.value;
+  if (!targetMusic) return;
+
+  switch (actionId) {
+    case "next":
+      player.next();
+      break;
+    case "removeFromQueue":
+      removeMusicFromQueue(targetMusic);
+      break;
+  };
   uiState.showOptions = false;
 };
 
-const handleCheck = (item: any) => {
+const handleCheck = (item: MusicLocal) => {
   addMusic(item);
   player.playIndex(0);
   playerStore.setExpand(true);
 };
+
 const throttleHandleCheck = throttle(handleCheck, 400);
 
-const isCurrentSong = (name: string) => {
-  const noMusic = musicStore.queue.length === 0;
-  const someMusicPlaying = playerStore.currentSong?.name === name;
-  if (noMusic) return false;
-  if (someMusicPlaying) return true;
-}
+const isCurrentSong = (name: string):boolean => {
+  if (musicStore.queue.length === 0) return false;
+  return playerStore.currentSong?.name === name;
+};
 
 onMounted(() => {
   if(!musicStore.isPro) return;
@@ -76,11 +76,13 @@ onMounted(() => {
       class="custom-tab"
       sticky
       type="card"
+      animated
+      swipeable
     >
       <van-tab
-        v-for="tab in musicTabs"
-        :key="tab.key"
-        :name="tab.name"
+        v-for="(tab, tabIdx) in musicTabs"
+        :key="tabIdx"
+        :name="tab.key"
         :title="$t(tab.name)"
       >
         <van-tabs
@@ -89,9 +91,11 @@ onMounted(() => {
           class="inner-tabs"
         >
           <div class="tab-controls">
-            <van-row justify="space-between" class="control-bar">
+            <van-row align="center" justify="space-between" class="control-bar">
               <van-col>
-                <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
+                <van-button icon="fire-o" size="small" plain>
+                  {{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}
+                </van-button>
               </van-col>
             </van-row>
           </div>
@@ -109,7 +113,7 @@ onMounted(() => {
                   clickable
                   @click="throttleHandleCheck(item)"
                   :icon="isCurrentSong(item.name) ? 'play' : ''"
-                  :class="[{current: isCurrentSong(item.name)}, 'ellipsis']"
+                  :class="{'current-song': isCurrentSong(item.name)}"
                 >
                   <template #label>
                     <van-text-ellipsis
@@ -120,12 +124,9 @@ onMounted(() => {
                     />
                   </template>
                   <template #right-icon>
-                    <van-icon 
-                      name="ellipsis"
-                      size="20"
-                      class="padding-icon"
-                      @click.stop="openOptions(item)"
-                    />
+                    <div class="action-area" @click.stop="openOptions(item)">
+                      <van-icon name="ellipsis" size="20" />
+                    </div>
                   </template>
                 </van-cell>
               </van-cell-group>
@@ -133,21 +134,19 @@ onMounted(() => {
           </van-tab>
         </van-tabs>
       </van-tab>
-
-      <CommonActionMenuPopup 
-        v-model:show="uiState.showOptions"
-        :title="currentItem?.name"
-        :actions="actionOptions"
-        @select="handleAction"
-        @info="openInfo()"
-      />
-
-      <CommonInfoDetailPopup 
-        v-model:show="uiState.showInfo"
-        :field-items="fieldItems"
-      />
-      
     </van-tabs>
+    <CommonActionMenuPopup 
+      v-model:show="uiState.showOptions"
+      :title="currentItem?.name"
+      :actions="actionOptions"
+      @select="handleAction"
+      @info="openInfo()"
+    />
+
+    <CommonInfoDetailPopup 
+      v-model:show="uiState.showInfo"
+      :field-items="fieldItems"
+    />
   </div>
 </template>
 
@@ -165,6 +164,10 @@ onMounted(() => {
 .tab-controls {
   padding: 0px 10px;
 
+  .van-button--plain {
+    background: #ead1fc;
+  }
+
   :deep(.van-icon-fire-o) {
     color: red;
   }
@@ -177,6 +180,11 @@ onMounted(() => {
 .current {
   color: var(--van-primary-color);
   font-weight: bold;
+}
+
+.action-area {
+  @include flex-center;
+  padding: 6px 3px;
 }
 
 .scrollable-list {
