@@ -82,28 +82,11 @@ const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at']
         :key="mIdx"
         :title="$t(m.name)"
       >
-        <div class="scrollable-list">
-          <van-cell-group inset>
-            <van-cell
-              v-for="(item, index) in m.menu"
-              :key="index"
-              :title="item.name"
-              clickable
-              @click="openCurrentSet(item)"
-            >
-              <template #label>
-                <van-text-ellipsis
-                  :content="String(item.intro)"
-                  expand-text=""
-                  collapse-text=""
-                />
-              </template>
-              <template #right-icon>
-                <van-icon name="ellipsis" size="20" @click.stop="openOptions(item)" />
-              </template>
-            </van-cell>
-          </van-cell-group>
-        </div>
+        <CommonMusicList 
+          :items="m.menu"
+          @click-item="openCurrentSet"
+          @click-option="openOptions"
+        />
       </van-tab>
     </van-tabs>
 
