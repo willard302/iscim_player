@@ -70,16 +70,13 @@ const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at']
       type="card"
       class="custom-tab"
     >
-      <div class="tab-controls">
-        <van-row justify="space-between" class="control-bar">
-          <van-col>
-            <van-button icon="fire-o">{{ $t(musicStore.chakra.name ?? 'Chakra.balance') }}</van-button>
-          </van-col>
+      <CommonControlBar>
+        <template #right>
           <van-col>
             <van-button icon="add-square" @click="buildNewSet" />
           </van-col>
-        </van-row>
-      </div>
+        </template>
+      </CommonControlBar>
       <van-tab
         v-for="(m, mIdx) in musicStore.subSet"
         :key="mIdx"
@@ -151,14 +148,6 @@ const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at']
 
 :deep(.van-dialog) {
   padding-top: 10px;
-}
-
-.tab-controls {
-  padding: 0px 10px;
-
-  :deep(.van-icon-fire-o) {
-    color: red;
-  }
 }
 
 .van-cell-group--inset {

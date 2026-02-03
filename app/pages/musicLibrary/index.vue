@@ -90,7 +90,8 @@ onMounted(() => {
           type="card"
           class="inner-tabs"
         >
-          <div class="tab-controls">
+          <CommonControlBar />
+          <!-- <div class="tab-controls">
             <van-row align="center" justify="space-between" class="control-bar">
               <van-col>
                 <van-button icon="fire-o" size="small" plain>
@@ -98,7 +99,7 @@ onMounted(() => {
                 </van-button>
               </van-col>
             </van-row>
-          </div>
+          </div> -->
           <van-tab
             v-for="(subMusic, subIdx) in tab.data"
             :key="subIdx"
@@ -153,28 +154,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 @use 'sass:color';
 
-* {
-  --control-bar-height: 44px;
-}
-
 :deep(.van-popup) {
   position: absolute;
-}
-
-.tab-controls {
-  padding: 0px 10px;
-
-  .van-button--plain {
-    background: #ead1fc;
-  }
-
-  :deep(.van-icon-fire-o) {
-    color: red;
-  }
-}
-
-.control-bar {
-  height: var(--control-bar-height);
 }
 
 .current {
@@ -190,7 +171,7 @@ onMounted(() => {
 .scrollable-list {
   overflow-y: auto;
   padding-bottom: 10px;
-  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-height) - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
+  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-h) - var(--header-h) - var(--tabbar-h) - var(--sat) - var(--sab));
 
   .van-cell-group--inset {
     --van-cell-group-inset-padding: 0;
@@ -198,7 +179,7 @@ onMounted(() => {
 }
 
 .showMiniBar .scrollable-list {
-  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-height) - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
+  height: calc(100dvh - var(--van-tabs-card-height)*2 - var(--control-bar-h) - var(--header-h) - var(--tabbar-h) - var(--minibar-h) - var(--sat) - var(--sab));
 }
 
 .van-cell-group--inset {
