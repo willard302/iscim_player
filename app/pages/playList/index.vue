@@ -98,8 +98,8 @@ const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at']
               <template #label>
                 <van-text-ellipsis
                   :content="String(item.intro)"
-                  expand-text="show"
-                  collapse-text="hide"
+                  expand-text=""
+                  collapse-text=""
                 />
               </template>
               <template #right-icon>
