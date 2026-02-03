@@ -95,7 +95,8 @@ export const usePlaylist = () => {
       const sets_custom = musicStore.subSet.find(item => item.id === 'custom');
       if (sets_custom) {
         const idx = sets_custom?.menu.findIndex(s => s.id === setId);
-        if (idx === -1) sets_custom.menu.splice(idx, 1);
+        if (idx === -1) return;
+        sets_custom.menu.splice(idx, 1);
       }
       showSuccessToast(t(`Toast.removed_successfully`))
     } catch (error) {
