@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
-const playerStore = usePlayerStore();
 </script>
 
 <template>

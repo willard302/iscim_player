@@ -1,4 +1,3 @@
-import type { Database } from "~/types/database.types";
 import type { SetInsert, SetUpdate, UserInsert, UserUpdate } from "~/types/supabase";
 
 export const useDataBase = () => {

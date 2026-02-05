@@ -1,7 +1,5 @@
 import type { ChakraType } from "~/types/data.types";
 import type { MusicLocal, MusicRow, SetInsert } from "~/types/supabase";
-import { useI18n } from "#imports";
-import {showFailToast, showSuccessToast, showToast} from "vant";
 
 export const usePlaylist = () => {
   

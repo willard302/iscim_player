@@ -1,6 +1,5 @@
 import type { PlayerStoreState } from "~/types/data.types";
 import type { MusicLocal } from "~/types/supabase";
-import { reactive } from "vue";
 
 const defaultState = (): PlayerStoreState => ({
   isPlaying: false,

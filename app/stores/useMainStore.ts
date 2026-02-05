@@ -1,6 +1,5 @@
 import type { MainStoreState } from "~/types/data.types";
 import type { UserRow, UserUpdate } from "~/types/supabase";
-import { reactive } from "vue";
 
 export const useMainStore = defineStore('main', () => {
 

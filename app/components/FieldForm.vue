@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonItem, FieldItem, FieldOption, Picker } from '~/types/data.types';
+import type { ButtonItem, FieldItem, Picker } from '~/types/data.types';
 const { t } = useI18n();
 
 const props = defineProps<{

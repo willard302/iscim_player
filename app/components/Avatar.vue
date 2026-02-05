@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useStorage } from '~/composables/useStorage';
-import { useDataBase } from '~/composables/useDataBase';
 import avatar_default from '~/assets/img/avatar.png';
 import type { UploaderFileListItem } from 'vant';
 import type { UploaderAfterRead } from 'vant/es';
 
 const { uploadFile, deleteFile } = useStorage();
-const { updateUser, getUser } = useDataBase();
+const { updateUser } = useDataBase();
 const mainStore = useMainStore();
 
 const getAvatarUrl = () => mainStore.userInfo.avatar_url || avatar_default;
