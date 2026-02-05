@@ -271,5 +271,16 @@ export default {
     loading: "Loading...",
     removed_successfully: "Removed successfully",
     delete_failed: "Delete failed"
-  }
+  },
+  整體脈輪: "整體脈輪",
+  平衡脈輪: "平衡脈輪",
+  無始輪: "無始輪",
+  無名輪: "無名輪",
+  名色輪: "名色輪",
+  如意輪: "如意輪",
+  太陽叢輪: "太陽叢輪",
+  明心輪: "明心輪",
+  智慧輪: "智慧輪",
+  法眼輪: "法眼輪",
+  禪心輪: "禪心輪"
 }

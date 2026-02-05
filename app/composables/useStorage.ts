@@ -1,7 +1,7 @@
 import type { UploaderFileListItem } from "vant";
 export const useStorage = () => {
 
-  const client = useSupabaseClient();
+  const client = useTypedSupabase();
   
   const uploadFile = async(
     files: UploaderFileListItem | UploaderFileListItem[], 
@@ -44,7 +44,7 @@ export const useStorage = () => {
       })
     );
 
-    return results.filter(url => url !== "");
+    return results.filter((url:string) => url !== "");
   };
 
   const deleteFile = async(

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { MusicLocal } from '~/types/data.types';
-import type { SetInsert } from '~/types/supabase';
+import type { MusicLocal, SetInsert } from '~/types/supabase';
 
 interface Props {
   items?: MusicLocal[] | SetInsert[]

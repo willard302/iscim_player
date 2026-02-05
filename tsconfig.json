@@ -18,5 +18,6 @@
   "include": [
     "types/**/*.ts",
     "types/**/*.d.ts"
-  ]
+  ],
+  "extends": "./.nuxt/tsconfig.json"
 }

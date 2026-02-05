@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MusicLocal } from '~/types/data.types';
+import type { MusicLocal } from '~/types/supabase';
 
 const player = usePlayer();
 const musicStore = useMusicStore();

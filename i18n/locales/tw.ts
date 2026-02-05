@@ -272,5 +272,16 @@ export default {
     loading: "讀取中...",
     removed_successfully: "移除成功",
     delete_failed: "刪除失敗"
-  }
+  },
+  整體脈輪: "Overall",
+  平衡脈輪: "Balance",
+  無始輪: "Root",
+  無名輪: "Sacral",
+  名色輪: "Navel",
+  如意輪: "Waist",
+  太陽叢輪: "Solar_plexus",
+  明心輪: "Heart",
+  智慧輪: "Pineal",
+  法眼輪: "Third_eye",
+  禪心輪: "Crown",
 }

@@ -25,7 +25,8 @@ const onChange = (page: number) => {
 
 <style scoped lang="scss">
 .van-tabbar {
-  max-width: var(--layout-max-width);
   position: absolute;
+  max-width: var(--layout-max-width);
+  box-shadow: 0px 0px 2px $black;
 }
 </style>

@@ -13,6 +13,7 @@ export const useMusicStore = defineStore("music", () => {
     idx: 0,
     lists: []
   });
+  const currentSet = ref<SetInsert>();
 
   const state = reactive<Omit<MusicStoreState, 'isPro' | 'chakra'>>({
     openQueue: false,
@@ -30,9 +31,8 @@ export const useMusicStore = defineStore("music", () => {
       category: "custom",
       is_pro: true,
       chakras: [],
-      content: ""
+      content: []
     } as SetInsert,
-    currentSet: {},
     slidePercent: 0,
     diskRotation: 0,
     isDragging: false,
@@ -165,6 +165,7 @@ export const useMusicStore = defineStore("music", () => {
     ...toRefs(state),
     isPro,
     chakra,
+    currentSet,
     setLoop,
     setPlayerQueue,
     setPlayerQueueEditor,
@@ -179,6 +180,6 @@ export const useMusicStore = defineStore("music", () => {
 },
 {
   persist: {
-    pick: ['isPro', 'chakra']
+    pick: ['isPro', 'chakra', 'currentSet']
   }
 })

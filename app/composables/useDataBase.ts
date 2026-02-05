@@ -3,14 +3,14 @@ import type { SetInsert, SetUpdate, UserInsert, UserUpdate } from "~/types/supab
 
 export const useDataBase = () => {
 
-  const client = useSupabaseClient<Database>();
+  const client = useTypedSupabase();
   
   const handleError = (error: any, context: string, shouldThrow = true) => {
     if (!error) return;
     console.error(`[DB Error]${context}: ${error}`);
     if (!shouldThrow) return;
     throw new Error(`${context}:${error.message || error}`)
-  }
+  };
 
   const getUser = async(userId: string) => {
     const {data, error} = await client

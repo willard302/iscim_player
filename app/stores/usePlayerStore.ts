@@ -1,4 +1,6 @@
-import type { MusicLocal, PlayerStoreState } from "~/types/data.types";
+import type { PlayerStoreState } from "~/types/data.types";
+import type { MusicLocal } from "~/types/supabase";
+import { reactive } from "vue";
 
 const defaultState = (): PlayerStoreState => ({
   isPlaying: false,
@@ -35,7 +37,7 @@ export const usePlayerStore = defineStore("player", () => {
 },
 {
   persist: {
-    afterHydrate: (ctx) => {
+    afterHydrate: (ctx: any) => {
       ctx.store.isPlaying = false;
       ctx.store.isExpanded = false;
     }

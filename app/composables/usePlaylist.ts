@@ -1,5 +1,7 @@
-import type { ChakraType, MusicLocal } from "~/types/data.types";
-import type { MusicInsert, MusicRow, MusicUpdate, SetInsert, SetRow } from "~/types/supabase";
+import type { ChakraType } from "~/types/data.types";
+import type { MusicLocal, MusicRow, SetInsert } from "~/types/supabase";
+import { useI18n } from "#imports";
+import {showFailToast, showSuccessToast, showToast} from "vant";
 
 export const usePlaylist = () => {
   
@@ -69,8 +71,8 @@ export const usePlaylist = () => {
       is_pro: true,
       chakras: musicStore.newSet.chakras ?? [],
       content: typeof musicStore.newSet.content === 'string'
-        ? musicStore.newSet.content
-        : JSON.stringify(musicStore.newSet.content ?? [])
+        ? JSON.parse(musicStore.newSet.content ?? [])
+        : musicStore.newSet.content
     };
 
     try {
@@ -107,9 +109,9 @@ export const usePlaylist = () => {
   const removeMusicFromSet = async(musicToRemove: any) => {
     if (!musicStore.currentSet || !musicStore.currentSet.id) return;
 
-    const currentContent = musicStore.currentSet.content as any[];
+    const currentContent = musicStore.currentSet.content;
 
-    const newContent = currentContent.filter(song => song.src !== musicToRemove.src);
+    const newContent = currentContent.filter((song: any) => song.src !== musicToRemove.src);
 
     if (newContent.length === currentContent.length) return;
 

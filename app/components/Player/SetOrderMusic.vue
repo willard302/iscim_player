@@ -4,6 +4,7 @@ const musicStore = useMusicStore();
 const activeTab = ref(0);
 const showPickerChakras = ref(false);
 const pickerValue = ref([]);
+const selectedItem = ref<any>();
 
 const subTabActive = reactive<Record<string, number>>({
   system: 0,
@@ -25,7 +26,6 @@ const musicTabs = computed(() => [
 
 const subChakra = computed(() => [
   { text: $t("Chakra.balance"), idx: 0, value: "Balance" },
-  { text: $t("Chakra.overall"), idx: 99, value: "OverAll" },
   { text: $t("Chakra.root"), idx: 1, value: "Root" },
   { text: $t("Chakra.sacral"), idx: 2, value: "Sacral" },
   { text: $t("Chakra.navel"), idx: 3, value: "Navel" },
@@ -37,6 +37,16 @@ const subChakra = computed(() => [
   { text: $t("Chakra.crown"), idx: 9, value: "Crown" },
 ]);
 
+const handleSelectChakra = (item: any) => {
+  selectedItem.value = item;
+  showPickerChakras.value = true;
+};
+
+const handleAddToSet = (item: any) => {
+  musicStore.currentSet?.content.push(item);
+  
+};
+
 const handleNextStep = () => {
   console.log('Next')
 };
@@ -45,11 +55,10 @@ const handleCancel = () => {
   musicStore.setPlayerSetOrderMusic(false);
 };
 
-const onConfirm = (res: any) => {
+const onConfirmChakra = (res: any) => {
   showPickerChakras.value = false;
   pickerValue.value = res.selectedValues;
-  musicStore.chakra.name = res.selectedOptions[0].text;
-  musicStore.chakra.num = subChakra.value.find(s => s.text === musicStore.chakra.name)?.idx;
+  selectedItem.value.chakra = res.selectedOptions[0].idx;
 };
 
 onMounted(() => {
@@ -62,7 +71,7 @@ onMounted(() => {
 <template>
   <div>
     <SubPageHeader 
-      :title="musicStore.currentSet.name"
+      :title="musicStore.currentSet?.name"
       left-icon="arrow-left"
       @click-left="musicStore.setPlayerSetOrderMusic(false)"
     />
@@ -107,13 +116,14 @@ onMounted(() => {
                   <template #right-icon>
                     <van-button 
                       size="small"
-                      @click=""
+                      @click="handleSelectChakra(item)"
                     >
-                      {{ musicStore.chakra.num }}
+                      {{ item.chakra }}
                     </van-button>
                     <van-button
                       size="small"
                       icon="add-o"
+                      @click="handleAddToSet(item)"
                     />
                   </template>
                 </van-cell>
@@ -133,12 +143,13 @@ onMounted(() => {
         @click="handleNextStep" 
       />
     </van-action-bar>
+
     <van-popup v-model:show="showPickerChakras" destroy-on-close round position="bottom">
       <van-picker
         :model-value="pickerValue"
         :columns="subChakra"
         @cancel="showPickerChakras = false"
-        @confirm="onConfirm"
+        @confirm="onConfirmChakra"
       />
     </van-popup>
   </div>

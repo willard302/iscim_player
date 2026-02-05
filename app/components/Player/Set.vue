@@ -8,19 +8,25 @@ const {removeMusicFromSet, loadMusicSet, addToLists} = usePlaylist();
 const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
 
 const openBuildSetBar = ref(false);
-const currentSetContent = ref([]);
 
 const actionOptions = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
   {title: 'remove_from_set', id: 'removeFromSet', icon: 'delete-o'}
 ];
 
-const hasMusic = computed(() => currentSetContent.value.length > 0);
+const currentMusicList = computed(() => {
+  if (!musicStore.currentSet || !musicStore.currentSet.content) return false;
+  return musicStore.currentSet.content;
+})
+
+const hasMusic = computed(() => {
+  if (!musicStore.currentSet || !musicStore.currentSet.content) return false;
+  return musicStore.currentSet.content.length > 0;
+});
 
 onMounted(() => {
   if (!musicStore.currentSet ) return;
   if (Array.isArray(musicStore.currentSet.content)) return;
-  currentSetContent.value = JSON.parse(musicStore.currentSet.content);
 })
 
 const handleAction = (actionType: string) => {
@@ -45,7 +51,7 @@ const buildNewSet = () => {
 
 const handlePlayMusic = (musicItem: any) => {
   musicStore.resetMusic();
-  if (musicStore.currentSet) return;
+  if (!musicStore.currentSet) return;
   loadMusicSet(musicStore.currentSet);
   const index = musicStore.queue.findIndex((m:any) => m.src === musicItem.src);
   if (index === -1) return;
@@ -65,7 +71,7 @@ const handleAddMusic = () => {
 <template>
   <div>
     <SubPageHeader 
-      :title="musicStore.currentSet.name"
+      :title="musicStore.currentSet?.name"
       left-icon="arrow-down"
       @click-left="musicStore.setPlayerSet(false)"
     />
@@ -91,7 +97,7 @@ const handleAddMusic = () => {
         <van-button v-if="!hasMusic" @click="handleAddMusic">{{ $t('add_some_music') }}</van-button>
         <van-list v-else>
           <van-cell
-            v-for="(item, index) in musicStore.currentSet.content"
+            v-for="(item, index) in currentMusicList"
             :key="index"
             @click="handlePlayMusic(item)"
           >
@@ -101,7 +107,6 @@ const handleAddMusic = () => {
             </template>
             <template #label>
               <van-text-ellipsis
-                :rows="2"
                 :content="String(item.intro)"
                 expand-text=""
                 collapse-text=""
@@ -157,6 +162,10 @@ const handleAddMusic = () => {
     .van-button {
       width: 76%;
     }
+  }
+
+  .van-cell__title {
+    text-align: left;
   }
 }
 

@@ -1,5 +1,7 @@
+import { useMainStore } from "~/stores/useMainStore";
 import { Locale } from "vant";
 import { LOCALE_CONFIG, type LocaleKey } from "~/utils/locale";
+import { watch } from "vue";
 export const useAppLocale = () => {
   const mainStore = useMainStore();
   const {setLocale} = useI18n();

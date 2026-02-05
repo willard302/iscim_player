@@ -60,7 +60,7 @@ const fields = computed<FieldItem[]>(() => {
     .filter(([key]) => !hideItems.includes(key))
     .map(([key, val]) => ({
       label: key,
-      value: fieldValue(key, val || ''),
+      value: fieldValue(key, String(val)),
       name: key
     }))
     .sort((a,b) => order.indexOf(a.name) - order.indexOf(b.name));

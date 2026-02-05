@@ -2,7 +2,7 @@ export const useSwipeChange = (
   onSwipeLeft: () => void, 
   onSwipeRight: () => void
 ) => {
-  const target = ref<HTMLElement | null>(null);
+  const target = ref<HTMLElement>();
 
   useSwipe(target, {
     passive: false,

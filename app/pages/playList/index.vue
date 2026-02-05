@@ -5,7 +5,7 @@ const { updateSetToDb } = useDataBase();
 
 const {uiState, fieldItems, currentItem, openOptions, openInfo} = useMusicDetail();
 
-const acitveLoadSetTab = ref(0);
+const activeLoadSetTab = ref(0);
 
 const actionOptions = reactive([
   {title: 'play', id: 'playCurrentSet', icon: 'play-circle-o' },
@@ -49,7 +49,7 @@ const buildNewSet = () => {
 };
 
 const renameSet = async() => {
-  if (!currentItem.value || !musicStore.currentSet.name) return;
+  if (!currentItem.value || !musicStore.currentSet?.name) return;
 
   try {
     const newName = musicStore.currentSet.name;
@@ -66,7 +66,7 @@ const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at']
 <template>
   <div class="page__container">
     <van-tabs
-      v-model:active="acitveLoadSetTab"
+      v-model:active="activeLoadSetTab"
       type="card"
       class="custom-tab"
     >
@@ -117,7 +117,8 @@ const specificFields = ['category', 'name', 'intro', 'created_by', 'created_at']
       show-cancel-button
       @confirm="renameSet"
     >
-      <van-cell-group inset>
+      {{ musicStore.currentSet?.name }}
+      <van-cell-group inset v-if="musicStore.currentSet">
         <van-field v-model="musicStore.currentSet.name" label="歌單名稱" placeholder="請輸入歌單名稱" />
       </van-cell-group>
     </van-dialog>

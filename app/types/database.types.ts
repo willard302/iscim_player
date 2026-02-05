@@ -17,6 +17,7 @@ export type Database = {
       music_library: {
         Row: {
           category: string | null
+          chakra: number
           created_at: string
           created_by: string
           id: string
@@ -26,6 +27,7 @@ export type Database = {
         }
         Insert: {
           category?: string | null
+          chakra: number
           created_at?: string
           created_by?: string
           id?: string
@@ -35,6 +37,7 @@ export type Database = {
         }
         Update: {
           category?: string | null
+          chakra?: number
           created_at?: string
           created_by?: string
           id?: string
@@ -48,7 +51,7 @@ export type Database = {
         Row: {
           category: string
           chakras: number[]
-          content: any | null
+          content: any
           created_at: string
           created_by: string
           id: string
@@ -60,7 +63,7 @@ export type Database = {
         Insert: {
           category: string
           chakras?: number[]
-          content?: any | null
+          content: any
           created_at?: string
           created_by?: string
           id?: string
@@ -72,7 +75,7 @@ export type Database = {
         Update: {
           category?: string
           chakras?: number[]
-          content?: any | null
+          content?: any
           created_at?: string
           created_by?: string
           id?: string

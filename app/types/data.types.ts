@@ -1,5 +1,5 @@
 import type { ButtonNativeType, FieldType } from "vant";
-import type { MusicRow, SetInsert, SetUpdate, UserInsert, UserUpdate } from "./supabase";
+import type { MusicLocal, SetInsert, UserInsert, UserUpdate } from "./supabase";
 
 export type ButtonItem = {
   text: string
@@ -47,7 +47,6 @@ export type MusicStoreState = {
   subMusicUpdated: SubMusic[]
   subSet: SubSet[]
   newSet: SetInsert
-  currentSet: SetUpdate
   slidePercent: number
   diskRotation: number
   isDragging: boolean
@@ -58,7 +57,7 @@ export type MusicStoreState = {
 export type PlayerStoreState = {
   isPlaying: boolean
   isExpanded: boolean
-  currentSong: MusicLocal | null
+  currentSong?: MusicLocal
   src: string
   index: number
   volume: number
@@ -78,11 +77,6 @@ export type ChakraType = {
   value?: string
   idx: number
   lists?: any[]
-}
-
-export interface MusicLocal extends MusicRow {
-  checked?: boolean
-  sort_order?: number
 }
 
 export type SubMusic = {
