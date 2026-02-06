@@ -87,6 +87,7 @@ onMounted(() => {
 .full-screen-popup {
   height: 100%;
   width: 100%;
+  overflow-y: hidden;
 }
 
 .openQueue.van-popup--bottom {

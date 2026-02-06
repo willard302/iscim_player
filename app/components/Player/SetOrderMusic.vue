@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const musicStore = useMusicStore();
+const { updateSetToDb } = useDataBase();
 
 const activeTab = ref(0);
 const showPickerChakras = ref(false);
@@ -42,9 +43,14 @@ const handleSelectChakra = (item: any) => {
   showPickerChakras.value = true;
 };
 
-const handleAddToSet = (item: any) => {
-  musicStore.currentSet?.content.push(item);
-  
+const handleAddToSet = async(item: any) => {
+  const _set = musicStore.currentSet;
+  if (!_set || !_set.id) return;
+  if (!Array.isArray(_set.content)) _set.content = [];
+  _set.content.push(item);
+  const res = await updateSetToDb (_set.id, { content: _set.content});
+
+  if (res) showSuccessToast($t("Toast.add_successfully"));
 };
 
 const handleNextStep = () => {

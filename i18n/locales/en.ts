@@ -268,6 +268,7 @@ export default {
     numbers: "Numbers"
   },
   Toast: {
+    add_successfully: "Add successfully",
     loading: "Loading...",
     removed_successfully: "Removed successfully",
     delete_failed: "Delete failed"

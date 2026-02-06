@@ -269,6 +269,7 @@ export default {
     numbers: "數字音樂清單"
   },
   Toast: {
+    add_successfully: "加入成功",
     loading: "讀取中...",
     removed_successfully: "移除成功",
     delete_failed: "刪除失敗"

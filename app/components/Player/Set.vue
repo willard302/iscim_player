@@ -4,12 +4,9 @@ import player_logo from '~/assets/img/iscim_player_logo.png';
 const musicStore = useMusicStore();
 const player = usePlayer();
 const {removeMusicFromSet, loadMusicSet, addToLists} = usePlaylist();
-
 const {uiState, currentItem, fieldItems, openOptions, openInfo} = useMusicDetail();
 
-const openBuildSetBar = ref(false);
-
-const actionOptions = [
+const musicSubOptions = [
   {title: 'add_to_play_list', id: 'next', icon: 'plus'},
   {title: 'remove_from_set', id: 'removeFromSet', icon: 'delete-o'}
 ];
@@ -29,7 +26,7 @@ onMounted(() => {
   if (Array.isArray(musicStore.currentSet.content)) return;
 })
 
-const handleAction = (actionType: string) => {
+const handleMusicAction = (actionType: string) => {
   console.log(actionType)
   if (!currentItem.value) return;
 
@@ -43,10 +40,6 @@ const handleAction = (actionType: string) => {
       break;
   };
   uiState.showOptions = false;
-};
-
-const buildNewSet = () => {
-  openBuildSetBar.value = true;
 };
 
 const handlePlayMusic = (musicItem: any) => {
@@ -86,7 +79,7 @@ const handleAddMusic = () => {
             <van-button icon="play" text="播放清單" />
           </van-col>
           <van-col>
-            <van-button icon="add-square" text="建立清單" @click="buildNewSet" />
+            <van-button icon="add-square" text="新增音樂" @click="handleAddMusic" />
           </van-col>
         </van-row>
       </div>
@@ -126,8 +119,8 @@ const handleAddMusic = () => {
     <CommonActionMenuPopup 
       v-model:show="uiState.showOptions"
       :title="currentItem?.name"
-      :actions="actionOptions"
-      @select="handleAction"
+      :actions="musicSubOptions"
+      @select="handleMusicAction"
       @info="openInfo()"
     />
     <CommonInfoDetailPopup 
@@ -144,8 +137,8 @@ const handleAddMusic = () => {
   justify-content: center;
 
   .van-image {
-    width: 300px;
-    height: 300px;
+    width: 240px;
+    height: 240px;
   }
 }
 
@@ -164,7 +157,11 @@ const handleAddMusic = () => {
     }
   }
 
-  .van-cell__title {
+  .van-cell {
+    height: 60px;
+  }
+
+  :deep(.van-cell__title) {
     text-align: left;
   }
 }
