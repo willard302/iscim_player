@@ -70,7 +70,7 @@ const handleAddMusic = () => {
 
 <template>
   <div>
-    <SubPageHeader 
+    <CommonSubHeader 
       :title="musicStore.currentSet?.name"
       left-icon="arrow-down"
       @click-left="musicStore.setPlayerSet(false)"

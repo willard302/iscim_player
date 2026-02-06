@@ -130,7 +130,7 @@ const closePolicyService = () => {
 
 <template>
   <div class="policy__container">
-    <SubPageHeader
+    <CommonSubHeader
       :title="$t('terms_of_service')" 
       left-icon="arrow-down"
       @click-left="closePolicyService"

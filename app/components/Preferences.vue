@@ -72,7 +72,7 @@ const openPreferencesPage = (value: string) => {
 
 <template>
   <div class="full-screen">
-    <SubPageHeader 
+    <CommonSubHeader 
       :title="$t('preferences')"
       left-icon="arrow-down"
       @click-left="closePreferences"

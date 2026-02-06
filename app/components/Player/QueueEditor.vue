@@ -61,7 +61,7 @@ const handleAddInto = () => {
 
 <template>
   <div class="queue-editor-fullscreen fullscreen">
-    <SubPageHeader
+    <CommonSubHeader
       left-icon="arrow-left"
       @click-left="closeQueueEditor"
     >
@@ -73,7 +73,7 @@ const handleAddInto = () => {
       <template #right>
         <van-checkbox v-model="isAllChecked" />
       </template>
-    </SubPageHeader>
+    </CommonSubHeader>
     
 
     <div class="queue-container">

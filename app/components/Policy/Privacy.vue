@@ -67,7 +67,7 @@ const closePolicyPrivacy = () => {
 
 <template>
   <div class="policy__container">
-    <SubPageHeader 
+    <CommonSubHeader 
       :title="$t('privacy_policy')"
       left-icon="arrow-down"
       @click-left="closePolicyPrivacy"

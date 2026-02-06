@@ -70,7 +70,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <SubPageHeader 
+    <CommonSubHeader 
       :title="musicStore.currentSet?.name"
       left-icon="arrow-left"
       @click-left="musicStore.setPlayerSetOrderMusic(false)"

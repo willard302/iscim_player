@@ -72,7 +72,7 @@ const openQueueEditor = () => {
 
 <template>
   <div class="queue-fullscreen fullscreen">
-    <SubPageHeader 
+    <CommonSubHeader 
       :title="$t('player_queue')"
       left-icon="arrow-down"
       @click-left="musicStore.setPlayerQueue(false)"
@@ -81,7 +81,7 @@ const openQueueEditor = () => {
         <van-button class="edit-btn" icon="records-o" size="small" @click="openQueueEditor" />
         <van-button class="edit-btn" icon="delete-o" size="small" @click="removeAllFromQueue()" />
       </template>
-    </SubPageHeader>
+    </CommonSubHeader>
 
     <div class="queue-container">
 

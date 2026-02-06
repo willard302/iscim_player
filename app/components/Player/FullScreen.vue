@@ -25,7 +25,7 @@ onMounted(() => musicStore.isDragging = false);
 
 <template>
   <div class="player-fullscreen fullscreen">
-    <SubPageHeader
+    <CommonSubHeader
       title="正在播放"
       left-icon="arrow-down"
       @click-left="closePlayer"
