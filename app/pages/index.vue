@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PlayListSelect from "~/pages/playList/index.vue";
+import MusicSetsView from "~/pages/musicSets/index.vue";
 import IntroduceView from "~/pages/introduce/index.vue";
 import MusicLibraryView from "~/pages/musicLibrary/index.vue";
 import type { SwipeInstance } from "vant";
@@ -50,7 +50,7 @@ onMounted(() => {
       <van-swipe-item>
         <div class="page__wrapper">
           <keep-alive>
-            <PlayListSelect />
+            <MusicSetsView />
           </keep-alive>
         </div>
       </van-swipe-item>

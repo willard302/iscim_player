@@ -34,7 +34,7 @@ export default {
   password: "密碼",
   password_confirm: "確認密碼",
   play: "播放",
-  play_list: "播放清單",
+  music_sets: "播放清單",
   player_queue: "播放佇列",
   preferences: "偏好設定",
   privacy_policy: "隱私條款",

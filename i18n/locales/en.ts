@@ -34,7 +34,7 @@ export default {
   password: "Password",
   password_confirm: "Password Confirm",
   play: "Play",
-  play_list: "Play List",
+  music_sets: "Music Sets",
   player_queue: "Player Queue",
   preferences: "Preferences",
   privacy_policy: "Privacy Policy",
